@@ -103,7 +103,6 @@ const categories = Array.from(new Set(faqs.map(faq => faq.category)))
 export default function FAQPage() {
   const [expandedItems, setExpandedItems] = useState<number[]>([])
   const [selectedCategory, setSelectedCategory] = useState<string>('Toutes')
-  const [searchTerm, setSearchTerm] = useState('')
 
   const toggleItem = (id: number) => {
     setExpandedItems(prev => 
@@ -115,9 +114,7 @@ export default function FAQPage() {
 
   const filteredFAQs = faqs.filter(faq => {
     const matchesCategory = selectedCategory === 'Toutes' || faq.category === selectedCategory
-    const matchesSearch = faq.question.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                         faq.answer.toLowerCase().includes(searchTerm.toLowerCase())
-    return matchesCategory && matchesSearch
+    return matchesCategory
   })
 
   return (
@@ -138,18 +135,7 @@ export default function FAQPage() {
       <section className="py-8 bg-white border-b border-gray-200">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
-            {/* Search Bar */}
-            <div className="relative mb-6">
-              <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl" />
-              <input
-                type="text"
-                placeholder="Rechercher une question..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C8973A]"
-              />
-            </div>
-
+            
             {/* Category Filter */}
             <div className="flex flex-wrap gap-2">
               <button

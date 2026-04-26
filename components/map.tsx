@@ -28,22 +28,40 @@ export default function Map() {
           const destination = `${5.33420},${-3.94597}`
           const origin = `${latitude},${longitude}`
           
-          // Open Google Maps with directions
+          // Open Google Maps with directions - mobile compatible
           const directionsUrl = `https://www.google.com/maps/dir/${origin}/${destination}/`
-          window.open(directionsUrl, '_blank')
+          
+          // Try different methods for mobile compatibility
+          try {
+            // First try to open in same tab (better for mobile)
+            window.location.href = directionsUrl
+          } catch (e) {
+            // Fallback to opening in new tab
+            window.open(directionsUrl, '_blank')
+          }
         },
         (error) => {
           // Fallback: open Google Maps with just the destination
           const destination = `${5.33420},${-3.94597}`
           const directionsUrl = `https://www.google.com/maps/place/${destination}/`
-          window.open(directionsUrl, '_blank')
+          
+          try {
+            window.location.href = directionsUrl
+          } catch (e) {
+            window.open(directionsUrl, '_blank')
+          }
         }
       )
     } else {
       // Fallback: open Google Maps with just the destination
       const destination = `${5.33420},${-3.94597}`
       const directionsUrl = `https://www.google.com/maps/place/${destination}/`
-      window.open(directionsUrl, '_blank')
+      
+      try {
+        window.location.href = directionsUrl
+      } catch (e) {
+        window.open(directionsUrl, '_blank')
+      }
     }
   }
 

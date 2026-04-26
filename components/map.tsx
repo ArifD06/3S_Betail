@@ -20,7 +20,23 @@ export default function Map() {
   const position: [number, number] = [5.33420, -3.94597]
 
   const handleGetDirections = () => {
-    // Get user's current location and open Google Maps with directions
+    // Show loading state
+    const button = document.querySelector('[data-directions-button]') as HTMLButtonElement
+    if (button) {
+      button.disabled = true
+      button.innerHTML = `
+        <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+        <span>Détection...</span>
+      `
+    }
+
+    // Get user's current location with better options for mobile
+    const options = {
+      enableHighAccuracy: true,
+      timeout: 10000,
+      maximumAge: 0
+    }
+
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -28,40 +44,120 @@ export default function Map() {
           const destination = `${5.33420},${-3.94597}`
           const origin = `${latitude},${longitude}`
           
-          // Open Google Maps with directions - mobile compatible
-          const directionsUrl = `https://www.google.com/maps/dir/${origin}/${destination}/`
-          
-          // Try different methods for mobile compatibility
-          try {
-            // First try to open in same tab (better for mobile)
-            window.location.href = directionsUrl
-          } catch (e) {
-            // Fallback to opening in new tab
-            window.open(directionsUrl, '_blank')
+          // Multiple URL options for better mobile compatibility
+          const urls = [
+            // Google Maps with directions (primary)
+            `https://www.google.com/maps/dir/${origin}/${destination}/`,
+            // Google Maps with origin and destination parameters
+            `https://maps.google.com/maps?saddr=${latitude},${longitude}&daddr=${5.33420},${-3.94597}&dirflg=d`,
+            // Alternative Google Maps URL
+            `https://www.google.com/maps?saddr=${latitude},${longitude}&daddr=${5.33420},${-3.94597}`
+          ]
+
+          // Try each URL until one works
+          let urlIndex = 0
+          const tryNextUrl = () => {
+            if (urlIndex < urls.length) {
+              const url = urls[urlIndex]
+              console.log(`Trying URL ${urlIndex + 1}:`, url)
+              
+              // For mobile, prefer direct navigation
+              if (window.location.href !== url) {
+                try {
+                  window.location.href = url
+                  // If we reach here, the navigation might not work
+                  setTimeout(() => {
+                    urlIndex++
+                    tryNextUrl()
+                  }, 1000)
+                } catch (e) {
+                  console.log(`URL ${urlIndex + 1} failed, trying next`)
+                  urlIndex++
+                  tryNextUrl()
+                }
+              }
+            } else {
+              // All URLs failed, open in new tab as last resort
+              window.open(urls[0], '_blank')
+              resetButton()
+            }
           }
+
+          tryNextUrl()
         },
         (error) => {
+          console.error('Geolocation error:', error)
+          
+          // Handle different error types
+          let errorMessage = 'Impossible de détecter votre position'
+          if (error.code === 1) {
+            errorMessage = 'Accès à la position refusé'
+          } else if (error.code === 2) {
+            errorMessage = 'Position non disponible'
+          } else if (error.code === 3) {
+            errorMessage = 'Délai d\'attente expiré'
+          }
+
+          // Show error message and fallback
+          if (button) {
+            button.innerHTML = `
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <span>Réessayer</span>
+            `
+            button.disabled = false
+          }
+
           // Fallback: open Google Maps with just the destination
           const destination = `${5.33420},${-3.94597}`
-          const directionsUrl = `https://www.google.com/maps/place/${destination}/`
+          const fallbackUrl = `https://www.google.com/maps/place/${destination}/`
           
-          try {
-            window.location.href = directionsUrl
-          } catch (e) {
-            window.open(directionsUrl, '_blank')
+          // Also try to open Apple Maps for iOS users
+          const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent)
+          if (isIOS) {
+            const appleMapsUrl = `maps://maps.google.com/maps?daddr=${5.33420},${-3.94597}&amp;ll=`
+            window.location.href = appleMapsUrl
           }
-        }
+          
+          setTimeout(() => {
+            window.open(fallbackUrl, '_blank')
+          }, 2000)
+        },
+        options
       )
     } else {
-      // Fallback: open Google Maps with just the destination
+      // Geolocation not supported
       const destination = `${5.33420},${-3.94597}`
-      const directionsUrl = `https://www.google.com/maps/place/${destination}/`
+      const fallbackUrl = `https://www.google.com/maps/place/${destination}/`
       
-      try {
-        window.location.href = directionsUrl
-      } catch (e) {
-        window.open(directionsUrl, '_blank')
+      if (button) {
+        button.innerHTML = `
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <span>Itinéraire</span>
+        `
+        button.disabled = false
       }
+      
+      window.open(fallbackUrl, '_blank')
+    }
+
+    // Reset button after 15 seconds max
+    setTimeout(resetButton, 15000)
+  }
+
+  const resetButton = () => {
+    const button = document.querySelector('[data-directions-button]') as HTMLButtonElement
+    if (button) {
+      button.disabled = false
+      button.innerHTML = `
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path>
+        </svg>
+        <span>Itinéraire</span>
+      `
     }
   }
 
@@ -90,6 +186,7 @@ export default function Map() {
       {/* Directions Button */}
       <button
         onClick={handleGetDirections}
+        data-directions-button
         className="absolute top-4 right-4 bg-[#C8973A] hover:bg-[#B8852E] text-white px-4 py-2 rounded-lg shadow-lg flex items-center space-x-2 transition-colors z-[1000]"
       >
         <svg

@@ -8,17 +8,13 @@ import { products as allProducts } from '@/data/products'
 interface QuizAnswers {
   familySize: string
   budget: string
-  preference: string
-  experience: string
-  urgency: string
+  media: string
 }
 
 export default function RecommendationQuiz() {
   const router = useRouter()
   const [step, setStep] = useState(0)
-  const [answers, setAnswers] = useState<QuizAnswers>({
-    familySize: '', budget: '', preference: '', experience: '', urgency: ''
-  })
+  const [answers, setAnswers] = useState<QuizAnswers>({ familySize: '', budget: '', media: '' })
   const [results, setResults] = useState<number[]>([])
   const [done, setDone] = useState(false)
 
@@ -27,13 +23,12 @@ export default function RecommendationQuiz() {
   const questions = [
     {
       id: 'familySize',
-      title: 'Combien de personnes pour la Tabaski ?',
+      title: 'Combien êtes-vous pour la Tabaski ?',
       emoji: '👨‍👩‍👧‍👦',
       options: [
-        { value: 'small',  label: '2 à 4 personnes',    emoji: '👫',       desc: 'Petit foyer' },
-        { value: 'medium', label: '5 à 8 personnes',    emoji: '👨‍👩‍👧‍👦',      desc: 'Famille moyenne' },
-        { value: 'large',  label: '9 à 15 personnes',   emoji: '🏠',       desc: 'Grande famille' },
-        { value: 'xlarge', label: '15 personnes et +',  emoji: '🏘️',      desc: 'Très grande famille' }
+        { value: 'small',  label: 'Moins de 5',      emoji: '👫',  desc: 'Petit foyer' },
+        { value: 'medium', label: 'Entre 5 et 10',   emoji: '🏠',  desc: 'Famille moyenne' },
+        { value: 'large',  label: 'Plus de 10',      emoji: '🏘️', desc: 'Grande famille' }
       ]
     },
     {
@@ -41,43 +36,19 @@ export default function RecommendationQuiz() {
       title: 'Quel est votre budget ?',
       emoji: '💰',
       options: [
-        { value: 'economy',  label: 'Moins de 150 000 FCFA',      emoji: '💵', desc: 'Budget serré' },
-        { value: 'standard', label: '150 000 – 200 000 FCFA',     emoji: '💴', desc: 'Budget standard' },
-        { value: 'premium',  label: '200 000 – 250 000 FCFA',     emoji: '💶', desc: 'Budget confortable' },
-        { value: 'luxury',   label: 'Plus de 250 000 FCFA',       emoji: '💎', desc: 'Sans limite' }
+        { value: 'economy',  label: 'Moins de 150 000 FCFA',  emoji: '💵', desc: 'Budget serré' },
+        { value: 'standard', label: 'Autour de 180 000 FCFA', emoji: '💴', desc: 'Budget standard' },
+        { value: 'premium',  label: 'Plus de 200 000 FCFA',   emoji: '💎', desc: 'Pas de limite' }
       ]
     },
     {
-      id: 'preference',
-      title: 'Quelle est votre priorité ?',
-      emoji: '⭐',
+      id: 'media',
+      title: 'Comment voulez-vous voir le mouton ?',
+      emoji: '👁️',
       options: [
-        { value: 'tradition', label: 'Respecter la tradition',    emoji: '🕌', desc: 'Authentique et symbolique' },
-        { value: 'prestige',  label: 'Impressionner les invités', emoji: '👑', desc: 'Beau et imposant' },
-        { value: 'practical', label: 'Rapport qualité-prix',      emoji: '✅', desc: 'Simple et efficace' },
-        { value: 'mixed',     label: 'Le meilleur des deux',      emoji: '🌟', desc: 'Qualité et prestige' }
-      ]
-    },
-    {
-      id: 'experience',
-      title: 'Votre expérience avec la Tabaski ?',
-      emoji: '🎯',
-      options: [
-        { value: 'beginner',    label: 'Première fois',       emoji: '🌱', desc: "J'ai besoin de conseils" },
-        { value: 'regular',     label: 'Quelques années',     emoji: '📅', desc: 'Je connais les bases' },
-        { value: 'experienced', label: 'Habitué',             emoji: '🏆', desc: 'Je sais ce que je veux' },
-        { value: 'family',      label: 'Tradition familiale', emoji: '👴', desc: 'On a nos habitudes' }
-      ]
-    },
-    {
-      id: 'urgency',
-      title: 'Quand souhaitez-vous acheter ?',
-      emoji: '📅',
-      options: [
-        { value: 'immediate', label: 'Maintenant',          emoji: '⚡', desc: 'Je suis prêt' },
-        { value: 'soon',      label: 'Cette semaine',       emoji: '📆', desc: 'Dans les prochains jours' },
-        { value: 'planning',  label: 'Dans 2-3 semaines',   emoji: '🗓️', desc: "J'anticipe" },
-        { value: 'browsing',  label: 'Je regarde seulement',emoji: '👀', desc: "J'explore les options" }
+        { value: 'photo', label: 'En photo',         emoji: '📷', desc: 'Je préfère une image' },
+        { value: 'video', label: 'En vidéo',         emoji: '🎥', desc: 'Je veux le voir en mouvement' },
+        { value: 'both',  label: 'Photo et vidéo',   emoji: '🌟', desc: 'Les deux, c\'est mieux' }
       ]
     }
   ]
@@ -86,22 +57,16 @@ export default function RecommendationQuiz() {
     const scores: { [id: number]: number } = {}
     sheepProducts.forEach(p => { scores[p.id] = 0 })
 
-    if (answers.familySize === 'small')  sheepProducts.forEach(p => { scores[p.id] += 1 })
-    if (answers.familySize === 'medium') sheepProducts.forEach(p => { scores[p.id] += 2 })
-    if (answers.familySize === 'large' || answers.familySize === 'xlarge') sheepProducts.forEach(p => { scores[p.id] += 3 })
+    if (answers.familySize === 'medium') sheepProducts.forEach(p => { scores[p.id] += 1 })
+    if (answers.familySize === 'large')  sheepProducts.forEach(p => { scores[p.id] += 2 })
 
-    if (answers.budget === 'standard' || answers.budget === 'premium') sheepProducts.forEach(p => { scores[p.id] += 2 })
+    if (answers.budget === 'standard' || answers.budget === 'premium')
+      sheepProducts.forEach(p => { scores[p.id] += 2 })
 
-    if (answers.preference === 'tradition' || answers.preference === 'prestige') {
-      sheepProducts.filter(p => !!p.image).forEach(p => { scores[p.id] += 2 })
-    }
-    if (answers.preference === 'practical' || answers.preference === 'mixed') {
-      sheepProducts.filter(p => !!p.video).forEach(p => { scores[p.id] += 2 })
-    }
-
-    if (answers.urgency === 'immediate' || answers.urgency === 'soon') {
-      sheepProducts.filter(p => p.stock === 'En stock').forEach(p => { scores[p.id] += 1 })
-    }
+    if (answers.media === 'photo' || answers.media === 'both')
+      sheepProducts.filter(p => !!p.image).forEach(p => { scores[p.id] += 3 })
+    if (answers.media === 'video' || answers.media === 'both')
+      sheepProducts.filter(p => !!p.video).forEach(p => { scores[p.id] += 3 })
 
     const sorted = Object.entries(scores)
       .sort(([, a], [, b]) => b - a)
@@ -115,7 +80,7 @@ export default function RecommendationQuiz() {
   const resetQuiz = () => {
     setDone(false)
     setStep(0)
-    setAnswers({ familySize: '', budget: '', preference: '', experience: '', urgency: '' })
+    setAnswers({ familySize: '', budget: '', media: '' })
     setResults([])
   }
 

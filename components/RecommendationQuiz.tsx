@@ -8,13 +8,17 @@ import { products as allProducts } from '@/data/products'
 interface QuizAnswers {
   familySize: string
   budget: string
+  taille: string
   media: string
+  livraison: string
 }
 
 export default function RecommendationQuiz() {
   const router = useRouter()
   const [step, setStep] = useState(0)
-  const [answers, setAnswers] = useState<QuizAnswers>({ familySize: '', budget: '', media: '' })
+  const [answers, setAnswers] = useState<QuizAnswers>({
+    familySize: '', budget: '', taille: '', media: '', livraison: ''
+  })
   const [results, setResults] = useState<number[]>([])
   const [done, setDone] = useState(false)
 
@@ -23,32 +27,57 @@ export default function RecommendationQuiz() {
   const questions = [
     {
       id: 'familySize',
-      title: 'Combien êtes-vous pour la Tabaski ?',
+      title: 'Pour combien de personnes ?',
       emoji: '👨‍👩‍👧‍👦',
       options: [
-        { value: 'small',  label: 'Moins de 5',      emoji: '👫',  desc: 'Petit foyer' },
-        { value: 'medium', label: 'Entre 5 et 10',   emoji: '🏠',  desc: 'Famille moyenne' },
-        { value: 'large',  label: 'Plus de 10',      emoji: '🏘️', desc: 'Grande famille' }
+        { value: 'small',  emoji: '👫',  label: 'Moins de 5',    desc: 'Petit foyer' },
+        { value: 'medium', emoji: '🏠',  label: '5 à 10',        desc: 'Famille moyenne' },
+        { value: 'large',  emoji: '🏘️', label: 'Plus de 10',    desc: 'Grande famille' },
+        { value: 'xlarge', emoji: '🎉',  label: 'Grande fête',   desc: '20 personnes et plus' }
       ]
     },
     {
       id: 'budget',
-      title: 'Quel est votre budget ?',
+      title: 'Votre budget ?',
       emoji: '💰',
       options: [
-        { value: 'economy',  label: 'Moins de 150 000 FCFA',  emoji: '💵', desc: 'Budget serré' },
-        { value: 'standard', label: 'Autour de 180 000 FCFA', emoji: '💴', desc: 'Budget standard' },
-        { value: 'premium',  label: 'Plus de 200 000 FCFA',   emoji: '💎', desc: 'Pas de limite' }
+        { value: 'economy',  emoji: '💵', label: 'Moins de 150 000',  desc: 'FCFA' },
+        { value: 'standard', emoji: '💴', label: 'Autour de 180 000', desc: 'FCFA' },
+        { value: 'premium',  emoji: '💶', label: '200 000 – 250 000', desc: 'FCFA' },
+        { value: 'luxury',   emoji: '💎', label: 'Plus de 250 000',   desc: 'FCFA' }
+      ]
+    },
+    {
+      id: 'taille',
+      title: 'Quelle taille de mouton ?',
+      emoji: '📏',
+      options: [
+        { value: 'Petit', emoji: '🐑', label: 'Petit',  desc: 'Léger, moins de 35 kg' },
+        { value: 'Moyen', emoji: '🐏', label: 'Moyen',  desc: 'Entre 35 et 50 kg' },
+        { value: 'Grand', emoji: '🦣', label: 'Grand',  desc: 'Plus de 50 kg' },
+        { value: 'indifferent', emoji: '🤷', label: 'Peu importe', desc: 'Montrez-moi tout' }
       ]
     },
     {
       id: 'media',
-      title: 'Comment voulez-vous voir le mouton ?',
+      title: 'Comment voir le mouton avant d\'acheter ?',
       emoji: '👁️',
       options: [
-        { value: 'photo', label: 'En photo',         emoji: '📷', desc: 'Je préfère une image' },
-        { value: 'video', label: 'En vidéo',         emoji: '🎥', desc: 'Je veux le voir en mouvement' },
-        { value: 'both',  label: 'Photo et vidéo',   emoji: '🌟', desc: 'Les deux, c\'est mieux' }
+        { value: 'photo', emoji: '📷', label: 'En photo',       desc: 'Une belle image suffit' },
+        { value: 'video', emoji: '🎥', label: 'En vidéo',       desc: 'Je veux le voir bouger' },
+        { value: 'both',  emoji: '🌟', label: 'Photo + vidéo',  desc: 'Les deux, c\'est mieux' },
+        { value: 'any',   emoji: '👌', label: 'Peu importe',    desc: 'Je fais confiance' }
+      ]
+    },
+    {
+      id: 'livraison',
+      title: 'Comment récupérer le mouton ?',
+      emoji: '🚚',
+      options: [
+        { value: 'delivery', emoji: '🏠', label: 'Livraison à domicile', desc: 'On vous l\'amène' },
+        { value: 'pickup',   emoji: '🚶', label: 'Je viens le chercher', desc: 'Sur place à Abidjan' },
+        { value: 'urgent',   emoji: '⚡', label: 'Livraison urgente',    desc: 'Aujourd\'hui ou demain' },
+        { value: 'later',    emoji: '🗓️', label: 'Pas pressé',          desc: 'Je planifie à l\'avance' }
       ]
     }
   ]
@@ -57,16 +86,30 @@ export default function RecommendationQuiz() {
     const scores: { [id: number]: number } = {}
     sheepProducts.forEach(p => { scores[p.id] = 0 })
 
-    if (answers.familySize === 'medium') sheepProducts.forEach(p => { scores[p.id] += 1 })
-    if (answers.familySize === 'large')  sheepProducts.forEach(p => { scores[p.id] += 2 })
+    // Taille de la famille → légère préférence pour moutons en stock
+    if (answers.familySize === 'large' || answers.familySize === 'xlarge')
+      sheepProducts.forEach(p => { scores[p.id] += 1 })
 
+    // Budget standard → boost tous les produits à 180k
     if (answers.budget === 'standard' || answers.budget === 'premium')
       sheepProducts.forEach(p => { scores[p.id] += 2 })
 
+    // Taille du mouton
+    if (answers.taille !== 'indifferent')
+      sheepProducts.filter(p => p.specifications.taille === answers.taille)
+        .forEach(p => { scores[p.id] += 4 })
+
+    // Préférence photo/vidéo
     if (answers.media === 'photo' || answers.media === 'both')
       sheepProducts.filter(p => !!p.image).forEach(p => { scores[p.id] += 3 })
     if (answers.media === 'video' || answers.media === 'both')
       sheepProducts.filter(p => !!p.video).forEach(p => { scores[p.id] += 3 })
+    if (answers.media === 'any')
+      sheepProducts.forEach(p => { scores[p.id] += 2 })
+
+    // Livraison urgente → moutons en stock
+    if (answers.livraison === 'urgent' || answers.livraison === 'delivery')
+      sheepProducts.filter(p => p.stock === 'En stock').forEach(p => { scores[p.id] += 1 })
 
     const sorted = Object.entries(scores)
       .sort(([, a], [, b]) => b - a)
@@ -80,7 +123,7 @@ export default function RecommendationQuiz() {
   const resetQuiz = () => {
     setDone(false)
     setStep(0)
-    setAnswers({ familySize: '', budget: '', media: '' })
+    setAnswers({ familySize: '', budget: '', taille: '', media: '', livraison: '' })
     setResults([])
   }
 
@@ -184,35 +227,35 @@ export default function RecommendationQuiz() {
 
       {/* Question */}
       <div className="p-4 sm:p-6">
-        <div className="text-center mb-6">
-          <div className="text-5xl mb-3">{current.emoji}</div>
-          <h2 className="text-lg sm:text-xl font-bold text-gray-800">{current.title}</h2>
+        <div className="text-center mb-5">
+          <div className="text-4xl sm:text-5xl mb-2">{current.emoji}</div>
+          <h2 className="text-base sm:text-xl font-bold text-gray-800 leading-snug px-2">{current.title}</h2>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 gap-2 sm:gap-3">
           {current.options.map(opt => {
             const selected = currentAnswer === opt.value
             return (
               <button
                 key={opt.value}
                 onClick={() => setAnswers(prev => ({ ...prev, [current.id]: opt.value }))}
-                className={`p-4 rounded-xl border-2 text-left transition-all duration-200 ${
+                className={`p-3 sm:p-4 rounded-xl border-2 text-left transition-all duration-200 active:scale-95 ${
                   selected
                     ? 'border-[#C8973A] bg-[#FDF6E3] shadow-md'
                     : 'border-gray-100 hover:border-[#C8973A]/40 hover:bg-gray-50'
                 }`}
               >
-                <div className="flex items-start gap-3">
-                  <span className="text-2xl flex-shrink-0">{opt.emoji}</span>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-gray-800 text-sm leading-tight">{opt.label}</p>
-                    <p className="text-xs text-gray-500 mt-0.5">{opt.desc}</p>
+                <div className="flex flex-col gap-1">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xl sm:text-2xl">{opt.emoji}</span>
+                    {selected && (
+                      <div className="w-4 h-4 sm:w-5 sm:h-5 bg-[#C8973A] rounded-full flex items-center justify-center flex-shrink-0">
+                        <FiCheck className="text-white text-xs" />
+                      </div>
+                    )}
                   </div>
-                  {selected && (
-                    <div className="w-5 h-5 bg-[#C8973A] rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <FiCheck className="text-white text-xs" />
-                    </div>
-                  )}
+                  <p className="font-semibold text-gray-800 text-xs sm:text-sm leading-tight">{opt.label}</p>
+                  <p className="text-xs text-gray-400 leading-tight hidden sm:block">{opt.desc}</p>
                 </div>
               </button>
             )

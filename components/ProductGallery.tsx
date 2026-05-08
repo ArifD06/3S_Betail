@@ -44,6 +44,7 @@ export default function ProductGallery({ images, productName, video }: ProductGa
             <video
               src={currentMedia.src}
               controls
+              muted
               className="w-full h-full object-contain bg-black"
             />
           )}

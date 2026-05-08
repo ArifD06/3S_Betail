@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { FiArrowRight } from 'react-icons/fi'
+import { FiArrowRight, FiPlay } from 'react-icons/fi'
 import { products as allProducts, Product } from '@/data/products'
 
 const tabs = [
@@ -60,13 +60,17 @@ export default function FeaturedProducts() {
             >
               {/* Product Image */}
               <div className="relative h-48 bg-gray-200 overflow-hidden">
-                <div 
-                  className="w-full h-full bg-cover bg-center bg-no-repeat"
-                  style={{
-                    backgroundImage: `url('${product.image}')`,
-                    backgroundColor: '#f3f4f6' // Couleur de fond temporaire
-                  }}
-                ></div>
+                {product.image ? (
+                  <div
+                    className="w-full h-full bg-cover bg-center bg-no-repeat"
+                    style={{ backgroundImage: `url('${product.image}')`, backgroundColor: '#f3f4f6' }}
+                  ></div>
+                ) : (
+                  <div className="w-full h-full bg-gray-800 flex flex-col items-center justify-center space-y-2">
+                    <FiPlay className="text-white text-4xl" />
+                    <span className="text-white text-xs font-medium">Vidéo disponible</span>
+                  </div>
+                )}
                 {/* Country Flag */}
                 <div className="absolute top-3 left-3 bg-white px-1.5 py-0.5 rounded-full text-lg">
                   {product.flag === 'Côte d\'Ivoire' ? '🇨🇮' : '🇲🇱'}

@@ -62,6 +62,7 @@ export const products: Product[] = [
     images: [
       '/images/WhatsApp Image 2026-05-08 at 15.54.22.jpeg'
     ],
+    video: '/images/WhatsApp Video 2026-05-08 at 15.54.21.mp4',
     stock: 'En stock',
     specifications: {
       taille: 'Grande taille',
@@ -71,11 +72,11 @@ export const products: Product[] = [
     },
     description: 'Mouton robuste et bien portant, parfait pour une belle Tabaski.',
     longDescription: 'Mouton robuste en très bonne condition, élevé dans de bonnes conditions. Disponible à la livraison sur Abidjan.',
-    note: 'Photo du mouton réel. Ce que vous voyez est ce que vous recevez.',
+    note: 'Photos et vidéo du mouton réel. Ce que vous voyez est ce que vous recevez.',
     characteristics: [
       'Mouton robuste et bien portant',
       'Prêt pour la Tabaski',
-      'Photo réelle',
+      'Photos et vidéo réelles',
       'Livraison disponible sur Abidjan'
     ]
   },
@@ -134,6 +135,61 @@ export const products: Product[] = [
       'Mouton en parfaite santé',
       'Prêt pour la Tabaski',
       'Photos et vidéo réelles',
+      'Livraison disponible sur Abidjan'
+    ]
+  }
+  ,
+  {
+    id: 5,
+    name: 'Mouton N°5',
+    category: 'Mouton',
+    origin: "Côte d'Ivoire",
+    price: '180.000 FCFA',
+    flag: "Côte d'Ivoire",
+    image: '',
+    images: [],
+    video: '/images/WhatsApp Video 2026-05-08 at 15.54.26.mp4',
+    stock: 'En stock',
+    specifications: {
+      taille: 'Grande taille',
+      age: '+2 ans',
+      poids: '~41 kg',
+      categorie: 'Standard'
+    },
+    description: 'Beau mouton en bonne santé, disponible en vidéo.',
+    longDescription: 'Mouton en bonne santé, bien nourri et prêt pour la Tabaski. Visionnez la vidéo pour le voir en détail. Disponible à la livraison sur Abidjan.',
+    note: 'Vidéo du mouton réel. Ce que vous voyez est ce que vous recevez.',
+    characteristics: [
+      'Mouton sain et bien nourri',
+      'Prêt pour la Tabaski',
+      'Vidéo réelle disponible',
+      'Livraison disponible sur Abidjan'
+    ]
+  },
+  {
+    id: 6,
+    name: 'Mouton N°6',
+    category: 'Mouton',
+    origin: "Côte d'Ivoire",
+    price: '180.000 FCFA',
+    flag: "Côte d'Ivoire",
+    image: '',
+    images: [],
+    video: '/images/WhatsApp Video 2026-05-08 at 15.54.30.mp4',
+    stock: 'En stock',
+    specifications: {
+      taille: 'Grande taille',
+      age: '+2 ans',
+      poids: '~40 kg',
+      categorie: 'Standard'
+    },
+    description: 'Mouton bien portant, disponible en vidéo pour mieux l\'apprécier.',
+    longDescription: 'Mouton bien portant et en excellente condition, visible en vidéo. Disponible à la livraison sur Abidjan.',
+    note: 'Vidéo du mouton réel. Ce que vous voyez est ce que vous recevez.',
+    characteristics: [
+      'Mouton bien portant',
+      'Prêt pour la Tabaski',
+      'Vidéo réelle disponible',
       'Livraison disponible sur Abidjan'
     ]
   }

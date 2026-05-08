@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, Suspense } from 'react'
-import { FiArrowRight, FiFilter, FiGrid, FiList, FiStar } from 'react-icons/fi'
+import { FiArrowRight, FiFilter, FiGrid, FiList, FiStar, FiPlay } from 'react-icons/fi'
 import { products as allProducts, Product } from '@/data/products'
 import { useSearchParams } from 'next/navigation'
 
@@ -383,9 +383,16 @@ function BoutiqueContent() {
             {sortedProducts.map((product) => (
               <div key={product.id} className="bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group">
                 <div className="relative h-48 bg-gray-200 overflow-hidden">
-                  <div className="w-full h-full bg-cover bg-center bg-no-repeat"
-                    style={{ backgroundImage: `url('${product.image}')`, backgroundColor: '#f3f4f6' }}
-                  ></div>
+                  {product.image ? (
+                    <div className="w-full h-full bg-cover bg-center bg-no-repeat"
+                      style={{ backgroundImage: `url('${product.image}')`, backgroundColor: '#f3f4f6' }}
+                    ></div>
+                  ) : (
+                    <div className="w-full h-full bg-gray-800 flex flex-col items-center justify-center space-y-2">
+                      <FiPlay className="text-white text-4xl" />
+                      <span className="text-white text-xs font-medium">Vidéo disponible</span>
+                    </div>
+                  )}
                   <div className="absolute top-3 left-3 bg-white px-1.5 py-0.5 rounded-full text-lg">
                     {product.origin === "Côte d'Ivoire" ? '🇨🇮' : '🇲🇱'}
                   </div>
@@ -418,9 +425,16 @@ function BoutiqueContent() {
               <div key={product.id} className="bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 p-6">
                 <div className="flex flex-col md:flex-row gap-6">
                   <div className="w-full md:w-48 h-48 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0">
-                    <div className="w-full h-full bg-cover bg-center"
-                      style={{ backgroundImage: `url('${product.image}')`, backgroundColor: '#f3f4f6' }}
-                    ></div>
+                    {product.image ? (
+                      <div className="w-full h-full bg-cover bg-center"
+                        style={{ backgroundImage: `url('${product.image}')`, backgroundColor: '#f3f4f6' }}
+                      ></div>
+                    ) : (
+                      <div className="w-full h-full bg-gray-800 flex flex-col items-center justify-center space-y-2">
+                        <FiPlay className="text-white text-4xl" />
+                        <span className="text-white text-xs font-medium">Vidéo disponible</span>
+                      </div>
+                    )}
                   </div>
                   <div className="flex-1">
                     <div className="flex justify-between items-start mb-4">

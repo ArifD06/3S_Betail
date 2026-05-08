@@ -7,6 +7,7 @@ export interface Product {
   flag: string
   image: string
   images: string[]
+  video?: string
   stock: string
   specifications: {
     taille: string
@@ -23,143 +24,129 @@ export interface Product {
 export const products: Product[] = [
   {
     id: 1,
-    name: 'Mouton du Sahel - Taille J',
+    name: 'Mouton N°1',
     category: 'Mouton',
-    origin: 'Côte d\'Ivoire',
-    price: '150.000 FCFA',
-    flag: 'Côte d\'Ivoire',
-    image: '/images/WhatsApp Image 2026-04-19 at 12.39.42.jpeg',
+    origin: "Côte d'Ivoire",
+    price: '180.000 FCFA',
+    flag: "Côte d'Ivoire",
+    image: '/images/WhatsApp Image 2026-05-08 at 15.54.19.jpeg',
     images: [
-      '/images/WhatsApp Image 2026-04-19 at 12.39.42.jpeg',
-      '/images/WhatsApp Image 2026-04-19 at 12.39.42 (1).jpeg',
-      '/images/WhatsApp Image 2026-04-19 at 12.39.42 (2).jpeg'
+      '/images/WhatsApp Image 2026-05-08 at 15.54.19.jpeg'
     ],
+    video: '/images/WhatsApp Video 2026-05-08 at 15.54.16.mp4',
     stock: 'En stock',
     specifications: {
-      taille: '80 x 117 cm',
+      taille: 'Grande taille',
       age: '+2 ans',
-      poids: '40-43kg',
-      categorie: 'Extra 1'
+      poids: '~40 kg',
+      categorie: 'Standard'
     },
-    description: 'Mouton du Sahel, Taille J (80 x 117 cm), Extra 1 - Sélectionné avec soin pour la fête de Tabaski.',
-    longDescription: 'Le Mouton du Sahel de Taille J est un spécimen exceptionnel provenant des régions arides du Sahel. Élevé dans des conditions optimales avec une alimentation naturelle et un suivi vétérinaire rigoureux, ce mouton présente une morphologie idéale pour les célébrations de Tabaski. Sa robe blanche immaculée et sa conformation harmonieuse en font un choix prestigieux pour les familles exigeantes.',
-    note: 'L\'image est fournie à titre illustratif. La couleur du bétail peut varier lors de la livraison. La sélection est effectuée selon les critères de taille (80x117 cm, +2 ans) et de poids (40-43kg).',
+    description: 'Beau mouton en bonne santé, idéal pour la Tabaski.',
+    longDescription: 'Mouton en excellente santé, bien nourri et prêt pour la Tabaski. Disponible à la livraison sur Abidjan.',
+    note: 'Photos et vidéo du mouton réel. Ce que vous voyez est ce que vous recevez.',
     characteristics: [
-      'Robe blanche de qualité supérieure',
-      'Cornes bien développées et symétriques',
-      'Excellente conformation corporelle',
-      'Certifié sans maladie',
-      'Alimentation 100% naturelle'
+      'Mouton sain et bien nourri',
+      'Prêt pour la Tabaski',
+      'Photos et vidéo réelles',
+      'Livraison disponible sur Abidjan'
     ]
   },
   {
     id: 2,
-    name: 'Mouton Ladoum - Premium',
+    name: 'Mouton N°2',
     category: 'Mouton',
-    origin: 'Côte d\'Ivoire',
-    price: '150.000FCFA',
-    flag: 'Côte d\'Ivoire',
-    image: '/images/WhatsApp Image 2026-04-19 at 12.39.42 (1).jpeg',
+    origin: "Côte d'Ivoire",
+    price: '180.000 FCFA',
+    flag: "Côte d'Ivoire",
+    image: '/images/WhatsApp Image 2026-05-08 at 15.54.22.jpeg',
     images: [
-      '/images/WhatsApp Image 2026-04-19 at 12.39.42 (1).jpeg',
-      '/images/WhatsApp Image 2026-04-19 at 12.39.42.jpeg',
-      '/images/WhatsApp Image 2026-04-19 at 12.39.43.jpeg'
+      '/images/WhatsApp Image 2026-05-08 at 15.54.22.jpeg'
     ],
     stock: 'En stock',
     specifications: {
-      taille: '85 x 125 cm',
+      taille: 'Grande taille',
       age: '+2 ans',
-      poids: '45-48kg',
-      categorie: 'Premium'
+      poids: '~42 kg',
+      categorie: 'Standard'
     },
-    description: 'Mouton Ladoum Premium - Race noble sélectionnée pour les célébrations prestigieuses.',
-    longDescription: 'Le Mouton Ladoum Premium représente l\'excellence de l\'élevage ouest-africain. Cette race noble, réputée pour sa taille imposante et sa robe immaculée, est le choix privilégié des familles qui recherchent le meilleur pour Tabaski. Chaque spécimen est sélectionné manuellement par nos experts pour garantir une qualité exceptionnelle et une présentation digne des plus grandes célébrations.',
-    note: 'L\'image est fournie à titre illustratif. La couleur du bétail peut varier lors de la livraison. La sélection est effectuée selon les critères de taille (85x125 cm, +2 ans) et de poids (45-48kg).',
+    description: 'Mouton robuste et bien portant, parfait pour une belle Tabaski.',
+    longDescription: 'Mouton robuste en très bonne condition, élevé dans de bonnes conditions. Disponible à la livraison sur Abidjan.',
+    note: 'Photo du mouton réel. Ce que vous voyez est ce que vous recevez.',
     characteristics: [
-      'Race Ladoum pure et certifiée',
-      'Taille XXL impressionnante',
-      'Robe d\'un blanc éclatant',
-      'Poids optimal pour Tabaski',
-      'Certificat de pedigree fourni'
+      'Mouton robuste et bien portant',
+      'Prêt pour la Tabaski',
+      'Photo réelle',
+      'Livraison disponible sur Abidjan'
     ]
   },
   {
     id: 3,
-    name: 'Mouton du Nord - Taille M',
+    name: 'Mouton N°3',
     category: 'Mouton',
-    origin: 'Mali',
-    price: '150.000FCFA',
-    flag: 'Mali',
-    image: '/images/WhatsApp Image 2026-04-19 at 12.39.42 (2).jpeg',
+    origin: "Côte d'Ivoire",
+    price: '180.000 FCFA',
+    flag: "Côte d'Ivoire",
+    image: '/images/WhatsApp Image 2026-05-08 at 15.54.32.jpeg',
     images: [
-      '/images/WhatsApp Image 2026-04-19 at 12.39.42 (2).jpeg',
-      '/images/WhatsApp Image 2026-04-19 at 12.39.42.jpeg',
-      '/images/WhatsApp Image 2026-04-19 at 12.39.43.jpeg'
+      '/images/WhatsApp Image 2026-05-08 at 15.54.32.jpeg'
     ],
+    video: '/images/WhatsApp Video 2026-05-08 at 15.54.34.mp4',
     stock: 'En stock',
     specifications: {
-      taille: '75 x 110 cm',
+      taille: 'Grande taille',
       age: '+2 ans',
-      poids: '38-41kg',
+      poids: '~43 kg',
       categorie: 'Standard'
     },
-    description: 'Mouton du Nord, Taille M - Qualité garantie et excellent rapport qualité-prix.',
-    longDescription: 'Le Mouton du Nord de Taille M est une excellente option pour les familles qui recherchent la qualité sans compromettre leur budget. Provenant des élevages réputés du nord du Mali, ce mouton combine robustesse et esthétique. Son développement harmonieux et sa santé irréprochable en font un choix fiable pour célébrer Tabaski dans la tradition et la sérénité.',
-    note: 'L\'image est fournie à titre illustratif. La couleur du bétail peut varier lors de la livraison. La sélection est effectuée selon les critères de taille (75x110 cm, +2 ans) et de poids (38-41kg).',
+    description: 'Mouton de belle prestance, bien développé et en pleine santé.',
+    longDescription: 'Mouton de belle prestance, bien développé et en pleine santé. Sélectionné avec soin pour la Tabaski. Disponible à la livraison sur Abidjan.',
+    note: 'Photos et vidéo du mouton réel. Ce que vous voyez est ce que vous recevez.',
     characteristics: [
-      'Élevage traditionnel malien',
-      'Excellente adaptation climatique',
-      'Robe dense et soyeuse',
-      'Tempérament calme et docile',
-      'Certification sanitaire complète'
+      'Mouton bien développé',
+      'Prêt pour la Tabaski',
+      'Photos et vidéo réelles',
+      'Livraison disponible sur Abidjan'
     ]
   },
-  
   {
     id: 4,
-    name: 'Mouton Sahélien - Taille L',
+    name: 'Mouton N°4',
     category: 'Mouton',
-    origin: 'Côte d\'Ivoire',
-    price: '150.000 FCFA',
-    flag: 'Côte d\'Ivoire',
-    image: '/images/WhatsApp Image 2026-04-19 at 12.39.43.jpeg',
+    origin: "Côte d'Ivoire",
+    price: '180.000 FCFA',
+    flag: "Côte d'Ivoire",
+    image: '/images/WhatsApp Image 2026-05-08 at 15.54.36.jpeg',
     images: [
-      '/images/WhatsApp Image 2026-04-19 at 12.39.43.jpeg',
-      '/images/WhatsApp Image 2026-04-19 at 12.39.42 (1).jpeg',
-      '/images/WhatsApp Image 2026-04-19 at 12.39.42 (2).jpeg'
+      '/images/WhatsApp Image 2026-05-08 at 15.54.36.jpeg'
     ],
+    video: '/images/WhatsApp Video 2026-05-08 at 15.54.35.mp4',
     stock: 'En stock',
     specifications: {
-      taille: '90 x 130 cm',
-      age: '+3 ans',
-      poids: '50-55kg',
-      categorie: 'Extra Large'
+      taille: 'Grande taille',
+      age: '+2 ans',
+      poids: '~41 kg',
+      categorie: 'Standard'
     },
-    description: 'Mouton Sahélien Taille L - Spécimen exceptionnel pour les célébrations mémorables.',
-    longDescription: 'Le Mouton Sahélien de Taille L est un véritable géant parmi les moutons de Tabaski. Avec ses dimensions impressionnantes et sa masse musculaire bien développée, il est destiné aux familles qui souhaitent marquer leur célébration avec un spécimen hors du commun. Son élevage prolongé de 3 ans garantit une maturité parfaite et une qualité de viande exceptionnelle.',
-    note: 'L\'image est fournie à titre illustratif. La couleur du bétail peut varier lors de la livraison. La sélection est effectuée selon les critères de taille (90x130 cm, +3 ans) et de poids (50-55kg).',
+    description: 'Mouton en parfaite santé, idéal pour une célébration réussie.',
+    longDescription: 'Mouton en parfaite santé, idéal pour une célébration de Tabaski réussie. Bien nourri et suivi. Disponible à la livraison sur Abidjan.',
+    note: 'Photos et vidéo du mouton réel. Ce que vous voyez est ce que vous recevez.',
     characteristics: [
-      'Dimensions XXL exceptionnelles',
-      'Maturité de 3 ans garantie',
-      'Masse musculaire impressionnante',
-      'Robe d\'une pureté remarquable',
-      'Suivi vétérinaire premium'
+      'Mouton en parfaite santé',
+      'Prêt pour la Tabaski',
+      'Photos et vidéo réelles',
+      'Livraison disponible sur Abidjan'
     ]
   }
-  
 ]
 
-// Fonction pour récupérer un produit par son ID
 export function getProductById(id: number): Product | undefined {
   return products.find(product => product.id === id)
 }
 
-// Fonction pour récupérer les produits par pays
 export function getProductsByCountry(country: string): Product[] {
   return products.filter(product => product.origin === country)
 }
 
-// Fonction pour récupérer les produits par catégorie
 export function getProductsByCategory(category: string): Product[] {
   return products.filter(product => product.category === category)
 }

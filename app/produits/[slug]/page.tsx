@@ -75,9 +75,10 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Product Image Gallery */}
           <div className="space-y-4">
-            <ProductGallery 
-              images={product.images} 
-              productName={product.name} 
+            <ProductGallery
+              images={product.images}
+              productName={product.name}
+              video={product.video}
             />
             
             {/* Product Info Card */}

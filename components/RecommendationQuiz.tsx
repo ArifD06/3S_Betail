@@ -1,8 +1,9 @@
 'use client'
 
 import React, { useState } from 'react'
-import { FiChevronRight, FiChevronLeft, FiCheck, FiUsers, FiDollarSign, FiAward, FiHeart } from 'react-icons/fi'
+import { FiChevronRight, FiChevronLeft, FiCheck, FiArrowRight } from 'react-icons/fi'
 import { useRouter } from 'next/navigation'
+import { products as allProducts } from '@/data/products'
 
 interface QuizAnswers {
   familySize: string
@@ -12,237 +13,176 @@ interface QuizAnswers {
   urgency: string
 }
 
-interface RecommendationResult {
-  products: number[]
-  explanation: string
-  confidence: number
-  category: string
-}
-
 export default function RecommendationQuiz() {
   const router = useRouter()
-  const [currentStep, setCurrentStep] = useState(0)
+  const [step, setStep] = useState(0)
   const [answers, setAnswers] = useState<QuizAnswers>({
-    familySize: '',
-    budget: '',
-    preference: '',
-    experience: '',
-    urgency: ''
+    familySize: '', budget: '', preference: '', experience: '', urgency: ''
   })
-  const [isCompleted, setIsCompleted] = useState(false)
-  const [recommendations, setRecommendations] = useState<RecommendationResult | null>(null)
+  const [results, setResults] = useState<number[]>([])
+  const [done, setDone] = useState(false)
+
+  const sheepProducts = allProducts.filter(p => p.category === 'Mouton')
 
   const questions = [
     {
       id: 'familySize',
-      title: 'Combien de personnes participeront à Tabaski ?',
-      icon: FiUsers,
+      title: 'Combien de personnes pour la Tabaski ?',
+      emoji: '👨‍👩‍👧‍👦',
       options: [
-        { value: 'small', label: '2-4 personnes', description: 'Petite famille' },
-        { value: 'medium', label: '5-8 personnes', description: 'Famille moyenne' },
-        { value: 'large', label: '9-12 personnes', description: 'Grande famille' },
-        { value: 'xlarge', label: '13+ personnes', description: 'Très grande famille' }
+        { value: 'small',  label: '2 à 4 personnes',    emoji: '👫',       desc: 'Petit foyer' },
+        { value: 'medium', label: '5 à 8 personnes',    emoji: '👨‍👩‍👧‍👦',      desc: 'Famille moyenne' },
+        { value: 'large',  label: '9 à 15 personnes',   emoji: '🏠',       desc: 'Grande famille' },
+        { value: 'xlarge', label: '15 personnes et +',  emoji: '🏘️',      desc: 'Très grande famille' }
       ]
     },
     {
       id: 'budget',
-      title: 'Quel est votre budget pour le mouton ?',
-      icon: FiDollarSign,
+      title: 'Quel est votre budget ?',
+      emoji: '💰',
       options: [
-        { value: 'economy', label: '100k - 130k FCFA', description: 'Option économique' },
-        { value: 'standard', label: '130k - 160k FCFA', description: 'Bon rapport qualité-prix' },
-        { value: 'premium', label: '160k - 200k FCFA', description: 'Qualité supérieure' },
-        { value: 'luxury', label: '200k+ FCFA', description: 'Sans compromis' }
+        { value: 'economy',  label: 'Moins de 150 000 FCFA',      emoji: '💵', desc: 'Budget serré' },
+        { value: 'standard', label: '150 000 – 200 000 FCFA',     emoji: '💴', desc: 'Budget standard' },
+        { value: 'premium',  label: '200 000 – 250 000 FCFA',     emoji: '💶', desc: 'Budget confortable' },
+        { value: 'luxury',   label: 'Plus de 250 000 FCFA',       emoji: '💎', desc: 'Sans limite' }
       ]
     },
     {
       id: 'preference',
-      title: 'Que préférez-vous pour votre célébration ?',
-      icon: FiHeart,
+      title: 'Quelle est votre priorité ?',
+      emoji: '⭐',
       options: [
-        { value: 'tradition', label: 'Tradition authentique', description: 'Respect des coutumes' },
-        { value: 'prestige', label: 'Prestige et distinction', description: 'Mettre en valeur' },
-        { value: 'practical', label: 'Pratique et simple', description: 'Sans complication' },
-        { value: 'mixed', label: 'Équilibre tradition/moderne', description: 'Le meilleur des deux' }
+        { value: 'tradition', label: 'Respecter la tradition',    emoji: '🕌', desc: 'Authentique et symbolique' },
+        { value: 'prestige',  label: 'Impressionner les invités', emoji: '👑', desc: 'Beau et imposant' },
+        { value: 'practical', label: 'Rapport qualité-prix',      emoji: '✅', desc: 'Simple et efficace' },
+        { value: 'mixed',     label: 'Le meilleur des deux',      emoji: '🌟', desc: 'Qualité et prestige' }
       ]
     },
     {
       id: 'experience',
-      title: 'Comment décririez-vous votre expérience Tabaski ?',
-      icon: FiAward,
+      title: 'Votre expérience avec la Tabaski ?',
+      emoji: '🎯',
       options: [
-        { value: 'beginner', label: 'Première fois', description: 'J ai besoin de conseils' },
-        { value: 'regular', label: 'Quelques années', description: 'Je connais les bases' },
-        { value: 'experienced', label: 'Expert', description: 'Je sais exactement ce que je veux' },
-        { value: 'family', label: 'Tradition familiale', description: 'Notre famille a ses habitudes' }
+        { value: 'beginner',    label: 'Première fois',       emoji: '🌱', desc: "J'ai besoin de conseils" },
+        { value: 'regular',     label: 'Quelques années',     emoji: '📅', desc: 'Je connais les bases' },
+        { value: 'experienced', label: 'Habitué',             emoji: '🏆', desc: 'Je sais ce que je veux' },
+        { value: 'family',      label: 'Tradition familiale', emoji: '👴', desc: 'On a nos habitudes' }
       ]
     },
     {
       id: 'urgency',
-      title: 'Quand prévoyez-vous votre achat ?',
-      icon: FiCheck,
+      title: 'Quand souhaitez-vous acheter ?',
+      emoji: '📅',
       options: [
-        { value: 'immediate', label: 'Immédiatement', description: 'Prêt à acheter maintenant' },
-        { value: 'soon', label: 'Cette semaine', description: 'Je prévois bientôt' },
-        { value: 'planning', label: 'Dans 2-3 semaines', description: 'Je planifie à l avance' },
-        { value: 'browsing', label: 'Juste curieux', description: 'J explore les options' }
+        { value: 'immediate', label: 'Maintenant',          emoji: '⚡', desc: 'Je suis prêt' },
+        { value: 'soon',      label: 'Cette semaine',       emoji: '📆', desc: 'Dans les prochains jours' },
+        { value: 'planning',  label: 'Dans 2-3 semaines',   emoji: '🗓️', desc: "J'anticipe" },
+        { value: 'browsing',  label: 'Je regarde seulement',emoji: '👀', desc: "J'explore les options" }
       ]
     }
   ]
 
-  const handleAnswer = (questionId: string, value: string) => {
-    setAnswers(prev => ({ ...prev, [questionId]: value }))
-  }
+  const compute = () => {
+    const scores: { [id: number]: number } = {}
+    sheepProducts.forEach(p => { scores[p.id] = 0 })
 
-  const nextStep = () => {
-    if (currentStep < questions.length - 1) {
-      setCurrentStep(prev => prev + 1)
-    } else {
-      generateRecommendations()
+    if (answers.familySize === 'small')  sheepProducts.forEach(p => { scores[p.id] += 1 })
+    if (answers.familySize === 'medium') sheepProducts.forEach(p => { scores[p.id] += 2 })
+    if (answers.familySize === 'large' || answers.familySize === 'xlarge') sheepProducts.forEach(p => { scores[p.id] += 3 })
+
+    if (answers.budget === 'standard' || answers.budget === 'premium') sheepProducts.forEach(p => { scores[p.id] += 2 })
+
+    if (answers.preference === 'tradition' || answers.preference === 'prestige') {
+      sheepProducts.filter(p => !!p.image).forEach(p => { scores[p.id] += 2 })
     }
-  }
-
-  const prevStep = () => {
-    if (currentStep > 0) {
-      setCurrentStep(prev => prev - 1)
-    }
-  }
-
-  const generateRecommendations = () => {
-    // Algorithme de recommandation IA
-    let scores: { [key: number]: number } = {}
-    let explanation = ''
-    let category = ''
-
-    // Logique de scoring basée sur les réponses
-    if (answers.familySize === 'small') {
-      scores = { ...scores, 1: 10, 3: 8 } // Moutons de taille S/M
-      explanation += 'Pour une petite famille, nous recommandons des moutons de taille standard. '
-    } else if (answers.familySize === 'medium') {
-      scores = { ...scores, 1: 9, 2: 10, 4: 8 } // Moutons de taille M/L
-      explanation += 'Une famille moyenne nécessite des moutons de taille moyenne à grande. '
-    } else if (answers.familySize === 'large') {
-      scores = { ...scores, 2: 9, 4: 10 } // Moutons de taille L/XL
-      explanation += 'Pour une grande famille, optez pour des spécimens de grande taille. '
-    } else {
-      scores = { ...scores, 4: 10, 2: 9 } // Moutons XL
-      explanation += 'Une très grande famille requiert les plus beaux spécimens. '
+    if (answers.preference === 'practical' || answers.preference === 'mixed') {
+      sheepProducts.filter(p => !!p.video).forEach(p => { scores[p.id] += 2 })
     }
 
-    // Budget influence
-    if (answers.budget === 'economy') {
-      scores = { ...scores, 3: 8, 1: 7 }
-      explanation += 'Avec un budget économique, le mouton du Nord offre un excellent rapport. '
-    } else if (answers.budget === 'premium' || answers.budget === 'luxury') {
-      scores = { ...scores, 2: 10, 4: 10 }
-      explanation += 'Pour un budget premium, les races Ladoum et Sahéliens sont idéales. '
+    if (answers.urgency === 'immediate' || answers.urgency === 'soon') {
+      sheepProducts.filter(p => p.stock === 'En stock').forEach(p => { scores[p.id] += 1 })
     }
 
-    // Préférence influence
-    if (answers.preference === 'tradition') {
-      scores = { ...scores, 3: 9, 1: 8 }
-      category = 'Traditionnel'
-      explanation += 'Les moutons du Sahel et du Nord respectent parfaitement les traditions. '
-    } else if (answers.preference === 'prestige') {
-      scores = { ...scores, 2: 10, 4: 10 }
-      category = 'Premium'
-      explanation += 'Pour le prestige, rien ne surpasse les races Ladoum et Sahéliennes. '
-    }
-
-    // Calcul du produit recommandé principal
-    const sortedProducts = Object.entries(scores)
-      .sort(([,a], [,b]) => b - a)
+    const sorted = Object.entries(scores)
+      .sort(([, a], [, b]) => b - a)
       .map(([id]) => parseInt(id))
+      .slice(0, 3)
 
-    const result: RecommendationResult = {
-      products: sortedProducts.slice(0, 3),
-      explanation,
-      confidence: Math.max(...Object.values(scores)) / 10,
-      category: category || 'Standard'
-    }
-
-    setRecommendations(result)
-    setIsCompleted(true)
+    setResults(sorted)
+    setDone(true)
   }
 
   const resetQuiz = () => {
-    setCurrentStep(0)
-    setAnswers({
-      familySize: '',
-      budget: '',
-      preference: '',
-      experience: '',
-      urgency: ''
-    })
-    setIsCompleted(false)
-    setRecommendations(null)
+    setDone(false)
+    setStep(0)
+    setAnswers({ familySize: '', budget: '', preference: '', experience: '', urgency: '' })
+    setResults([])
   }
 
-  const viewRecommendations = () => {
-    if (recommendations) {
-      // Naviguer vers la page produits avec les recommandations
-      router.push(`/produits?recommended=${recommendations.products.join(',')}&category=${recommendations.category}`)
-    }
-  }
+  const current = questions[step]
+  const progress = ((step + 1) / questions.length) * 100
+  const currentAnswer = answers[current.id as keyof QuizAnswers]
 
-  const currentQuestion = questions[currentStep]
-  const Icon = currentQuestion.icon
-  const progress = ((currentStep + 1) / questions.length) * 100
-
-  if (isCompleted && recommendations) {
+  if (done) {
     return (
-      <div className="bg-white rounded-xl shadow-xl p-8 max-w-2xl mx-auto">
-        <div className="text-center mb-8">
-          <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <FiCheck className="text-3xl text-green-600" />
-          </div>
-          <h2 className="text-3xl font-bold text-gray-800 mb-2">Vos Recommandations Personnalisées</h2>
-          <p className="text-gray-600">Basé sur vos réponses, voici ce que nous vous suggérons</p>
+      <div className="bg-white rounded-2xl shadow-xl overflow-hidden max-w-2xl mx-auto">
+        <div className="bg-gradient-to-r from-[#C8973A] to-[#D4A763] p-6 text-white text-center">
+          <div className="text-5xl mb-3">✨</div>
+          <h2 className="text-2xl font-bold">Vos moutons recommandés</h2>
+          <p className="text-white/80 text-sm mt-1">Sélection personnalisée pour votre Tabaski</p>
         </div>
 
-        <div className="bg-gradient-to-r from-[#C8973A]/10 to-[#F5F5DC]/10 rounded-lg p-6 mb-6">
-          <h3 className="font-semibold text-gray-800 mb-3">Notre analyse</h3>
-          <p className="text-gray-700 leading-relaxed">{recommendations.explanation}</p>
-          <div className="mt-4 flex items-center space-x-2">
-            <span className="text-sm text-gray-600">Confiance de notre IA :</span>
-            <div className="flex-1 bg-gray-200 rounded-full h-2">
-              <div 
-                className="bg-[#C8973A] h-2 rounded-full transition-all duration-500"
-                style={{ width: `${recommendations.confidence * 100}%` }}
-              ></div>
-            </div>
-            <span className="text-sm font-medium text-[#C8973A]">
-              {Math.round(recommendations.confidence * 100)}%
-            </span>
-          </div>
-        </div>
-
-        <div className="space-y-4 mb-8">
-          <h3 className="font-semibold text-gray-800">Moutons recommandés pour vous</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {recommendations.products.map((productId, index) => (
-              <div key={productId} className="bg-gray-50 rounded-lg p-4 text-center">
-                <div className="w-12 h-12 bg-[#C8973A] rounded-full flex items-center justify-center mx-auto mb-2">
-                  <span className="text-white font-bold">{index + 1}</span>
+        <div className="p-4 sm:p-6 space-y-3">
+          {results.map((id, i) => {
+            const p = sheepProducts.find(x => x.id === id)
+            if (!p) return null
+            return (
+              <a key={id} href={`/produits/${p.id}`}
+                className="flex items-center gap-4 p-4 rounded-xl border-2 border-gray-100 hover:border-[#C8973A] transition-all group"
+              >
+                <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden bg-gray-800 flex-shrink-0">
+                  {p.image ? (
+                    <div className="w-full h-full bg-cover bg-center" style={{ backgroundImage: `url('${p.image}')` }} />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <span className="text-white text-xl">▶</span>
+                    </div>
+                  )}
+                  {p.video && (
+                    <div className="absolute bottom-1 right-1 bg-[#C8973A] rounded-full w-5 h-5 flex items-center justify-center">
+                      <span className="text-white" style={{ fontSize: '8px' }}>▶</span>
+                    </div>
+                  )}
                 </div>
-                <p className="text-sm text-gray-600">Option {index + 1}</p>
-                <p className="font-semibold text-gray-800">Mouton #{productId}</p>
-              </div>
-            ))}
-          </div>
+                <div className="flex-1 min-w-0">
+                  <span className="text-xs font-bold text-[#C8973A] bg-[#FDF6E3] px-2 py-0.5 rounded-full">
+                    #{i + 1} recommandé
+                  </span>
+                  <h3 className="font-semibold text-gray-800 group-hover:text-[#C8973A] transition-colors mt-1">
+                    {p.name}
+                  </h3>
+                  <p className="text-xs text-gray-500 mt-0.5 truncate">{p.description}</p>
+                </div>
+                <div className="text-right flex-shrink-0">
+                  <p className="font-bold text-[#C8973A] text-sm">{p.price}</p>
+                  <FiArrowRight className="ml-auto mt-2 text-gray-400 group-hover:text-[#C8973A] transition-colors" />
+                </div>
+              </a>
+            )
+          })}
         </div>
 
-        <div className="flex space-x-4">
+        <div className="px-4 sm:px-6 pb-6 flex flex-col sm:flex-row gap-3">
           <button
-            onClick={viewRecommendations}
-            className="flex-1 bg-[#C8973A] hover:bg-[#D4A763] text-white font-semibold py-3 px-6 rounded-lg transition-colors flex items-center justify-center space-x-2"
+            onClick={() => router.push(`/produits?recommended=${results.join(',')}`)}
+            className="flex-1 bg-[#C8973A] hover:bg-[#B8852E] text-white font-semibold py-3 rounded-xl transition-colors flex items-center justify-center gap-2"
           >
-            <span>Voir les recommandations</span>
-            <FiChevronRight />
+            Voir tous les moutons
+            <FiArrowRight />
           </button>
           <button
             onClick={resetQuiz}
-            className="px-6 py-3 border border-gray-300 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
+            className="sm:px-6 py-3 border-2 border-gray-200 hover:border-gray-300 text-gray-600 rounded-xl transition-colors text-sm font-medium"
           >
             Recommencer
           </button>
@@ -252,86 +192,93 @@ export default function RecommendationQuiz() {
   }
 
   return (
-    <div className="bg-white rounded-xl shadow-xl p-8 max-w-2xl mx-auto">
-      {/* Progress Bar */}
-      <div className="mb-8">
-        <div className="flex justify-between items-center mb-2">
-          <span className="text-sm font-medium text-gray-600">Question {currentStep + 1} sur {questions.length}</span>
-          <span className="text-sm font-medium text-[#C8973A]">{Math.round(progress)}%</span>
+    <div className="bg-white rounded-2xl shadow-xl overflow-hidden max-w-2xl mx-auto">
+      {/* Progress header */}
+      <div className="bg-gradient-to-r from-[#C8973A] to-[#D4A763] p-5 sm:p-6">
+        <div className="flex justify-between items-center mb-3">
+          <span className="text-white/80 text-sm font-medium">Question {step + 1} / {questions.length}</span>
+          <span className="text-white font-bold text-sm">{Math.round(progress)}%</span>
         </div>
-        <div className="w-full bg-gray-200 rounded-full h-2">
-          <div 
-            className="bg-gradient-to-r from-[#C8973A] to-[#D4A763] h-2 rounded-full transition-all duration-500"
+        <div className="w-full bg-white/30 rounded-full h-2 mb-4">
+          <div
+            className="bg-white h-2 rounded-full transition-all duration-500"
             style={{ width: `${progress}%` }}
-          ></div>
+          />
+        </div>
+        <div className="flex justify-center gap-2">
+          {questions.map((_, i) => (
+            <div
+              key={i}
+              className={`rounded-full transition-all duration-300 ${
+                i < step ? 'w-5 h-2 bg-white' : i === step ? 'w-5 h-2 bg-white' : 'w-2 h-2 bg-white/30'
+              }`}
+            />
+          ))}
         </div>
       </div>
 
       {/* Question */}
-      <div className="text-center mb-8">
-        <div className="w-16 h-16 bg-[#F5F5DC] rounded-full flex items-center justify-center mx-auto mb-4">
-          <Icon className="text-2xl text-[#C8973A]" />
+      <div className="p-4 sm:p-6">
+        <div className="text-center mb-6">
+          <div className="text-5xl mb-3">{current.emoji}</div>
+          <h2 className="text-lg sm:text-xl font-bold text-gray-800">{current.title}</h2>
         </div>
-        <h2 className="text-2xl font-bold text-gray-800 mb-2">{currentQuestion.title}</h2>
-      </div>
 
-      {/* Options */}
-      <div className="space-y-3 mb-8">
-        {currentQuestion.options.map((option) => (
-          <button
-            key={option.value}
-            onClick={() => handleAnswer(currentQuestion.id, option.value)}
-            className={`w-full text-left p-4 rounded-lg border-2 transition-all duration-200 ${
-              answers[currentQuestion.id as keyof QuizAnswers] === option.value
-                ? 'border-[#C8973A] bg-[#F5F5DC] shadow-md'
-                : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
-            }`}
-          >
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="font-semibold text-gray-800">{option.label}</div>
-                <div className="text-sm text-gray-600">{option.description}</div>
-              </div>
-              <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
-                answers[currentQuestion.id as keyof QuizAnswers] === option.value
-                  ? 'border-[#C8973A] bg-[#C8973A]'
-                  : 'border-gray-300'
-              }`}>
-                {answers[currentQuestion.id as keyof QuizAnswers] === option.value && (
-                  <div className="w-2 h-2 bg-white rounded-full"></div>
-                )}
-              </div>
-            </div>
-          </button>
-        ))}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {current.options.map(opt => {
+            const selected = currentAnswer === opt.value
+            return (
+              <button
+                key={opt.value}
+                onClick={() => setAnswers(prev => ({ ...prev, [current.id]: opt.value }))}
+                className={`p-4 rounded-xl border-2 text-left transition-all duration-200 ${
+                  selected
+                    ? 'border-[#C8973A] bg-[#FDF6E3] shadow-md'
+                    : 'border-gray-100 hover:border-[#C8973A]/40 hover:bg-gray-50'
+                }`}
+              >
+                <div className="flex items-start gap-3">
+                  <span className="text-2xl flex-shrink-0">{opt.emoji}</span>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-gray-800 text-sm leading-tight">{opt.label}</p>
+                    <p className="text-xs text-gray-500 mt-0.5">{opt.desc}</p>
+                  </div>
+                  {selected && (
+                    <div className="w-5 h-5 bg-[#C8973A] rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <FiCheck className="text-white text-xs" />
+                    </div>
+                  )}
+                </div>
+              </button>
+            )
+          })}
+        </div>
       </div>
 
       {/* Navigation */}
-      <div className="flex justify-between">
+      <div className="px-4 sm:px-6 pb-6 flex justify-between items-center">
         <button
-          onClick={prevStep}
-          disabled={currentStep === 0}
-          className={`flex items-center space-x-2 px-6 py-3 rounded-lg transition-colors ${
-            currentStep === 0
-              ? 'text-gray-400 cursor-not-allowed'
-              : 'text-gray-700 hover:bg-gray-100'
+          onClick={() => setStep(s => s - 1)}
+          disabled={step === 0}
+          className={`flex items-center gap-1 px-4 py-2.5 rounded-xl transition-colors text-sm font-medium ${
+            step === 0 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-600 hover:bg-gray-100'
           }`}
         >
           <FiChevronLeft />
-          <span>Précédent</span>
+          Précédent
         </button>
 
         <button
-          onClick={nextStep}
-          disabled={!answers[currentQuestion.id as keyof QuizAnswers]}
-          className={`flex items-center space-x-2 px-6 py-3 rounded-lg transition-colors ${
-            answers[currentQuestion.id as keyof QuizAnswers]
-              ? 'bg-[#C8973A] hover:bg-[#D4A763] text-white'
-              : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+          onClick={() => step === questions.length - 1 ? compute() : setStep(s => s + 1)}
+          disabled={!currentAnswer}
+          className={`flex items-center gap-2 px-5 sm:px-6 py-2.5 rounded-xl font-semibold transition-all text-sm ${
+            currentAnswer
+              ? 'bg-[#C8973A] hover:bg-[#B8852E] text-white shadow-md hover:shadow-lg'
+              : 'bg-gray-100 text-gray-400 cursor-not-allowed'
           }`}
         >
-          <span>{currentStep === questions.length - 1 ? 'Obtenir mes recommandations' : 'Suivant'}</span>
-          <FiChevronRight />
+          {step === questions.length - 1 ? '✨ Voir mes recommandations' : 'Suivant'}
+          {step < questions.length - 1 && <FiChevronRight />}
         </button>
       </div>
     </div>

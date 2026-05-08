@@ -36,7 +36,7 @@ export const products: Product[] = [
     video: '/images/WhatsApp Video 2026-05-08 at 15.54.16.mp4',
     stock: 'En stock',
     specifications: {
-      taille: 'Grande taille',
+      taille: 'Moyen',
       age: '+2 ans',
       poids: '~40 kg',
       categorie: 'Standard'
@@ -65,7 +65,7 @@ export const products: Product[] = [
     video: '/images/WhatsApp Video 2026-05-08 at 15.54.21.mp4',
     stock: 'En stock',
     specifications: {
-      taille: 'Grande taille',
+      taille: 'Moyen',
       age: '+2 ans',
       poids: '~42 kg',
       categorie: 'Standard'
@@ -94,7 +94,7 @@ export const products: Product[] = [
     video: '/images/WhatsApp Video 2026-05-08 at 15.54.34.mp4',
     stock: 'En stock',
     specifications: {
-      taille: 'Grande taille',
+      taille: 'Moyen',
       age: '+2 ans',
       poids: '~43 kg',
       categorie: 'Standard'
@@ -123,7 +123,7 @@ export const products: Product[] = [
     video: '/images/WhatsApp Video 2026-05-08 at 15.54.35.mp4',
     stock: 'En stock',
     specifications: {
-      taille: 'Grande taille',
+      taille: 'Moyen',
       age: '+2 ans',
       poids: '~41 kg',
       categorie: 'Standard'
@@ -151,7 +151,7 @@ export const products: Product[] = [
     video: '/images/WhatsApp Video 2026-05-08 at 15.54.26.mp4',
     stock: 'En stock',
     specifications: {
-      taille: 'Grande taille',
+      taille: 'Moyen',
       age: '+2 ans',
       poids: '~41 kg',
       categorie: 'Standard'
@@ -178,7 +178,7 @@ export const products: Product[] = [
     video: '/images/WhatsApp Video 2026-05-08 at 15.54.30.mp4',
     stock: 'En stock',
     specifications: {
-      taille: 'Grande taille',
+      taille: 'Moyen',
       age: '+2 ans',
       poids: '~40 kg',
       categorie: 'Standard'

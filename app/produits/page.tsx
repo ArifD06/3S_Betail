@@ -30,6 +30,7 @@ function BoutiqueContent() {
   const [selectedOrigin, setSelectedOrigin] = useState('')
   const [selectedAvailability, setSelectedAvailability] = useState('')
   const [selectedMedia, setSelectedMedia] = useState<string[]>([])
+  const [selectedTailles, setSelectedTailles] = useState<string[]>([])
 
   const sheepProducts = allProducts.filter(product => product.category === 'Mouton')
 
@@ -38,6 +39,7 @@ function BoutiqueContent() {
     const map: { [key: string]: string } = { 'cote-divoire': "Côte d'Ivoire", 'mali': 'Mali' }
     return sheepProducts.filter(p => p.origin === map[originKey]).length
   }
+  const countByTaille = (t: string) => sheepProducts.filter(p => p.specifications.taille === t).length
 
   useEffect(() => {
     const recommended = searchParams.get('recommended')
@@ -56,6 +58,7 @@ function BoutiqueContent() {
     setSelectedOrigin('')
     setSelectedAvailability('')
     setSelectedMedia([])
+    setSelectedTailles([])
   }
 
   const filterProducts = (products: Product[]) => {
@@ -73,6 +76,8 @@ function BoutiqueContent() {
 
       if (selectedAvailability === 'en-stock' && product.stock !== 'En stock') return false
       if (selectedAvailability === 'reservation' && product.stock === 'En stock') return false
+
+      if (selectedTailles.length > 0 && !selectedTailles.includes(product.specifications.taille)) return false
 
       if (selectedMedia.length > 0) {
         const mediaMatches = selectedMedia.some(media => {
@@ -229,34 +234,32 @@ function BoutiqueContent() {
           </div>
 
           {/* Filters Panel */}
-          <div className={`${showFilters ? 'block' : 'hidden lg:block'} mt-4 pt-4 border-t border-gray-200`}>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className={`${showFilters ? 'block' : 'hidden lg:block'} mt-4 pt-4 border-t border-gray-200 space-y-5`}>
 
-              {/* Price Range */}
-              <div className="md:col-span-2 lg:col-span-1">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Budget : {(priceRange[0] / 1000).toFixed(0)}k – {(priceRange[1] / 1000).toFixed(0)}k FCFA
-                </label>
-                <div className="space-y-2">
-                  <input type="range" min="0" max="300000" step="10000" value={priceRange[1]}
-                    onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value)])}
-                    className="w-full accent-[#C8973A]"
-                  />
-                  <div className="flex items-center space-x-2">
-                    <input type="number" placeholder="Min" value={priceRange[0]}
-                      onChange={(e) => setPriceRange([parseInt(e.target.value) || 0, priceRange[1]])}
-                      className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C8973A] text-sm"
-                    />
-                    <span className="text-gray-500">–</span>
-                    <input type="number" placeholder="Max" value={priceRange[1]}
-                      onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value) || 300000])}
-                      className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C8973A] text-sm"
-                    />
-                  </div>
-                </div>
+            {/* Row 1 : Budget */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Budget : {(priceRange[0] / 1000).toFixed(0)}k – {(priceRange[1] / 1000).toFixed(0)}k FCFA
+              </label>
+              <input type="range" min="0" max="300000" step="10000" value={priceRange[1]}
+                onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value)])}
+                className="w-full accent-[#C8973A] mb-2"
+              />
+              <div className="flex items-center gap-2">
+                <input type="number" placeholder="Min" value={priceRange[0]}
+                  onChange={(e) => setPriceRange([parseInt(e.target.value) || 0, priceRange[1]])}
+                  className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C8973A] text-sm"
+                />
+                <span className="text-gray-400">–</span>
+                <input type="number" placeholder="Max" value={priceRange[1]}
+                  onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value) || 300000])}
+                  className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C8973A] text-sm"
+                />
               </div>
+            </div>
 
-              {/* Origin */}
+            {/* Row 2 : Origine + Disponibilité */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-4 border-t border-gray-100">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Origine</label>
                 <select value={selectedOrigin} onChange={(e) => setSelectedOrigin(e.target.value)}
@@ -272,16 +275,15 @@ function BoutiqueContent() {
                 </select>
               </div>
 
-              {/* Availability */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Disponibilité</label>
                 <div className="space-y-2">
                   {[
-                    { id: 'en-stock', label: 'En stock', count: sheepProducts.filter(p => p.stock === 'En stock').length },
-                    { id: 'reservation', label: 'Sur réservation', count: sheepProducts.filter(p => p.stock !== 'En stock').length }
+                    { id: 'en-stock',    label: 'En stock',         count: sheepProducts.filter(p => p.stock === 'En stock').length },
+                    { id: 'reservation', label: 'Sur réservation',  count: sheepProducts.filter(p => p.stock !== 'En stock').length }
                   ].map(av => (
-                    <label key={av.id} className={`flex items-center justify-between p-2 rounded cursor-pointer transition-colors ${av.count === 0 ? 'opacity-40 cursor-not-allowed' : 'hover:bg-gray-50'}`}>
-                      <div className="flex items-center space-x-2">
+                    <label key={av.id} className={`flex items-center justify-between p-2 rounded transition-colors ${av.count === 0 ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer hover:bg-gray-50'}`}>
+                      <div className="flex items-center gap-2">
                         <input type="radio" name="availability"
                           checked={selectedAvailability === av.id}
                           disabled={av.count === 0}
@@ -298,37 +300,75 @@ function BoutiqueContent() {
               </div>
             </div>
 
-            {/* Media filter */}
-            <div className="mt-4 pt-4 border-t border-gray-200">
-              <label className="block text-sm font-medium text-gray-700 mb-3">Type de média</label>
-              <div className="flex flex-wrap gap-3">
+            {/* Row 3 : Taille */}
+            <div className="pt-4 border-t border-gray-100">
+              <label className="block text-sm font-medium text-gray-700 mb-3">Taille</label>
+              <div className="flex flex-wrap gap-2">
                 {[
-                  { id: 'avec-photo', label: '📷 Avec photo', count: sheepProducts.filter(p => !!p.image).length },
-                  { id: 'avec-video', label: '🎥 Avec vidéo', count: sheepProducts.filter(p => !!p.video).length },
-                  { id: 'video-uniquement', label: '🎬 Vidéo uniquement', count: sheepProducts.filter(p => !p.image && !!p.video).length }
-                ].map(media => (
-                  <label key={media.id} className={`flex items-center space-x-2 px-4 py-2 rounded-lg border-2 transition-all cursor-pointer select-none ${
-                    selectedMedia.includes(media.id)
-                      ? 'border-[#C8973A] bg-[#FDF6E3] text-[#C8973A]'
-                      : media.count === 0
-                        ? 'border-gray-100 text-gray-300 cursor-not-allowed'
-                        : 'border-gray-200 hover:border-[#C8973A]/50 text-gray-700'
-                  }`}>
-                    <input type="checkbox"
-                      checked={selectedMedia.includes(media.id)}
-                      disabled={media.count === 0}
-                      onChange={(e) => {
-                        if (e.target.checked) setSelectedMedia([...selectedMedia, media.id])
-                        else setSelectedMedia(selectedMedia.filter(m => m !== media.id))
-                      }}
-                      className="sr-only"
-                    />
-                    <span className="text-sm font-medium">{media.label}</span>
-                    <span className={`text-xs px-1.5 py-0.5 rounded-full font-bold ${
-                      selectedMedia.includes(media.id) ? 'bg-[#C8973A] text-white' : 'bg-gray-100 text-gray-600'
-                    }`}>{media.count}</span>
-                  </label>
-                ))}
+                  { id: 'Petit', label: '🐑 Petit',  desc: 'Moins de 35 kg' },
+                  { id: 'Moyen', label: '🐏 Moyen',  desc: '35 – 50 kg' },
+                  { id: 'Grand', label: '🦣 Grand',  desc: 'Plus de 50 kg' }
+                ].map(t => {
+                  const count = countByTaille(t.id)
+                  const active = selectedTailles.includes(t.id)
+                  return (
+                    <label key={t.id} className={`flex items-center gap-2 px-4 py-2 rounded-xl border-2 transition-all cursor-pointer select-none ${
+                      active
+                        ? 'border-[#C8973A] bg-[#FDF6E3] text-[#C8973A]'
+                        : count === 0
+                          ? 'border-gray-100 text-gray-300 cursor-not-allowed'
+                          : 'border-gray-200 hover:border-[#C8973A]/50 text-gray-700'
+                    }`}>
+                      <input type="checkbox"
+                        checked={active}
+                        disabled={count === 0}
+                        onChange={(e) => {
+                          if (e.target.checked) setSelectedTailles([...selectedTailles, t.id])
+                          else setSelectedTailles(selectedTailles.filter(x => x !== t.id))
+                        }}
+                        className="sr-only"
+                      />
+                      <span className="text-sm font-semibold">{t.label}</span>
+                      <span className="text-xs text-gray-400 hidden sm:inline">{t.desc}</span>
+                      <span className={`text-xs px-1.5 py-0.5 rounded-full font-bold ${active ? 'bg-[#C8973A] text-white' : 'bg-gray-100 text-gray-500'}`}>{count}</span>
+                    </label>
+                  )
+                })}
+              </div>
+            </div>
+
+            {/* Row 4 : Type de média */}
+            <div className="pt-4 border-t border-gray-100">
+              <label className="block text-sm font-medium text-gray-700 mb-3">Type de média</label>
+              <div className="flex flex-wrap gap-2">
+                {[
+                  { id: 'avec-photo',      label: '📷 Avec photo',       count: sheepProducts.filter(p => !!p.image).length },
+                  { id: 'avec-video',      label: '🎥 Avec vidéo',       count: sheepProducts.filter(p => !!p.video).length },
+                  { id: 'video-uniquement',label: '🎬 Vidéo uniquement', count: sheepProducts.filter(p => !p.image && !!p.video).length }
+                ].map(media => {
+                  const active = selectedMedia.includes(media.id)
+                  return (
+                    <label key={media.id} className={`flex items-center gap-2 px-4 py-2 rounded-xl border-2 transition-all cursor-pointer select-none ${
+                      active
+                        ? 'border-[#C8973A] bg-[#FDF6E3] text-[#C8973A]'
+                        : media.count === 0
+                          ? 'border-gray-100 text-gray-300 cursor-not-allowed'
+                          : 'border-gray-200 hover:border-[#C8973A]/50 text-gray-700'
+                    }`}>
+                      <input type="checkbox"
+                        checked={active}
+                        disabled={media.count === 0}
+                        onChange={(e) => {
+                          if (e.target.checked) setSelectedMedia([...selectedMedia, media.id])
+                          else setSelectedMedia(selectedMedia.filter(m => m !== media.id))
+                        }}
+                        className="sr-only"
+                      />
+                      <span className="text-sm font-semibold">{media.label}</span>
+                      <span className={`text-xs px-1.5 py-0.5 rounded-full font-bold ${active ? 'bg-[#C8973A] text-white' : 'bg-gray-100 text-gray-500'}`}>{media.count}</span>
+                    </label>
+                  )
+                })}
               </div>
             </div>
           </div>

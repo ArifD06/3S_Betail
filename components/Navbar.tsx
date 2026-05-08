@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { FiSearch, FiUser, FiShoppingCart, FiMenu, FiPhone, FiChevronDown, FiX } from 'react-icons/fi'
+import { FiMenu, FiPhone, FiChevronDown, FiX } from 'react-icons/fi'
 import { FaWhatsapp } from 'react-icons/fa'
 
 export default function Navbar() {
@@ -64,24 +64,10 @@ export default function Navbar() {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden text-white hover:text-yellow-200 transition-colors"
+              className="lg:hidden text-[#C8973A] hover:text-[#B8852E] transition-colors"
             >
               {isMobileMenuOpen ? <FiX className="text-2xl" /> : <FiMenu className="text-2xl" />}
             </button>
-          </div>
-
-          {/* Mobile Search Bar */}
-          <div className="lg:hidden mt-4">
-            <div className="flex">
-              <input
-                type="text"
-                placeholder="Je recherche un produit..."
-                className="flex-1 px-4 py-2 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-[#C8973A]"
-              />
-              <button className="bg-[#C8973A] text-white px-4 py-2 rounded-r-lg hover:bg-[#D4A763] transition-colors">
-                <FiSearch className="text-xl" />
-              </button>
-            </div>
           </div>
         </div>
       </div>

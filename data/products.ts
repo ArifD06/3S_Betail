@@ -23,11 +23,11 @@ export interface Product {
 
 export const products: Product[] = [
   {
-    id: 2,
-    name: 'Mouton N°2',
+    id: 1,
+    name: 'Mouton N°1',
     category: 'Mouton',
     origin: "Côte d'Ivoire",
-    price: '190.000 FCFA Possibilité de négociation',
+    price: '190.000 FCFA (Possibilité de négociation)',
     flag: "Côte d'Ivoire",
     image: '/images/WhatsApp Image 2026-05-08 at 15.54.22.jpeg',
     images: [
@@ -51,11 +51,11 @@ export const products: Product[] = [
     ]
   },
   {
-    id: 3,
-    name: 'Mouton N°3',
+    id: 2,
+    name: 'Mouton N°2',
     category: 'Mouton',
     origin: "Côte d'Ivoire",
-    price: '190.000 FCFA Possibilité de négociation',
+    price: '190.000 FCFA (Possibilité de négociation)',
     flag: "Côte d'Ivoire",
     image: '/images/WhatsApp Image 2026-05-08 at 15.54.32.jpeg',
     images: [
@@ -79,11 +79,11 @@ export const products: Product[] = [
     ]
   },
   {
-    id: 4,
-    name: 'Mouton N°4',
+    id: 3,
+    name: 'Mouton N°3',
     category: 'Mouton',
     origin: "Côte d'Ivoire",
-    price: '190.000 FCFA Possibilité de négociation',
+    price: '190.000 FCFA (Possibilité de négociation)',
     flag: "Côte d'Ivoire",
     image: '/images/WhatsApp Image 2026-05-08 at 15.54.36.jpeg',
     images: [
@@ -107,11 +107,11 @@ export const products: Product[] = [
     ]
   },
   {
-    id: 5,
-    name: 'Mouton N°5',
+    id: 4,
+    name: 'Mouton N°4',
     category: 'Mouton',
     origin: "Côte d'Ivoire",
-    price: '205.000 FCFA Possibilité de négociation',
+    price: '205.000 FCFA (Possibilité de négociation)',
     flag: "Côte d'Ivoire",
     image: '/images/WhatsApp Image 2026-05-12 at 21.57.29.jpeg',
     images: [
@@ -135,11 +135,11 @@ export const products: Product[] = [
     ]
   },
   {
-    id: 6,
-    name: 'Mouton N°6',
+    id: 5,
+    name: 'Mouton N°5',
     category: 'Mouton',
     origin: "Côte d'Ivoire",
-    price: '205.000 FCFA Possibilité de négociation',
+    price: '205.000 FCFA (Possibilité de négociation)',
     flag: "Côte d'Ivoire",
     image: '/images/WhatsApp Image 2026-05-12 at 21.57.33.jpeg',
     images: [
@@ -163,11 +163,11 @@ export const products: Product[] = [
     ]
   },
   {
-    id: 7,
-    name: 'Mouton N°7',
+    id: 6,
+    name: 'Mouton N°6',
     category: 'Mouton',
     origin: "Côte d'Ivoire",
-    price: '205.000 FCFA Possibilité de négociation',
+    price: '205.000 FCFA (Possibilité de négociation)',
     flag: "Côte d'Ivoire",
     image: '/images/WhatsApp Image 2026-05-12 at 21.57.38.jpeg',
     images: [
@@ -190,13 +190,12 @@ export const products: Product[] = [
       'Livraison disponible sur Abidjan'
     ]
   },
-  
   {
-    id: 9,
-    name: 'Mouton N°9',
+    id: 7,
+    name: 'Mouton N°7',
     category: 'Mouton',
     origin: "Côte d'Ivoire",
-    price: '205.000 FCFA Possibilité de négociation',
+    price: '205.000 FCFA (Possibilité de négociation)',
     flag: "Côte d'Ivoire",
     image: '/images/WhatsApp Image 2026-05-12 at 21.57.41.jpeg',
     images: [
@@ -220,15 +219,15 @@ export const products: Product[] = [
     ]
   },
   {
-    id: 11,
-    name: 'Mouton N°11',
+    id: 8,
+    name: 'Mouton N°8',
     category: 'Mouton',
     origin: "Côte d'Ivoire",
-    price: '205.000 FCFA Possibilité de négociation',
+    price: '275.000 FCFA (Possibilité de négociation)',
     flag: "Côte d'Ivoire",
-    image: '/images/WhatsApp Image 2026-05-12 at 21.57.38.jpeg',
+    image: '/images/WhatsApp Image 2026-05-12 at 21.57.38 (1).jpeg',
     images: [
-      '/images/WhatsApp Image 2026-05-12 at 21.57.38.jpeg'
+      '/images/WhatsApp Image 2026-05-12 at 21.57.38 (1).jpeg'
     ],
     stock: 'En stock',
     specifications: {
@@ -248,11 +247,11 @@ export const products: Product[] = [
     ]
   },
   {
-    id: 10,
-    name: 'Mouton N°10',
+    id: 9,
+    name: 'Mouton N°9',
     category: 'Mouton',
     origin: "Côte d'Ivoire",
-    price: '150.000 FCFA Possibilité de négociation',
+    price: '150.000 FCFA (Possibilité de négociation)',
     flag: "Côte d'Ivoire",
     image: '/images/WhatsApp Image 2026-05-12 at 21.57.47.jpeg',
     images: [

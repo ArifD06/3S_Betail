@@ -138,9 +138,9 @@ export const products: Product[] = [
     id: 5,
     name: 'Mouton N°5',
     category: 'Mouton',
-    origin: " Côte d'Ivoire",
+    origin: "Niger",
     price: '205.000 FCFA (Possibilité de négociation)',
-    flag: "Côte d'Ivoire",
+    flag: "Niger",
     image: '/images/WhatsApp Image 2026-05-12 at 21.57.33.jpeg',
     images: [
       '/images/WhatsApp Image 2026-05-12 at 21.57.33.jpeg'

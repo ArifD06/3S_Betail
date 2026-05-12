@@ -1,43 +1,36 @@
 'use client'
 
 import React from 'react'
-import { FiArrowRight } from 'react-icons/fi'
+import { products } from '@/data/products'
 
-interface Country {
-  name: string
-  flag: string
-  count: number
+const flagMap: { [key: string]: string } = {
+  'Burkina Faso': '🇧🇫',
+  'Niger': '🇳🇪',
+  "Côte d'Ivoire": '🇨🇮',
+  'Mali': '🇲🇱'
 }
 
-const countries: Country[] = [
-  {
-    name: 'Côte d\'Ivoire',
-    flag: '🇨🇮',
-    count: 13
-  },
-  {
-    name: 'Mali',
-    flag: '🇲🇱',
-    count: 13
-  }
-]
-
 export default function LivestockByCountry() {
+  const countByCountry = products.reduce<{ [key: string]: number }>((acc, product) => {
+    const origin = product.origin.trim()
+    acc[origin] = (acc[origin] || 0) + 1
+    return acc
+  }, {})
+
+  const countries = Object.entries(countByCountry)
+    .filter(([, count]) => count > 0)
+    .map(([name, count]) => ({ name, count, flag: flagMap[name] || '🏳️' }))
+
   return (
     <section className="py-16 bg-white">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center mb-8">
           <h2 className="text-3xl font-bold text-gray-800">Bétail par pays</h2>
-          <a 
-            href="#" 
-            className="flex items-center space-x-2 text-[#C8973A] hover:text-[#B8852E] transition-colors font-medium"
-          >
-          </a>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {countries.map((country, index) => (
-            <div 
+            <div
               key={index}
               className="bg-gray-50 rounded-lg p-6 hover:shadow-lg transition-all duration-300 cursor-pointer group"
             >

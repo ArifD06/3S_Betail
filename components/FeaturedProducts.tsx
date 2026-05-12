@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { FiArrowRight, FiPlay } from 'react-icons/fi'
+import { FiArrowRight } from 'react-icons/fi'
 import { products as allProducts, Product } from '@/data/products'
 
 const tabs = [
@@ -66,14 +66,13 @@ export default function FeaturedProducts() {
                     style={{ backgroundImage: `url('${product.image}')`, backgroundColor: '#f3f4f6' }}
                   ></div>
                 ) : (
-                  <div className="w-full h-full bg-gray-800 flex flex-col items-center justify-center space-y-2">
-                    <FiPlay className="text-white text-4xl" />
-                    <span className="text-white text-xs font-medium">Vidéo disponible</span>
+                  <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                    <span className="text-gray-400 text-sm">Photo non disponible</span>
                   </div>
                 )}
                 {/* Country Flag */}
                 <div className="absolute top-3 left-3 bg-white px-1.5 py-0.5 rounded-full text-lg">
-                  {product.flag === 'Côte d\'Ivoire' ? '🇨🇮' : '🇲🇱'}
+                  {product.flag === 'Burkina Faso' ? '🇧🇫' : product.flag === 'Niger' ? '🇳🇪' : product.flag === "Côte d'Ivoire" ? '🇨🇮' : '🇲🇱'}
                 </div>
                 {/* Stock Badge */}
                 <div className="absolute top-3 right-3 bg-[#C8973A] text-white px-3 py-1 rounded-full text-sm font-medium">

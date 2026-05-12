@@ -33,7 +33,7 @@ export const products: Product[] = [
     images: [
       '/images/WhatsApp Image 2026-05-08 at 15.54.19.jpeg'
     ],
-    stock: 'En stock',
+    stock: 'Vendu',
     specifications: {
       taille: 'Moyen',
       age: '+2 ans',
@@ -55,7 +55,7 @@ export const products: Product[] = [
     name: 'Mouton N°2',
     category: 'Mouton',
     origin: "Côte d'Ivoire",
-    price: '180.000 FCFA',
+    price: '190.000 FCFA Possibilité de négociation',
     flag: "Côte d'Ivoire",
     image: '/images/WhatsApp Image 2026-05-08 at 15.54.22.jpeg',
     images: [
@@ -83,7 +83,7 @@ export const products: Product[] = [
     name: 'Mouton N°3',
     category: 'Mouton',
     origin: "Côte d'Ivoire",
-    price: '180.000 FCFA',
+    price: '190.000 FCFA Possibilité de négociation',
     flag: "Côte d'Ivoire",
     image: '/images/WhatsApp Image 2026-05-08 at 15.54.32.jpeg',
     images: [
@@ -111,7 +111,7 @@ export const products: Product[] = [
     name: 'Mouton N°4',
     category: 'Mouton',
     origin: "Côte d'Ivoire",
-    price: '180.000 FCFA',
+    price: '190.000 FCFA Possibilité de négociation',
     flag: "Côte d'Ivoire",
     image: '/images/WhatsApp Image 2026-05-08 at 15.54.36.jpeg',
     images: [
@@ -139,7 +139,7 @@ export const products: Product[] = [
     name: 'Mouton N°5',
     category: 'Mouton',
     origin: "Côte d'Ivoire",
-    price: '180.000 FCFA',
+    price: '205.000 FCFA Possibilité de négociation',
     flag: "Côte d'Ivoire",
     image: '/images/WhatsApp Image 2026-05-12 at 21.57.29.jpeg',
     images: [
@@ -167,7 +167,7 @@ export const products: Product[] = [
     name: 'Mouton N°6',
     category: 'Mouton',
     origin: "Côte d'Ivoire",
-    price: '180.000 FCFA',
+    price: '205.000 FCFA Possibilité de négociation',
     flag: "Côte d'Ivoire",
     image: '/images/WhatsApp Image 2026-05-12 at 21.57.33.jpeg',
     images: [
@@ -195,7 +195,7 @@ export const products: Product[] = [
     name: 'Mouton N°7',
     category: 'Mouton',
     origin: "Côte d'Ivoire",
-    price: '180.000 FCFA',
+    price: '205.000 FCFA Possibilité de négociation',
     flag: "Côte d'Ivoire",
     image: '/images/WhatsApp Image 2026-05-12 at 21.57.38.jpeg',
     images: [
@@ -218,40 +218,13 @@ export const products: Product[] = [
       'Livraison disponible sur Abidjan'
     ]
   },
-  {
-    id: 8,
-    name: 'Mouton N°8',
-    category: 'Mouton',
-    origin: "Côte d'Ivoire",
-    price: '180.000 FCFA',
-    flag: "Côte d'Ivoire",
-    image: '/images/WhatsApp Image 2026-05-12 at 21.57.38 (1).jpeg',
-    images: [
-      '/images/WhatsApp Image 2026-05-12 at 21.57.38 (1).jpeg'
-    ],
-    stock: 'En stock',
-    specifications: {
-      taille: 'Moyen',
-      age: '+2 ans',
-      poids: '~44 kg',
-      categorie: 'Standard'
-    },
-    description: 'Mouton en parfaite santé, idéal pour une célébration réussie.',
-    longDescription: 'Mouton en parfaite santé, idéal pour une célébration de Tabaski réussie. Bien nourri et suivi. Disponible à la livraison sur Abidjan.',
-    note: 'Photo du mouton réel. Ce que vous voyez est ce que vous recevez.',
-    characteristics: [
-      'Mouton en parfaite santé',
-      'Prêt pour la Tabaski',
-      'Photo réelle',
-      'Livraison disponible sur Abidjan'
-    ]
-  },
+  
   {
     id: 9,
     name: 'Mouton N°9',
     category: 'Mouton',
     origin: "Côte d'Ivoire",
-    price: '180.000 FCFA',
+    price: '205.000 FCFA Possibilité de négociation',
     flag: "Côte d'Ivoire",
     image: '/images/WhatsApp Image 2026-05-12 at 21.57.41.jpeg',
     images: [
@@ -275,11 +248,39 @@ export const products: Product[] = [
     ]
   },
   {
+    id: 11,
+    name: 'Mouton N°11',
+    category: 'Mouton',
+    origin: "Côte d'Ivoire",
+    price: '205.000 FCFA Possibilité de négociation',
+    flag: "Côte d'Ivoire",
+    image: '/images/WhatsApp Image 2026-05-12 at 21.57.38.jpeg',
+    images: [
+      '/images/WhatsApp Image 2026-05-12 at 21.57.38.jpeg'
+    ],
+    stock: 'En stock',
+    specifications: {
+      taille: 'Moyen',
+      age: '+2 ans',
+      poids: '~41 kg',
+      categorie: 'Standard'
+    },
+    description: 'Mouton bien nourri et en excellente forme pour la Tabaski.',
+    longDescription: 'Mouton bien nourri, en excellente forme et prêt pour la Tabaski. Sélectionné avec soin. Disponible à la livraison sur Abidjan.',
+    note: 'Photo du mouton réel. Ce que vous voyez est ce que vous recevez.',
+    characteristics: [
+      'Mouton bien nourri',
+      'Prêt pour la Tabaski',
+      'Photo réelle',
+      'Livraison disponible sur Abidjan'
+    ]
+  },
+  {
     id: 10,
     name: 'Mouton N°10',
     category: 'Mouton',
     origin: "Côte d'Ivoire",
-    price: '180.000 FCFA',
+    price: '150.000 FCFA Possibilité de négociation',
     flag: "Côte d'Ivoire",
     image: '/images/WhatsApp Image 2026-05-12 at 21.57.47.jpeg',
     images: [

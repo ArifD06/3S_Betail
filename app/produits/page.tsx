@@ -1,52 +1,50 @@
 'use client'
 
 import React, { useState, useEffect, Suspense } from 'react'
-import { FiArrowRight, FiFilter, FiGrid, FiList, FiStar } from 'react-icons/fi'
+import { FiArrowRight, FiFilter, FiGrid, FiList, FiStar, FiX, FiMapPin, FiRefreshCw } from 'react-icons/fi'
 import { products as allProducts, Product } from '@/data/products'
 import { useSearchParams } from 'next/navigation'
 
 const sortOptions = [
-  { id: 'name-asc', name: 'Nom (A-Z)' },
-  { id: 'name-desc', name: 'Nom (Z-A)' },
-  { id: 'price-asc', name: 'Prix croissant' },
+  { id: 'name-asc',   name: 'Nom (A–Z)' },
+  { id: 'name-desc',  name: 'Nom (Z–A)' },
+  { id: 'price-asc',  name: 'Prix croissant' },
   { id: 'price-desc', name: 'Prix décroissant' }
 ]
 
-const viewModes = [
-  { id: 'grid', name: 'Grille', icon: FiGrid },
-  { id: 'list', name: 'Liste', icon: FiList }
-]
+const flagOf = (origin: string) =>
+  origin.trim() === 'Burkina Faso' ? '🇧🇫'
+  : origin.trim() === 'Niger' ? '🇳🇪'
+  : origin.trim() === "Côte d'Ivoire" ? '🇨🇮'
+  : '🇲🇱'
 
 function BoutiqueContent() {
   const searchParams = useSearchParams()
-  const [activeSort, setActiveSort] = useState('name-asc')
-  const [viewMode, setViewMode] = useState('grid')
-  const [showFilters, setShowFilters] = useState(false)
+  const [activeSort, setActiveSort]         = useState('name-asc')
+  const [viewMode, setViewMode]             = useState('grid')
+  const [showFilters, setShowFilters]       = useState(false)
   const [recommendedProducts, setRecommendedProducts] = useState<number[]>([])
   const [recommendationCategory, setRecommendationCategory] = useState('')
   const [showRecommendations, setShowRecommendations] = useState(false)
-  
-  const [priceRange, setPriceRange] = useState([0, 300000])
+  const [priceRange, setPriceRange]         = useState([0, 300000])
   const [selectedOrigin, setSelectedOrigin] = useState('')
   const [selectedAvailability, setSelectedAvailability] = useState('')
   const [selectedTailles, setSelectedTailles] = useState<string[]>([])
 
-  const sheepProducts = allProducts.filter(product => product.category === 'Mouton')
-
+  const sheepProducts    = allProducts.filter(p => p.category === 'Mouton')
   const availableOrigins = [...new Set(sheepProducts.map(p => p.origin))]
-  const countByOrigin = (originKey: string) => {
-    const map: { [key: string]: string } = { 'burkina-faso': 'Burkina Faso', 'niger': 'Niger', 'cote-divoire': "Côte d'Ivoire" }
-    return sheepProducts.filter(p => p.origin.trim() === map[originKey]).length
+
+  const countByOrigin = (key: string) => {
+    const map: Record<string, string> = { 'burkina-faso': 'Burkina Faso', 'niger': 'Niger', 'cote-divoire': "Côte d'Ivoire" }
+    return sheepProducts.filter(p => p.origin.trim() === map[key]).length
   }
   const countByTaille = (t: string) => sheepProducts.filter(p => p.specifications.taille === t).length
 
   useEffect(() => {
     const recommended = searchParams.get('recommended')
-    const category = searchParams.get('category')
-    
+    const category    = searchParams.get('category')
     if (recommended) {
-      const productIds = recommended.split(',').map(id => parseInt(id)).filter(id => !isNaN(id))
-      setRecommendedProducts(productIds)
+      setRecommendedProducts(recommended.split(',').map(Number).filter(n => !isNaN(n)))
       setRecommendationCategory(category || '')
       setShowRecommendations(true)
     }
@@ -59,112 +57,93 @@ function BoutiqueContent() {
     setSelectedTailles([])
   }
 
-  const filterProducts = (products: Product[]) => {
-    return products.filter(product => {
-      const productPrice = parseInt(product.price.replace(/[^0-9]/g, ''))
-      if (productPrice < priceRange[0] || productPrice > priceRange[1]) return false
+  const hasActiveFilters = selectedOrigin || selectedAvailability || selectedTailles.length > 0 || priceRange[1] < 300000
 
-      if (selectedOrigin) {
-        const originMap: { [key: string]: string } = {
-          'burkina-faso': 'Burkina Faso',
-          'niger': 'Niger',
-          'cote-divoire': "Côte d'Ivoire"
-        }
-        if (product.origin.trim() !== originMap[selectedOrigin]) return false
-      }
-
-      if (selectedAvailability === 'en-stock' && product.stock !== 'En stock') return false
-      if (selectedAvailability === 'reservation' && product.stock === 'En stock') return false
-
-      if (selectedTailles.length > 0 && !selectedTailles.includes(product.specifications.taille)) return false
-
-      return true
-    })
-  }
+  const filterProducts = (products: Product[]) => products.filter(product => {
+    const price = parseInt(product.price.replace(/[^0-9]/g, ''))
+    if (price < priceRange[0] || price > priceRange[1]) return false
+    if (selectedOrigin) {
+      const map: Record<string, string> = { 'burkina-faso': 'Burkina Faso', 'niger': 'Niger', 'cote-divoire': "Côte d'Ivoire" }
+      if (product.origin.trim() !== map[selectedOrigin]) return false
+    }
+    if (selectedAvailability === 'en-stock'    && product.stock !== 'En stock') return false
+    if (selectedAvailability === 'reservation' && product.stock === 'En stock') return false
+    if (selectedTailles.length > 0 && !selectedTailles.includes(product.specifications.taille)) return false
+    return true
+  })
 
   const sortProducts = (products: Product[]) => {
-    const sorted = [...products]
-    switch (activeSort) {
-      case 'name-asc':
-        return sorted.sort((a, b) => a.name.localeCompare(b.name))
-      case 'name-desc':
-        return sorted.sort((a, b) => b.name.localeCompare(a.name))
-      case 'price-asc':
-        return sorted.sort((a, b) => parseInt(a.price.replace(/[^0-9]/g, '')) - parseInt(b.price.replace(/[^0-9]/g, '')))
-      case 'price-desc':
-        return sorted.sort((a, b) => parseInt(b.price.replace(/[^0-9]/g, '')) - parseInt(a.price.replace(/[^0-9]/g, '')))
-      default:
-        return sorted
-    }
+    const s = [...products]
+    if (activeSort === 'name-asc')   return s.sort((a, b) => a.name.localeCompare(b.name))
+    if (activeSort === 'name-desc')  return s.sort((a, b) => b.name.localeCompare(a.name))
+    if (activeSort === 'price-asc')  return s.sort((a, b) => parseInt(a.price.replace(/[^0-9]/g, '')) - parseInt(b.price.replace(/[^0-9]/g, '')))
+    if (activeSort === 'price-desc') return s.sort((a, b) => parseInt(b.price.replace(/[^0-9]/g, '')) - parseInt(a.price.replace(/[^0-9]/g, '')))
+    return s
   }
 
-  const filteredProducts = filterProducts(sheepProducts)
-  const sortedProducts = sortProducts(filteredProducts)
+  const sortedProducts = sortProducts(filterProducts(sheepProducts))
 
   return (
     <div className="min-h-screen bg-[#FDF6E3]">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200">
-        <div className="container mx-auto px-4 py-8">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-800">Boutique</h1>
-              <p className="text-gray-600 mt-2">Découvrez notre sélection de moutons de qualité pour Tabaski</p>
-            </div>
-            <span className="text-gray-600">
-              {sortedProducts.length} produit{sortedProducts.length > 1 ? 's' : ''} trouvé{sortedProducts.length > 1 ? 's' : ''}
+
+      {/* ── Hero header ── */}
+      <div className="bg-gradient-to-br from-[#2C1A00] to-[#4A2E00] text-white">
+        <div className="container mx-auto px-4 py-10 md:py-14">
+          <p className="text-[#C8973A] text-sm font-semibold uppercase tracking-widest mb-2">
+            Tabaski 2026
+          </p>
+          <h1 className="text-3xl md:text-4xl font-bold mb-2">Notre Boutique</h1>
+          <p className="text-white/60 text-sm md:text-base max-w-lg">
+            Découvrez notre sélection de moutons du Burkina Faso et du Niger — photos réelles, livraison sur Abidjan.
+          </p>
+          <div className="mt-5 flex flex-wrap gap-3">
+            <span className="bg-white/10 border border-white/20 text-white/80 text-xs px-3 py-1.5 rounded-full">
+              🐑 {sheepProducts.filter(p => p.stock === 'En stock').length} moutons disponibles
+            </span>
+            <span className="bg-white/10 border border-white/20 text-white/80 text-xs px-3 py-1.5 rounded-full">
+              📷 Photos 100% réelles
+            </span>
+            <span className="bg-white/10 border border-white/20 text-white/80 text-xs px-3 py-1.5 rounded-full">
+              🚚 Livraison Abidjan
             </span>
           </div>
         </div>
       </div>
 
-      {/* AI Recommendations Banner */}
+      {/* ── Bandeau recommandations IA ── */}
       {showRecommendations && (
-        <div className="bg-gradient-to-r from-[#C8973A]/10 to-[#F5F5DC]/10 border-b border-[#C8973A]/20">
-          <div className="container mx-auto px-4 py-6">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 bg-[#C8973A] rounded-full flex items-center justify-center">
-                  <FiStar className="text-white text-xl" />
+        <div className="bg-[#C8973A]/10 border-b border-[#C8973A]/20">
+          <div className="container mx-auto px-4 py-5">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-[#C8973A] rounded-full flex items-center justify-center">
+                  <FiStar className="text-white" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-800">Vos Recommandations IA</h3>
-                  <p className="text-sm text-gray-600">
-                    {recommendationCategory && `${recommendationCategory} - `}
+                  <h3 className="font-semibold text-gray-800 text-sm">Vos Recommandations IA</h3>
+                  <p className="text-xs text-gray-500">
+                    {recommendationCategory && `${recommendationCategory} · `}
                     {recommendedProducts.length} mouton{recommendedProducts.length > 1 ? 's' : ''} sélectionné{recommendedProducts.length > 1 ? 's' : ''} pour vous
                   </p>
                 </div>
               </div>
-              <button
-                onClick={() => {
-                  setShowRecommendations(false)
-                  window.history.pushState({}, '', '/produits')
-                }}
-                className="text-gray-500 hover:text-gray-700 transition-colors text-xl"
-              >
-                ×
+              <button onClick={() => { setShowRecommendations(false); window.history.pushState({}, '', '/produits') }}
+                className="text-gray-400 hover:text-gray-600 transition-colors p-1">
+                <FiX className="text-xl" />
               </button>
             </div>
-
-            <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
-              {recommendedProducts.slice(0, 3).map(productId => {
-                const product = sheepProducts.find(p => p.id === productId)
-                if (!product) return null
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              {recommendedProducts.slice(0, 3).map(id => {
+                const p = sheepProducts.find(x => x.id === id)
+                if (!p) return null
                 return (
-                  <div key={productId} className="bg-white rounded-lg p-4 shadow-sm border border-[#C8973A]/20">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-16 h-16 bg-gray-100 rounded-lg overflow-hidden">
-                        <div className="w-full h-full bg-cover bg-center" style={{ backgroundImage: `url('${product.image}')` }}></div>
-                      </div>
-                      <div className="flex-1">
-                        <h4 className="font-semibold text-gray-800 text-sm">{product.name}</h4>
-                        <p className="text-[#C8973A] font-bold">{product.price}</p>
-                        <div className="flex items-center space-x-1 mt-1">
-                          <span className="text-xs text-gray-600">{product.specifications.taille}</span>
-                          <span className="text-xs text-gray-400">•</span>
-                          <span className="text-xs text-gray-600">{product.origin}</span>
-                        </div>
-                      </div>
+                  <div key={id} className="bg-white rounded-xl p-3 shadow-sm border border-[#C8973A]/20 flex items-center gap-3">
+                    <div className="w-14 h-14 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100"
+                      style={{ backgroundImage: `url('${p.image}')`, backgroundSize: 'cover', backgroundPosition: 'center' }} />
+                    <div className="min-w-0">
+                      <p className="font-semibold text-gray-800 text-sm truncate">{p.name}</p>
+                      <p className="text-[#C8973A] font-bold text-sm truncate">{p.price}</p>
+                      <p className="text-xs text-gray-400">{p.specifications.taille} · {p.origin.trim()}</p>
                     </div>
                   </div>
                 )
@@ -174,259 +153,271 @@ function BoutiqueContent() {
         </div>
       )}
 
-      {/* Filters and Controls */}
-      <div className="bg-white border-b border-gray-200">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
-            <button
-              onClick={() => setShowFilters(!showFilters)}
-              className="lg:hidden flex items-center space-x-2 text-gray-700 hover:text-[#C8973A] transition-colors"
-            >
-              <FiFilter />
-              <span>Filtres</span>
-            </button>
+      {/* ── Barre de contrôles ── */}
+      <div className="bg-white border-b border-gray-200 sticky top-[64px] z-30 shadow-sm">
+        <div className="container mx-auto px-4 py-3">
+          <div className="flex flex-wrap items-center justify-between gap-3">
 
-            <div className="flex items-center space-x-4">
-              <label className="text-sm text-gray-600">Trier par:</label>
-              <select
-                value={activeSort}
-                onChange={(e) => setActiveSort(e.target.value)}
-                className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#C8973A]"
-              >
-                {sortOptions.map(option => (
-                  <option key={option.id} value={option.id}>{option.name}</option>
-                ))}
-              </select>
+            {/* Gauche : filtres + compteur */}
+            <div className="flex items-center gap-3">
+              <button onClick={() => setShowFilters(!showFilters)}
+                className={`flex items-center gap-2 px-4 py-2 rounded-xl border text-sm font-medium transition-all duration-200 ${
+                  showFilters || hasActiveFilters
+                    ? 'border-[#C8973A] bg-[#C8973A]/5 text-[#C8973A]'
+                    : 'border-gray-200 text-gray-600 hover:border-[#C8973A]/50 hover:text-[#C8973A]'
+                }`}>
+                <FiFilter className="text-base" />
+                <span>Filtres</span>
+                {hasActiveFilters && <span className="w-2 h-2 rounded-full bg-[#C8973A]" />}
+              </button>
+              <span className="text-sm text-gray-500">
+                <span className="font-semibold text-gray-800">{sortedProducts.length}</span> résultat{sortedProducts.length > 1 ? 's' : ''}
+              </span>
             </div>
 
-            <div className="flex items-center space-x-2">
-              {viewModes.map(mode => {
-                const Icon = mode.icon
-                return (
-                  <button
-                    key={mode.id}
-                    onClick={() => setViewMode(mode.id)}
-                    className={`p-2 rounded-lg transition-colors ${viewMode === mode.id ? 'bg-[#C8973A] text-white' : 'text-gray-600 hover:bg-gray-100'}`}
-                    title={mode.name}
-                  >
-                    <Icon className="text-lg" />
+            {/* Droite : tri + vue */}
+            <div className="flex items-center gap-2">
+              <select value={activeSort} onChange={e => setActiveSort(e.target.value)}
+                className="border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#C8973A] bg-white">
+                {sortOptions.map(o => <option key={o.id} value={o.id}>{o.name}</option>)}
+              </select>
+              <div className="flex border border-gray-200 rounded-xl overflow-hidden">
+                {[{ id: 'grid', icon: FiGrid }, { id: 'list', icon: FiList }].map(({ id, icon: Icon }) => (
+                  <button key={id} onClick={() => setViewMode(id)}
+                    className={`p-2.5 transition-colors ${viewMode === id ? 'bg-[#C8973A] text-white' : 'text-gray-400 hover:bg-gray-50'}`}>
+                    <Icon className="text-base" />
                   </button>
-                )
-              })}
-              <button
-                onClick={resetFilters}
-                className="px-3 py-2 text-sm text-gray-600 hover:text-[#C8973A] hover:bg-gray-100 rounded-lg transition-colors"
-              >
-                Réinitialiser
-              </button>
+                ))}
+              </div>
+              {hasActiveFilters && (
+                <button onClick={resetFilters}
+                  className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-[#C8973A] px-3 py-2 rounded-xl hover:bg-gray-50 transition-all">
+                  <FiRefreshCw className="text-sm" />
+                  <span className="hidden sm:inline">Réinitialiser</span>
+                </button>
+              )}
             </div>
           </div>
 
-          {/* Filters Panel */}
-          <div className={`${showFilters ? 'block' : 'hidden lg:block'} mt-4 pt-4 border-t border-gray-200 space-y-5`}>
+          {/* ── Panneau de filtres ── */}
+          {showFilters && (
+            <div className="mt-4 pt-4 border-t border-gray-100 grid grid-cols-1 md:grid-cols-3 gap-6">
 
-            {/* Row 1 : Budget */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Budget : {(priceRange[0] / 1000).toFixed(0)}k – {(priceRange[1] / 1000).toFixed(0)}k FCFA
-              </label>
-              <input type="range" min="0" max="300000" step="10000" value={priceRange[1]}
-                onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value)])}
-                className="w-full accent-[#C8973A] mb-2"
-              />
-              <div className="flex items-center gap-2">
-                <input type="number" placeholder="Min" value={priceRange[0]}
-                  onChange={(e) => setPriceRange([parseInt(e.target.value) || 0, priceRange[1]])}
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C8973A] text-sm"
-                />
-                <span className="text-gray-400">–</span>
-                <input type="number" placeholder="Max" value={priceRange[1]}
-                  onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value) || 300000])}
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C8973A] text-sm"
-                />
-              </div>
-            </div>
-
-            {/* Row 2 : Origine + Disponibilité */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-4 border-t border-gray-100">
+              {/* Budget */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Origine</label>
-                <select value={selectedOrigin} onChange={(e) => setSelectedOrigin(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C8973A] text-sm"
-                >
-                  <option value="">Toutes ({sheepProducts.length})</option>
-                  {availableOrigins.some(o => o.trim() === 'Burkina Faso') && (
-                    <option value="burkina-faso">🇧🇫 Burkina Faso ({countByOrigin('burkina-faso')})</option>
-                  )}
-                  {availableOrigins.some(o => o.trim() === 'Niger') && (
-                    <option value="niger">🇳🇪 Niger ({countByOrigin('niger')})</option>
-                  )}
-                  {availableOrigins.some(o => o.trim() === "Côte d'Ivoire") && (
-                    <option value="cote-divoire">🇨🇮 Côte d'Ivoire ({countByOrigin('cote-divoire')})</option>
-                  )}
-                </select>
+                <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">Budget</p>
+                <p className="text-sm font-medium text-gray-700 mb-2">
+                  {(priceRange[0] / 1000).toFixed(0)}k – {(priceRange[1] / 1000).toFixed(0)}k FCFA
+                </p>
+                <input type="range" min="0" max="300000" step="10000" value={priceRange[1]}
+                  onChange={e => setPriceRange([priceRange[0], parseInt(e.target.value)])}
+                  className="w-full accent-[#C8973A] mb-3" />
+                <div className="flex items-center gap-2">
+                  <input type="number" placeholder="Min" value={priceRange[0]}
+                    onChange={e => setPriceRange([parseInt(e.target.value) || 0, priceRange[1]])}
+                    className="flex-1 px-3 py-1.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#C8973A]" />
+                  <span className="text-gray-300">–</span>
+                  <input type="number" placeholder="Max" value={priceRange[1]}
+                    onChange={e => setPriceRange([priceRange[0], parseInt(e.target.value) || 300000])}
+                    className="flex-1 px-3 py-1.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#C8973A]" />
+                </div>
               </div>
 
+              {/* Origine + Disponibilité */}
+              <div className="space-y-4">
+                <div>
+                  <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">Origine</p>
+                  <select value={selectedOrigin} onChange={e => setSelectedOrigin(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#C8973A]">
+                    <option value="">Toutes ({sheepProducts.length})</option>
+                    {availableOrigins.some(o => o.trim() === 'Burkina Faso') && <option value="burkina-faso">🇧🇫 Burkina Faso ({countByOrigin('burkina-faso')})</option>}
+                    {availableOrigins.some(o => o.trim() === 'Niger')         && <option value="niger">🇳🇪 Niger ({countByOrigin('niger')})</option>}
+                    {availableOrigins.some(o => o.trim() === "Côte d'Ivoire") && <option value="cote-divoire">🇨🇮 Côte d'Ivoire ({countByOrigin('cote-divoire')})</option>}
+                  </select>
+                </div>
+                <div>
+                  <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Disponibilité</p>
+                  <div className="space-y-1">
+                    {[
+                      { id: 'en-stock', label: 'En stock', count: sheepProducts.filter(p => p.stock === 'En stock').length },
+                      { id: 'reservation', label: 'Sur réservation', count: sheepProducts.filter(p => p.stock !== 'En stock').length }
+                    ].map(av => (
+                      <label key={av.id} className={`flex items-center justify-between px-3 py-2 rounded-lg transition-colors ${
+                        av.count === 0 ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer hover:bg-gray-50'}`}>
+                        <div className="flex items-center gap-2">
+                          <input type="radio" name="availability" checked={selectedAvailability === av.id} disabled={av.count === 0}
+                            onClick={() => setSelectedAvailability(selectedAvailability === av.id ? '' : av.id)}
+                            onChange={() => {}} className="accent-[#C8973A]" />
+                          <span className="text-sm text-gray-700">{av.label}</span>
+                        </div>
+                        <span className="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full">{av.count}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Taille */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Disponibilité</label>
-                <div className="space-y-2">
+                <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">Taille</p>
+                <div className="flex flex-wrap gap-2">
                   {[
-                    { id: 'en-stock',    label: 'En stock',         count: sheepProducts.filter(p => p.stock === 'En stock').length },
-                    { id: 'reservation', label: 'Sur réservation',  count: sheepProducts.filter(p => p.stock !== 'En stock').length }
-                  ].map(av => (
-                    <label key={av.id} className={`flex items-center justify-between p-2 rounded transition-colors ${av.count === 0 ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer hover:bg-gray-50'}`}>
-                      <div className="flex items-center gap-2">
-                        <input type="radio" name="availability"
-                          checked={selectedAvailability === av.id}
-                          disabled={av.count === 0}
-                          onClick={() => setSelectedAvailability(selectedAvailability === av.id ? '' : av.id)}
-                          onChange={() => {}}
-                          className="w-4 h-4 accent-[#C8973A]"
-                        />
-                        <span className="text-sm font-medium text-gray-700">{av.label}</span>
-                      </div>
-                      <span className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full font-medium">{av.count}</span>
-                    </label>
-                  ))}
+                    { id: 'Petit', label: '🐑 Petit',  desc: '< 35 kg' },
+                    { id: 'Moyen', label: '🐏 Moyen',  desc: '35–50 kg' },
+                    { id: 'Grand', label: '🦣 Grand',  desc: '> 50 kg' }
+                  ].map(t => {
+                    const count  = countByTaille(t.id)
+                    const active = selectedTailles.includes(t.id)
+                    return (
+                      <label key={t.id} className={`flex items-center gap-2 px-3 py-2 rounded-xl border-2 cursor-pointer select-none transition-all ${
+                        active ? 'border-[#C8973A] bg-[#C8973A]/5 text-[#C8973A]'
+                        : count === 0 ? 'border-gray-100 text-gray-300 cursor-not-allowed'
+                        : 'border-gray-200 hover:border-[#C8973A]/40 text-gray-700'}`}>
+                        <input type="checkbox" checked={active} disabled={count === 0} className="sr-only"
+                          onChange={e => {
+                            if (e.target.checked) setSelectedTailles([...selectedTailles, t.id])
+                            else setSelectedTailles(selectedTailles.filter(x => x !== t.id))
+                          }} />
+                        <span className="text-sm font-semibold">{t.label}</span>
+                        <span className="text-xs text-gray-400 hidden sm:inline">{t.desc}</span>
+                        <span className={`text-xs px-1.5 py-0.5 rounded-full font-bold ${active ? 'bg-[#C8973A] text-white' : 'bg-gray-100 text-gray-500'}`}>{count}</span>
+                      </label>
+                    )
+                  })}
                 </div>
               </div>
             </div>
-
-            {/* Row 3 : Taille */}
-            <div className="pt-4 border-t border-gray-100">
-              <label className="block text-sm font-medium text-gray-700 mb-3">Taille</label>
-              <div className="flex flex-wrap gap-2">
-                {[
-                  { id: 'Petit', label: '🐑 Petit',  desc: 'Moins de 35 kg' },
-                  { id: 'Moyen', label: '🐏 Moyen',  desc: '35 – 50 kg' },
-                  { id: 'Grand', label: '🦣 Grand',  desc: 'Plus de 50 kg' }
-                ].map(t => {
-                  const count = countByTaille(t.id)
-                  const active = selectedTailles.includes(t.id)
-                  return (
-                    <label key={t.id} className={`flex items-center gap-2 px-4 py-2 rounded-xl border-2 transition-all cursor-pointer select-none ${
-                      active
-                        ? 'border-[#C8973A] bg-[#FDF6E3] text-[#C8973A]'
-                        : count === 0
-                          ? 'border-gray-100 text-gray-300 cursor-not-allowed'
-                          : 'border-gray-200 hover:border-[#C8973A]/50 text-gray-700'
-                    }`}>
-                      <input type="checkbox"
-                        checked={active}
-                        disabled={count === 0}
-                        onChange={(e) => {
-                          if (e.target.checked) setSelectedTailles([...selectedTailles, t.id])
-                          else setSelectedTailles(selectedTailles.filter(x => x !== t.id))
-                        }}
-                        className="sr-only"
-                      />
-                      <span className="text-sm font-semibold">{t.label}</span>
-                      <span className="text-xs text-gray-400 hidden sm:inline">{t.desc}</span>
-                      <span className={`text-xs px-1.5 py-0.5 rounded-full font-bold ${active ? 'bg-[#C8973A] text-white' : 'bg-gray-100 text-gray-500'}`}>{count}</span>
-                    </label>
-                  )
-                })}
-              </div>
-            </div>
-
-          </div>
+          )}
         </div>
       </div>
 
-      {/* Products */}
+      {/* ── Grille / Liste ── */}
       <div className="container mx-auto px-4 py-8">
-        {viewMode === 'grid' ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {sortedProducts.map((product) => (
-              <div key={product.id} className="bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group">
-                <div className="relative h-48 bg-gray-200 overflow-hidden">
+        {sortedProducts.length === 0 ? (
+          <div className="text-center py-24">
+            <div className="text-6xl mb-4">🐑</div>
+            <h3 className="text-xl font-semibold text-gray-800 mb-2">Aucun mouton trouvé</h3>
+            <p className="text-gray-500 mb-6">Essayez de modifier vos filtres.</p>
+            <button onClick={resetFilters}
+              className="inline-flex items-center gap-2 bg-[#C8973A] text-white px-6 py-2.5 rounded-xl font-medium hover:bg-[#B8852E] transition-colors">
+              <FiRefreshCw /> Réinitialiser les filtres
+            </button>
+          </div>
+        ) : viewMode === 'grid' ? (
+
+          /* ── Vue grille ── */
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+            {sortedProducts.map(product => (
+              <a key={product.id} href={`/produits/${product.id}`}
+                className="group bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden border border-gray-100 flex flex-col">
+
+                {/* Image */}
+                <div className="relative h-56 bg-gray-100 overflow-hidden flex-shrink-0">
                   {product.image ? (
-                    <div className="w-full h-full bg-cover bg-center bg-no-repeat"
-                      style={{ backgroundImage: `url('${product.image}')`, backgroundColor: '#f3f4f6' }}
-                    ></div>
+                    <div className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
+                      style={{ backgroundImage: `url('${product.image}')` }} />
                   ) : (
-                    <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                    <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
                       <span className="text-gray-400 text-sm">Photo non disponible</span>
                     </div>
                   )}
-                  <div className="absolute top-3 left-3 bg-white px-1.5 py-0.5 rounded-full text-lg">
-                    {product.origin.trim() === 'Burkina Faso' ? '🇧🇫' : product.origin.trim() === 'Niger' ? '🇳🇪' : product.origin.trim() === "Côte d'Ivoire" ? '🇨🇮' : '🇲🇱'}
+                  <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/50 to-transparent" />
+                  <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-base px-2 py-1 rounded-full shadow-sm">
+                    {flagOf(product.origin)}
                   </div>
-                  <div className="absolute top-3 right-3 bg-[#C8973A] text-white px-3 py-1 rounded-full text-sm font-medium">
+                  <span className={`absolute top-3 right-3 text-xs font-bold px-2.5 py-1 rounded-full shadow-sm ${
+                    product.stock === 'En stock' ? 'bg-green-500 text-white' : 'bg-orange-400 text-white'}`}>
                     {product.stock}
-                  </div>
+                  </span>
+                  <p className="absolute bottom-2 left-3 text-white text-sm font-semibold drop-shadow">{product.name}</p>
                 </div>
-                <div className="p-4">
-                  <h3 className="font-semibold text-gray-800 mb-2 group-hover:text-[#C8973A] transition-colors">{product.name}</h3>
-                  <div className="flex justify-between items-center mb-4">
-                    <span className="text-2xl font-bold text-[#C8973A]">{product.price}</span>
-                  </div>
-                  <div className="text-sm text-gray-600 mb-4">
-                    <div className="flex justify-between"><span>Taille:</span><span>{product.specifications.taille}</span></div>
-                    <div className="flex justify-between"><span>Poids:</span><span>{product.specifications.poids}</span></div>
-                  </div>
-                  <a href={`/produits/${product.id}`}
-                    className="w-full bg-[#C8973A] hover:bg-[#D4A763] text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300 flex items-center justify-center space-x-2"
-                  >
-                    <span>Voir les détails</span>
-                    <FiArrowRight className="text-sm" />
-                  </a>
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="space-y-4">
-            {sortedProducts.map((product) => (
-              <div key={product.id} className="bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 p-6">
-                <div className="flex flex-col md:flex-row gap-6">
-                  <div className="w-full md:w-48 h-48 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0">
-                    {product.image ? (
-                      <div className="w-full h-full bg-cover bg-center"
-                        style={{ backgroundImage: `url('${product.image}')`, backgroundColor: '#f3f4f6' }}
-                      ></div>
-                    ) : (
-                      <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                        <span className="text-gray-400 text-sm">Photo non disponible</span>
-                      </div>
-                    )}
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex justify-between items-start mb-4">
-                      <div>
-                        <h3 className="text-xl font-semibold text-gray-800 mb-2">{product.name}</h3>
-                        <div className="flex items-center space-x-4 text-sm text-gray-600">
-                          <span>Origine: {product.origin}</span>
-                          <span>Stock: {product.stock}</span>
-                        </div>
-                      </div>
-                      <span className="text-2xl font-bold text-[#C8973A]">{product.price}</span>
-                    </div>
-                    <p className="text-gray-600 mb-4">{product.description}</p>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-                      <div><span className="text-sm text-gray-500">Taille</span><p className="font-medium text-gray-800">{product.specifications.taille}</p></div>
-                      <div><span className="text-sm text-gray-500">Âge</span><p className="font-medium text-gray-800">{product.specifications.age}</p></div>
-                      <div><span className="text-sm text-gray-500">Poids</span><p className="font-medium text-gray-800">{product.specifications.poids}</p></div>
-                      <div><span className="text-sm text-gray-500">Catégorie</span><p className="font-medium text-gray-800">{product.specifications.categorie}</p></div>
-                    </div>
-                    <a href={`/produits/${product.id}`}
-                      className="inline-flex items-center space-x-2 bg-[#C8973A] hover:bg-[#B8852E] text-white font-medium py-2 px-6 rounded-lg transition-colors"
-                    >
-                      <span>Voir les détails</span>
-                      <FiArrowRight />
-                    </a>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
 
-        {sortedProducts.length === 0 && (
-          <div className="text-center py-16">
-            <FiFilter className="text-6xl text-gray-400 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-gray-800 mb-2">Aucun produit trouvé</h3>
-            <p className="text-gray-600">Essayez de modifier vos filtres pour voir plus de résultats.</p>
+                {/* Infos */}
+                <div className="p-4 flex flex-col flex-1">
+                  <div className="flex items-center gap-1 text-xs text-gray-400 mb-2">
+                    <FiMapPin className="flex-shrink-0" />
+                    <span>{product.origin.trim()}</span>
+                    <span className="mx-1">·</span>
+                    <span>{product.specifications.poids}</span>
+                    <span className="mx-1">·</span>
+                    <span>{product.specifications.taille}</span>
+                  </div>
+                  <p className="text-[#C8973A] font-bold text-base leading-snug mb-4 line-clamp-2">
+                    {product.price}
+                  </p>
+                  <div className="mt-auto flex items-center justify-between bg-[#C8973A]/10 group-hover:bg-[#C8973A] rounded-xl px-4 py-2.5 transition-all duration-300">
+                    <span className="text-sm font-semibold text-[#C8973A] group-hover:text-white transition-colors">Voir les détails</span>
+                    <FiArrowRight className="text-[#C8973A] group-hover:text-white group-hover:translate-x-1 transition-all duration-300" />
+                  </div>
+                </div>
+              </a>
+            ))}
+          </div>
+
+        ) : (
+
+          /* ── Vue liste ── */
+          <div className="space-y-4">
+            {sortedProducts.map(product => (
+              <a key={product.id} href={`/produits/${product.id}`}
+                className="group bg-white rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 flex flex-col sm:flex-row overflow-hidden">
+
+                {/* Image */}
+                <div className="relative w-full sm:w-48 h-48 flex-shrink-0 bg-gray-100 overflow-hidden">
+                  {product.image ? (
+                    <div className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
+                      style={{ backgroundImage: `url('${product.image}')` }} />
+                  ) : (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <span className="text-gray-400 text-sm">Photo non disponible</span>
+                    </div>
+                  )}
+                  <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-base px-2 py-1 rounded-full">
+                    {flagOf(product.origin)}
+                  </div>
+                </div>
+
+                {/* Contenu */}
+                <div className="p-5 flex flex-col flex-1 min-w-0">
+                  <div className="flex items-start justify-between gap-3 mb-2">
+                    <div>
+                      <h3 className="font-bold text-gray-800 text-lg group-hover:text-[#C8973A] transition-colors">{product.name}</h3>
+                      <div className="flex items-center gap-1 text-xs text-gray-400 mt-1">
+                        <FiMapPin className="flex-shrink-0" />
+                        <span>{product.origin.trim()}</span>
+                      </div>
+                    </div>
+                    <span className={`flex-shrink-0 text-xs font-bold px-2.5 py-1 rounded-full ${
+                      product.stock === 'En stock' ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'}`}>
+                      {product.stock}
+                    </span>
+                  </div>
+
+                  <p className="text-[#C8973A] font-bold text-lg mb-3 line-clamp-1">{product.price}</p>
+                  <p className="text-gray-500 text-sm mb-4 line-clamp-2">{product.description}</p>
+
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+                    {[
+                      { label: 'Taille',    value: product.specifications.taille },
+                      { label: 'Poids',     value: product.specifications.poids },
+                      { label: 'Âge',       value: product.specifications.age },
+                      { label: 'Catégorie', value: product.specifications.categorie }
+                    ].map(spec => (
+                      <div key={spec.label} className="bg-gray-50 rounded-lg px-3 py-2">
+                        <p className="text-xs text-gray-400">{spec.label}</p>
+                        <p className="text-sm font-semibold text-gray-700">{spec.value}</p>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="mt-auto">
+                    <span className="inline-flex items-center gap-2 bg-[#C8973A] group-hover:bg-[#B8852E] text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors">
+                      Voir les détails <FiArrowRight className="group-hover:translate-x-1 transition-transform" />
+                    </span>
+                  </div>
+                </div>
+              </a>
+            ))}
           </div>
         )}
       </div>
@@ -434,14 +425,13 @@ function BoutiqueContent() {
   )
 }
 
-// ✅ Export principal avec Suspense
 export default function BoutiquePage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-[#FDF6E3]">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#C8973A] mx-auto mb-4"></div>
-          <p className="text-gray-600">Chargement...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#C8973A] mx-auto mb-4" />
+          <p className="text-gray-500">Chargement...</p>
         </div>
       </div>
     }>

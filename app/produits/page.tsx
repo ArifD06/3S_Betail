@@ -35,8 +35,8 @@ function BoutiqueContent() {
 
   const availableOrigins = [...new Set(sheepProducts.map(p => p.origin))]
   const countByOrigin = (originKey: string) => {
-    const map: { [key: string]: string } = { 'cote-divoire': "Côte d'Ivoire", 'mali': 'Mali' }
-    return sheepProducts.filter(p => p.origin === map[originKey]).length
+    const map: { [key: string]: string } = { 'burkina-faso': 'Burkina Faso', 'niger': 'Niger', 'cote-divoire': "Côte d'Ivoire" }
+    return sheepProducts.filter(p => p.origin.trim() === map[originKey]).length
   }
   const countByTaille = (t: string) => sheepProducts.filter(p => p.specifications.taille === t).length
 
@@ -66,10 +66,11 @@ function BoutiqueContent() {
 
       if (selectedOrigin) {
         const originMap: { [key: string]: string } = {
-          'cote-divoire': "Côte d'Ivoire",
-          'mali': 'Mali'
+          'burkina-faso': 'Burkina Faso',
+          'niger': 'Niger',
+          'cote-divoire': "Côte d'Ivoire"
         }
-        if (product.origin !== originMap[selectedOrigin]) return false
+        if (product.origin.trim() !== originMap[selectedOrigin]) return false
       }
 
       if (selectedAvailability === 'en-stock' && product.stock !== 'En stock') return false
@@ -254,11 +255,14 @@ function BoutiqueContent() {
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C8973A] text-sm"
                 >
                   <option value="">Toutes ({sheepProducts.length})</option>
-                  {availableOrigins.includes("Côte d'Ivoire") && (
-                    <option value="cote-divoire">🇨🇮 Côte d'Ivoire ({countByOrigin('cote-divoire')})</option>
+                  {availableOrigins.some(o => o.trim() === 'Burkina Faso') && (
+                    <option value="burkina-faso">🇧🇫 Burkina Faso ({countByOrigin('burkina-faso')})</option>
                   )}
-                  {availableOrigins.includes('Mali') && (
-                    <option value="mali">🇲🇱 Mali ({countByOrigin('mali')})</option>
+                  {availableOrigins.some(o => o.trim() === 'Niger') && (
+                    <option value="niger">🇳🇪 Niger ({countByOrigin('niger')})</option>
+                  )}
+                  {availableOrigins.some(o => o.trim() === "Côte d'Ivoire") && (
+                    <option value="cote-divoire">🇨🇮 Côte d'Ivoire ({countByOrigin('cote-divoire')})</option>
                   )}
                 </select>
               </div>

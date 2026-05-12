@@ -1,286 +1,261 @@
 'use client'
 
 import React, { useState } from 'react'
-import { FiChevronDown, FiChevronUp, FiSearch, FiMessageSquare, FiShoppingCart, FiTruck, FiShield, FiCreditCard } from 'react-icons/fi'
+import { FiChevronDown, FiMessageSquare, FiShoppingCart, FiTruck, FiShield, FiCreditCard, FiArrowRight } from 'react-icons/fi'
+import { FaWhatsapp } from 'react-icons/fa'
 
 interface FAQ {
   id: number
   question: string
   answer: string
   category: string
-  icon?: React.ReactNode
+  icon: React.ElementType
 }
 
 const faqs: FAQ[] = [
   {
     id: 1,
-    question: "Comment passer une commande sur SSS Bétail ?",
-    answer: "Vous pouvez passer une commande de plusieurs manières :  1) Par téléphone au +225 0152041893, 2) Via WhatsApp au même numéro, ou 3) En nous rendant directement sur place. Notre équipe vous guidera dans le choix du produit parfait selon vos besoins et votre budget.",
+    question: "Comment passer une commande sur 3S Bétail ?",
+    answer: "Vous pouvez passer une commande de plusieurs manières : par téléphone au +225 01 52 04 18 93, via WhatsApp au même numéro, ou en parcourant notre catalogue en ligne et en nous contactant directement. Notre équipe vous guidera dans le choix du produit parfait selon vos besoins et votre budget.",
     category: "Commandes",
-    icon: <FiShoppingCart />
+    icon: FiShoppingCart
   },
   {
     id: 2,
     question: "Quels types de paiement acceptez-vous ?",
-    answer: "Nous acceptons plusieurs modes de paiement pour votre convenance : espèces,  Mobile Money (Orange Money, MTN Money, Moov Money), . Des arrangements peuvent être faits pour les grandes commandes.",
+    answer: "Nous acceptons plusieurs modes de paiement : espèces à la livraison, Mobile Money (Orange Money, MTN Money, Moov Money). Des arrangements peuvent être faits pour les commandes importantes.",
     category: "Paiement",
-    icon: <FiCreditCard />
+    icon: FiCreditCard
   },
   {
     id: 3,
     question: "La livraison est-elle gratuite ?",
-    answer: "Non, nous ne proposons pas de livraison gratuite. .",
+    answer: "La livraison est disponible sur Abidjan. Les frais de livraison dépendent de votre localisation. Contactez-nous pour obtenir un devis précis selon votre commune.",
     category: "Livraison",
-    icon: <FiTruck />
+    icon: FiTruck
   },
   {
     id: 4,
     question: "Puis-je venir voir les animaux avant d'acheter ?",
-    answer: "Absolument ! Nous encourageons nos clients à venir visiter notre établissement pour voir les animaux avant de faire leur choix. Vous pouvez prendre rendez-vous pour une visite guidée. .",
+    answer: "Absolument ! Nous encourageons nos clients à venir voir les animaux avant de faire leur choix. Vous pouvez prendre rendez-vous en nous contactant par téléphone ou WhatsApp.",
     category: "Visites",
-    icon: <FiMessageSquare />
+    icon: FiMessageSquare
   },
   {
     id: 5,
     question: "Vos animaux sont-ils certifiés halal ?",
-    answer: "Oui, tous nos animaux sont certifiés halal par des autorités religieuses reconnues. Chaque animal est élevé selon les préceptes islamiques et vous recevrez un certificat de conformité halal avec chaque achat. Nos éleveurs respectent également les normes de bien-être animal.",
+    answer: "Oui, tous nos animaux sont élevés selon les préceptes islamiques par des éleveurs de confiance au Burkina Faso et au Niger. Nos moutons respectent les critères halal pour la fête de Tabaski.",
     category: "Certification",
-    icon: <FiShield />
+    icon: FiShield
   },
   {
     id: 6,
     question: "Quelles sont les tailles de moutons disponibles ?",
-    answer: "Nous proposons différentes tailles de moutons : Taille M (75x110 cm, 38-41kg), Taille J (80x117 cm, 40-43kg), et Taille L (90x130 cm, 50-55kg). Chaque taille est adaptée à différents besoins et budgets. Nos experts peuvent vous conseiller sur la taille idéale selon le nombre de personnes à nourrir.",
+    answer: "Nous proposons différentes tailles : Taille M (75×110 cm, 38-41 kg), Taille J (80×117 cm, 40-43 kg), et Taille L (90×130 cm, 50-55 kg). Nos experts peuvent vous conseiller sur la taille idéale selon le nombre de personnes.",
     category: "Produits",
-    icon: <FiShoppingCart />
+    icon: FiShoppingCart
   },
   {
     id: 7,
     question: "Comment savoir si un mouton est de bonne qualité ?",
-    answer: "Un mouton de qualité se reconnaît à plusieurs critères : une robe blanche et propre, des cornes bien développées et symétriques, un poids proportionnel à sa taille, des yeux vifs et vifs, et une bonne condition physique. Tous nos animaux sont sélectionnés selon ces critères et vérifiés par nos vétérinaires.",
+    answer: "Un mouton de qualité se reconnaît à : une robe propre, des cornes bien développées, un poids proportionnel à sa taille, des yeux vifs, et une bonne condition physique. Tous nos animaux sont sélectionnés selon ces critères stricts.",
     category: "Qualité",
-    icon: <FiShield />
+    icon: FiShield
   },
   {
     id: 8,
     question: "Proposez-vous des garanties sur vos animaux ?",
-    answer: "Oui, nous proposons une garantie de 5 jours sur tous nos animaux. Si un problème de santé est détecté dans les 5 jours suivant l'achat (hors cas de force majeure), nous nous engageons à trouver une solution adaptée. Nous garantissons également que tous nos animaux sont en parfaite santé au moment de la livraison.",
+    answer: "Oui, nous garantissons la bonne santé de tous nos animaux au moment de la livraison. Si un problème est détecté dans les 5 jours suivant l'achat, nous nous engageons à trouver une solution adaptée.",
     category: "Garanties",
-    icon: <FiShield />
+    icon: FiShield
   },
   {
     id: 9,
     question: "Puis-je réserver un mouton à l'avance pour Tabaski ?",
-    answer: "Oui, et c'est même recommandé ! Vous pouvez réserver votre mouton jusqu'à 3 mois avant Tabaski. La réservation vous garantit la disponibilité du produit de votre choix et vous permet de bénéficier de nos meilleurs prix. Un acompte de 30% est requis pour confirmer la réservation. Et un tarif spécial est appliqué pour les réservations anticipées.",
+    answer: "Oui, et c'est même recommandé ! Vous pouvez réserver votre mouton à l'avance. Un acompte de 30% est requis pour confirmer la réservation. Un tarif spécial est appliqué pour les réservations anticipées.",
     category: "Réservations",
-    icon: <FiShoppingCart />
+    icon: FiShoppingCart
   },
   {
     id: 10,
     question: "Quels sont vos horaires d'ouverture ?",
-    answer: "Nos horaires standards sont : Lundi - Vendredi : 08:00 - 18:00, Samedi : 08:00 - 14:00, Dimanche : Fermé. Cependant, en période de Tabaski (2 semaines avant la fête), nous ouvrons 7j/7 de 06:00 à 22:00 pour mieux vous servir. Notre service WhatsApp reste disponible 24/24.",
+    answer: "Nos horaires standards : Lundi – Vendredi : 08h00 – 18h00, Samedi : 08h00 – 14h00. En période de Tabaski (2 semaines avant la fête), nous ouvrons 7j/7 de 06h00 à 22h00. Notre service WhatsApp reste disponible 24h/24.",
     category: "Service Client",
-    icon: <FiMessageSquare />
+    icon: FiMessageSquare
   },
   {
     id: 11,
     question: "Proposez-vous des services d'abattage ?",
     answer: "Pour le moment non, mais nous travaillons à l'ouverture d'un service d'abattage professionnel dans les prochains mois.",
     category: "Services",
-    icon: <FiShoppingCart />
+    icon: FiShoppingCart
   },
   {
     id: 12,
     question: "Comment savoir le poids exact d'un mouton ?",
-    answer: "Tous nos animaux sont pesés régulièrement et nous garantissons le poids indiqué avec une marge de ±2kg. Au moment de la livraison, vous pouvez demander une pesée de contrôle. Nous utilisons des balances certifiées et vous fournissons un certificat de poids avec chaque animal.",
+    answer: "Tous nos animaux sont pesés régulièrement. Nous garantissons le poids indiqué avec une marge de ±2 kg. Au moment de la livraison, vous pouvez demander une pesée de contrôle.",
     category: "Produits",
-    icon: <FiShoppingCart />
+    icon: FiShoppingCart
   }
 ]
 
-const categories = Array.from(new Set(faqs.map(faq => faq.category)))
+const categories = ['Toutes', ...Array.from(new Set(faqs.map(f => f.category)))]
 
 export default function FAQPage() {
-  const [expandedItems, setExpandedItems] = useState<number[]>([])
-  const [selectedCategory, setSelectedCategory] = useState<string>('Toutes')
+  const [expandedId, setExpandedId] = useState<number | null>(null)
+  const [selectedCategory, setSelectedCategory] = useState('Toutes')
 
-  const toggleItem = (id: number) => {
-    setExpandedItems(prev => 
-      prev.includes(id) 
-        ? prev.filter(item => item !== id)
-        : [...prev, id]
-    )
-  }
+  const toggle = (id: number) => setExpandedId(prev => prev === id ? null : id)
 
-  const filteredFAQs = faqs.filter(faq => {
-    const matchesCategory = selectedCategory === 'Toutes' || faq.category === selectedCategory
-    return matchesCategory
-  })
+  const filtered = selectedCategory === 'Toutes'
+    ? faqs
+    : faqs.filter(f => f.category === selectedCategory)
 
   return (
-    <div className="min-h-screen bg-[#F5F5DC]">
-      {/* Hero Section */}
-      <div className="bg-gradient-to-r from-[#C8973A] to-[#B8852E] text-white">
-        <div className="container mx-auto px-4 py-16">
-          <div className="max-w-4xl">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">FAQ</h1>
-            <p className="text-xl text-green-100 leading-relaxed">
-              Questions fréquemment posées sur nos produits et services
-            </p>
+    <div className="min-h-screen bg-white">
+
+      {/* Hero */}
+      <div className="relative bg-gradient-to-br from-[#2C1A00] to-[#4A2E00] text-white overflow-hidden">
+        <div className="absolute -top-16 -right-16 w-72 h-72 rounded-full bg-[#C8973A]/10 pointer-events-none" />
+        <div className="absolute -bottom-12 -left-12 w-64 h-64 rounded-full bg-[#C8973A]/5 pointer-events-none" />
+        <div className="container mx-auto px-4 py-20 relative">
+          <span className="inline-block bg-[#C8973A]/20 text-[#C8973A] text-sm font-semibold px-4 py-1.5 rounded-full mb-5 uppercase tracking-wide">
+            Aide & Support
+          </span>
+          <h1 className="text-4xl md:text-5xl font-bold mb-5">
+            Questions <span className="text-[#C8973A]">fréquentes</span>
+          </h1>
+          <p className="text-white/70 text-lg max-w-2xl">
+            Retrouvez les réponses aux questions les plus posées sur nos produits et services.
+          </p>
+        </div>
+      </div>
+
+      {/* Filtres par catégorie */}
+      <div className="bg-white border-b border-gray-100 sticky top-16 z-30">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex flex-wrap gap-2">
+            {categories.map(cat => (
+              <button
+                key={cat}
+                onClick={() => setSelectedCategory(cat)}
+                className={`px-4 py-1.5 rounded-full text-sm font-semibold transition-all duration-200 ${
+                  selectedCategory === cat
+                    ? 'bg-[#C8973A] text-white shadow-md'
+                    : 'bg-gray-100 text-gray-600 hover:bg-[#C8973A]/10 hover:text-[#C8973A]'
+                }`}
+              >
+                {cat}
+                {cat !== 'Toutes' && (
+                  <span className="ml-1.5 text-xs opacity-70">
+                    ({faqs.filter(f => f.category === cat).length})
+                  </span>
+                )}
+              </button>
+            ))}
           </div>
         </div>
       </div>
 
-      {/* Search and Filter */}
-      <section className="py-8 bg-white border-b border-gray-200">
+      {/* Accordion FAQ */}
+      <section className="py-14">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            
-            {/* Category Filter */}
-            <div className="flex flex-wrap gap-2">
-              <button
-                onClick={() => setSelectedCategory('Toutes')}
-                className={`px-4 py-2 rounded-full transition-colors ${
-                  selectedCategory === 'Toutes'
-                    ? 'bg-[#C8973A] text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
-              >
-                Toutes ({faqs.length})
-              </button>
-              {categories.map(category => (
-                <button
-                  key={category}
-                  onClick={() => setSelectedCategory(category)}
-                  className={`px-4 py-2 rounded-full transition-colors ${
-                    selectedCategory === category
-                      ? 'bg-[#C8973A] text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+          <div className="max-w-3xl mx-auto space-y-3">
+            {filtered.map(faq => {
+              const Icon = faq.icon
+              const isOpen = expandedId === faq.id
+              return (
+                <div
+                  key={faq.id}
+                  className={`rounded-2xl border transition-all duration-200 overflow-hidden ${
+                    isOpen
+                      ? 'border-[#C8973A]/40 shadow-md'
+                      : 'border-gray-100 bg-white shadow-sm hover:border-[#C8973A]/20 hover:shadow-md'
                   }`}
                 >
-                  {category} ({faqs.filter(faq => faq.category === category).length})
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ Items */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            {filteredFAQs.length > 0 ? (
-              <div className="space-y-4">
-                {filteredFAQs.map((faq) => (
-                  <div 
-                    key={faq.id}
-                    className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden"
+                  <button
+                    onClick={() => toggle(faq.id)}
+                    className="w-full px-6 py-5 text-left flex items-center gap-4"
                   >
-                    <button
-                      onClick={() => toggleItem(faq.id)}
-                      className="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-gray-50 transition-colors"
-                    >
-                      <div className="flex items-center space-x-3 flex-1">
-                        {faq.icon && (
-                          <div className="text-[#C8973A] text-xl">
-                            {faq.icon}
-                          </div>
-                        )}
-                        <div className="flex-1">
-                          <h3 className="font-semibold text-gray-800 pr-4">
-                            {faq.question}
-                          </h3>
-                          <span className="inline-block mt-1 text-xs bg-[#C8973A]/20 text-[#C8973A] px-2 py-1 rounded-full">
-                            {faq.category}
-                          </span>
-                        </div>
+                    <div className={`flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center transition-colors duration-200 ${
+                      isOpen ? 'bg-[#C8973A] text-white' : 'bg-[#C8973A]/10 text-[#C8973A]'
+                    }`}>
+                      <Icon className="text-base" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-semibold text-gray-800 text-sm md:text-base pr-4">{faq.question}</p>
+                      <span className="inline-block mt-1 text-xs text-[#C8973A]/80 font-medium">{faq.category}</span>
+                    </div>
+                    <div className={`flex-shrink-0 w-7 h-7 rounded-full border border-gray-200 flex items-center justify-center transition-transform duration-300 ${isOpen ? 'rotate-180 border-[#C8973A]/30 bg-[#C8973A]/5' : ''}`}>
+                      <FiChevronDown className="text-gray-500 text-sm" />
+                    </div>
+                  </button>
+
+                  <div className={`transition-all duration-300 ease-in-out overflow-hidden ${isOpen ? 'max-h-96' : 'max-h-0'}`}>
+                    <div className="px-6 pb-5 pt-0">
+                      <div className="pl-14">
+                        <p className="text-gray-600 text-sm leading-relaxed">{faq.answer}</p>
                       </div>
-                      <div className="text-gray-400 ml-4">
-                        {expandedItems.includes(faq.id) ? (
-                          <FiChevronUp className="text-xl" />
-                        ) : (
-                          <FiChevronDown className="text-xl" />
-                        )}
-                      </div>
-                    </button>
-                    
-                    {expandedItems.includes(faq.id) && (
-                      <div className="px-6 pb-4 border-t border-gray-100">
-                        <div className="pt-4">
-                          <p className="text-gray-600 leading-relaxed">
-                            {faq.answer}
-                          </p>
-                        </div>
-                      </div>
-                    )}
+                    </div>
                   </div>
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-16">
-                <FiMessageSquare className="text-6xl text-gray-300 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                  Aucune question trouvée
-                </h3>
-                <p className="text-gray-600">
-                  Essayez de modifier votre recherche ou de sélectionner une autre catégorie.
-                </p>
+                </div>
+              )
+            })}
+
+            {filtered.length === 0 && (
+              <div className="text-center py-16 text-gray-400">
+                <FiMessageSquare className="text-5xl mx-auto mb-4 opacity-40" />
+                <p>Aucune question dans cette catégorie.</p>
               </div>
             )}
           </div>
         </div>
       </section>
 
-      {/* Contact CTA */}
-      <section className="py-16 bg-[#C8973A] text-white">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4">
-            Vous ne trouvez pas votre réponse ?
-          </h2>
-          <p className="text-xl text-green-100 mb-8 max-w-2xl mx-auto">
-            Notre équipe client est disponible pour répondre à toutes vos questions. N'hésitez pas à nous contacter !
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a 
-              href="/contact"
-              className="bg-white text-[#C8973A] font-semibold px-8 py-3 rounded-lg hover:bg-gray-100 transition-colors inline-flex items-center justify-center space-x-2"
-            >
-              <FiMessageSquare />
-              <span>Contacter le support</span>
-            </a>
-            <a 
-              href="https://wa.me/2250152041893"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-green-800 text-white font-semibold px-8 py-3 rounded-lg hover:bg-green-900 transition-colors inline-flex items-center justify-center space-x-2"
-            >
-              <span>WhatsApp</span>
-            </a>
+      {/* Stats rapides */}
+      <section className="py-12 bg-gray-50 border-t border-gray-100">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto text-center">
+            {[
+              { value: `${faqs.length}`, label: 'Questions répondues' },
+              { value: `${categories.length - 1}`, label: 'Catégories' },
+              { value: '24/7', label: 'Support WhatsApp' },
+              { value: '< 24h', label: 'Délai de réponse' }
+            ].map((s, i) => (
+              <div key={i}>
+                <p className="text-3xl font-bold text-[#C8973A] mb-1">{s.value}</p>
+                <p className="text-gray-500 text-sm">{s.label}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Quick Stats */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-5xl mx-auto text-center">
-            <div>
-              <div className="text-3xl font-bold text-green-600 mb-2">12+</div>
-              <div className="text-gray-600">Questions répondues</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-green-600 mb-2">5</div>
-              <div className="text-gray-600">Catégories</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-green-600 mb-2">24/7</div>
-              <div className="text-gray-600">Support WhatsApp</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-green-600 mb-2">98%</div>
-              <div className="text-gray-600">Satisfaction client</div>
-            </div>
+      {/* CTA */}
+      <section className="py-16 bg-gradient-to-br from-[#2C1A00] to-[#4A2E00] relative overflow-hidden">
+        <div className="absolute -top-16 -right-16 w-64 h-64 rounded-full bg-[#C8973A]/10 pointer-events-none" />
+        <div className="container mx-auto px-4 text-center relative">
+          <h2 className="text-3xl font-bold text-white mb-3">Vous ne trouvez pas votre réponse ?</h2>
+          <p className="text-white/60 mb-8 max-w-md mx-auto text-sm">
+            Notre équipe est disponible pour répondre à toutes vos questions. N'hésitez pas !
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <a
+              href="https://wa.me/2250152041893"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 bg-[#C8973A] hover:bg-[#D4A763] text-white font-semibold px-8 py-3.5 rounded-xl transition-all duration-300 hover:scale-105 shadow-lg shadow-[#C8973A]/30"
+            >
+              <FaWhatsapp className="text-lg" />
+              <span>Écrire sur WhatsApp</span>
+            </a>
+            <a
+              href="/contact"
+              className="inline-flex items-center justify-center gap-2 border-2 border-white/20 hover:border-[#C8973A] text-white font-semibold px-8 py-3.5 rounded-xl transition-all duration-300 hover:text-[#C8973A]"
+            >
+              <span>Formulaire de contact</span>
+              <FiArrowRight />
+            </a>
           </div>
         </div>
       </section>

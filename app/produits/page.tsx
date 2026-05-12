@@ -345,9 +345,8 @@ function BoutiqueContent() {
                       style={{ backgroundImage: `url('${product.image}')`, backgroundColor: '#f3f4f6' }}
                     ></div>
                   ) : (
-                    <div className="w-full h-full bg-gray-800 flex flex-col items-center justify-center space-y-2">
-                      <FiPlay className="text-white text-4xl" />
-                      <span className="text-white text-xs font-medium">Vidéo disponible</span>
+                    <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                      <span className="text-gray-400 text-sm">Photo non disponible</span>
                     </div>
                   )}
                   <div className="absolute top-3 left-3 bg-white px-1.5 py-0.5 rounded-full text-lg">
@@ -387,9 +386,8 @@ function BoutiqueContent() {
                         style={{ backgroundImage: `url('${product.image}')`, backgroundColor: '#f3f4f6' }}
                       ></div>
                     ) : (
-                      <div className="w-full h-full bg-gray-800 flex flex-col items-center justify-center space-y-2">
-                        <FiPlay className="text-white text-4xl" />
-                        <span className="text-white text-xs font-medium">Vidéo disponible</span>
+                      <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                        <span className="text-gray-400 text-sm">Photo non disponible</span>
                       </div>
                     )}
                   </div>

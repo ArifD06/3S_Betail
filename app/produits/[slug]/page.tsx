@@ -108,7 +108,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
                 </span>
                 <div className="flex items-center space-x-2">
                   <span className="text-lg">
-                    {product.flag === 'Côte d\'Ivoire' ? '🇨🇮' : '🇲🇱'}
+                    {product.flag === 'Burkina Faso' ? '🇧🇫' : product.flag === 'Niger' ? '🇳🇪' : product.flag === "Côte d'Ivoire" ? '🇨🇮' : '🇲🇱'}
                   </span>
                   <span className="text-gray-600">({product.origin})</span>
                 </div>

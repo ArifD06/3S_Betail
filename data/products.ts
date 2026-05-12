@@ -192,6 +192,179 @@ export const products: Product[] = [
       'Vidéo réelle disponible',
       'Livraison disponible sur Abidjan'
     ]
+  },
+  {
+    id: 7,
+    name: 'Mouton N°7',
+    category: 'Mouton',
+    origin: "Côte d'Ivoire",
+    price: '180.000 FCFA',
+    flag: "Côte d'Ivoire",
+    image: '/images/WhatsApp Image 2026-05-12 at 21.57.29.jpeg',
+    images: [
+      '/images/WhatsApp Image 2026-05-12 at 21.57.29.jpeg'
+    ],
+    video: '/images/WhatsApp Video 2026-05-12 at 21.57.32.mp4',
+    stock: 'En stock',
+    specifications: {
+      taille: 'Moyen',
+      age: '+2 ans',
+      poids: '~40 kg',
+      categorie: 'Standard'
+    },
+    description: 'Beau mouton en bonne santé, idéal pour la Tabaski.',
+    longDescription: 'Mouton en excellente santé, bien nourri et prêt pour la Tabaski. Disponible à la livraison sur Abidjan.',
+    note: 'Photos et vidéo du mouton réel. Ce que vous voyez est ce que vous recevez.',
+    characteristics: [
+      'Mouton sain et bien nourri',
+      'Prêt pour la Tabaski',
+      'Photos et vidéo réelles',
+      'Livraison disponible sur Abidjan'
+    ]
+  },
+  {
+    id: 8,
+    name: 'Mouton N°8',
+    category: 'Mouton',
+    origin: "Côte d'Ivoire",
+    price: '180.000 FCFA',
+    flag: "Côte d'Ivoire",
+    image: '/images/WhatsApp Image 2026-05-12 at 21.57.33.jpeg',
+    images: [
+      '/images/WhatsApp Image 2026-05-12 at 21.57.33.jpeg'
+    ],
+    video: '/images/WhatsApp Video 2026-05-12 at 21.57.36.mp4',
+    stock: 'En stock',
+    specifications: {
+      taille: 'Moyen',
+      age: '+2 ans',
+      poids: '~42 kg',
+      categorie: 'Standard'
+    },
+    description: 'Mouton robuste et bien portant, parfait pour une belle Tabaski.',
+    longDescription: 'Mouton robuste en très bonne condition, élevé dans de bonnes conditions. Disponible à la livraison sur Abidjan.',
+    note: 'Photos et vidéo du mouton réel. Ce que vous voyez est ce que vous recevez.',
+    characteristics: [
+      'Mouton robuste et bien portant',
+      'Prêt pour la Tabaski',
+      'Photos et vidéo réelles',
+      'Livraison disponible sur Abidjan'
+    ]
+  },
+  {
+    id: 9,
+    name: 'Mouton N°9',
+    category: 'Mouton',
+    origin: "Côte d'Ivoire",
+    price: '180.000 FCFA',
+    flag: "Côte d'Ivoire",
+    image: '/images/WhatsApp Image 2026-05-12 at 21.57.38.jpeg',
+    images: [
+      '/images/WhatsApp Image 2026-05-12 at 21.57.38.jpeg',
+      '/images/WhatsApp Image 2026-05-12 at 21.57.38 (1).jpeg'
+    ],
+    video: '/images/WhatsApp Video 2026-05-12 at 21.57.40.mp4',
+    stock: 'En stock',
+    specifications: {
+      taille: 'Moyen',
+      age: '+2 ans',
+      poids: '~43 kg',
+      categorie: 'Standard'
+    },
+    description: 'Mouton de belle prestance, bien développé et en pleine santé.',
+    longDescription: 'Mouton de belle prestance, bien développé et en pleine santé. Sélectionné avec soin pour la Tabaski. Disponible à la livraison sur Abidjan.',
+    note: 'Photos et vidéo du mouton réel. Ce que vous voyez est ce que vous recevez.',
+    characteristics: [
+      'Mouton bien développé',
+      'Prêt pour la Tabaski',
+      'Photos et vidéo réelles',
+      'Livraison disponible sur Abidjan'
+    ]
+  },
+  {
+    id: 10,
+    name: 'Mouton N°10',
+    category: 'Mouton',
+    origin: "Côte d'Ivoire",
+    price: '180.000 FCFA',
+    flag: "Côte d'Ivoire",
+    image: '/images/WhatsApp Image 2026-05-12 at 21.57.41.jpeg',
+    images: [
+      '/images/WhatsApp Image 2026-05-12 at 21.57.41.jpeg'
+    ],
+    video: '/images/WhatsApp Video 2026-05-12 at 21.57.44.mp4',
+    stock: 'En stock',
+    specifications: {
+      taille: 'Moyen',
+      age: '+2 ans',
+      poids: '~41 kg',
+      categorie: 'Standard'
+    },
+    description: 'Mouton en parfaite santé, idéal pour une célébration réussie.',
+    longDescription: 'Mouton en parfaite santé, idéal pour une célébration de Tabaski réussie. Bien nourri et suivi. Disponible à la livraison sur Abidjan.',
+    note: 'Photos et vidéo du mouton réel. Ce que vous voyez est ce que vous recevez.',
+    characteristics: [
+      'Mouton en parfaite santé',
+      'Prêt pour la Tabaski',
+      'Photos et vidéo réelles',
+      'Livraison disponible sur Abidjan'
+    ]
+  },
+  {
+    id: 11,
+    name: 'Mouton N°11',
+    category: 'Mouton',
+    origin: "Côte d'Ivoire",
+    price: '180.000 FCFA',
+    flag: "Côte d'Ivoire",
+    image: '/images/WhatsApp Image 2026-05-12 at 21.57.47.jpeg',
+    images: [
+      '/images/WhatsApp Image 2026-05-12 at 21.57.47.jpeg'
+    ],
+    video: '/images/WhatsApp Video 2026-05-12 at 21.57.46.mp4',
+    stock: 'En stock',
+    specifications: {
+      taille: 'Moyen',
+      age: '+2 ans',
+      poids: '~40 kg',
+      categorie: 'Standard'
+    },
+    description: 'Mouton bien nourri et en excellente forme pour la Tabaski.',
+    longDescription: 'Mouton bien nourri, en excellente forme et prêt pour la Tabaski. Sélectionné avec soin. Disponible à la livraison sur Abidjan.',
+    note: 'Photos et vidéo du mouton réel. Ce que vous voyez est ce que vous recevez.',
+    characteristics: [
+      'Mouton bien nourri',
+      'Prêt pour la Tabaski',
+      'Photos et vidéo réelles',
+      'Livraison disponible sur Abidjan'
+    ]
+  },
+  {
+    id: 12,
+    name: 'Mouton N°12',
+    category: 'Mouton',
+    origin: "Côte d'Ivoire",
+    price: '180.000 FCFA',
+    flag: "Côte d'Ivoire",
+    image: '',
+    images: [],
+    video: '/images/WhatsApp Video 2026-05-12 at 21.57.50.mp4',
+    stock: 'En stock',
+    specifications: {
+      taille: 'Moyen',
+      age: '+2 ans',
+      poids: '~40 kg',
+      categorie: 'Standard'
+    },
+    description: 'Mouton bien portant, disponible en vidéo pour mieux l\'apprécier.',
+    longDescription: 'Mouton bien portant et en excellente condition, visible en vidéo. Disponible à la livraison sur Abidjan.',
+    note: 'Vidéo du mouton réel. Ce que vous voyez est ce que vous recevez.',
+    characteristics: [
+      'Mouton bien portant',
+      'Prêt pour la Tabaski',
+      'Vidéo réelle disponible',
+      'Livraison disponible sur Abidjan'
+    ]
   }
 ]
 

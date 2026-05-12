@@ -101,6 +101,16 @@ export default function FeaturedProducts() {
             </div>
           ))}
         </div>
+
+        <div className="flex justify-center mt-10">
+          <a
+            href="/produits"
+            className="flex items-center space-x-2 bg-[#C8973A] hover:bg-[#B8852E] text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-300"
+          >
+            <span>Voir plus</span>
+            <FiArrowRight className="text-sm" />
+          </a>
+        </div>
       </div>
     </section>
   )

@@ -3,13 +3,14 @@ import LivestockByCountry from '@/components/LivestockByCountry'
 import FeaturedProducts from '@/components/FeaturedProducts'
 import RecommendationQuiz from '@/components/RecommendationQuiz'
 import WhyChooseUs from '@/components/WhyChooseUs'
+import LocationSection from '@/components/LocationSection'
 
 export default function HomePage() {
   return (
     <div>
       <HeroSection />
       <LivestockByCountry />
-      
+
       {/* AI Recommendation Section */}
       <section className="py-16 bg-gradient-to-br from-[#F5F5DC] to-white">
         <div className="container mx-auto px-4">
@@ -35,12 +36,13 @@ export default function HomePage() {
               </div>
             </div>
           </div>
-          
+
           <RecommendationQuiz />
         </div>
       </section>
-      
+
       <FeaturedProducts />
+      <LocationSection />
       <WhyChooseUs />
     </div>
   )

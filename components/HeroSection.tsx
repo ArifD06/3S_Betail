@@ -5,154 +5,145 @@ import { FiChevronLeft, FiChevronRight, FiArrowRight, FiShoppingBag } from 'reac
 import { useRouter } from 'next/navigation'
 import { products } from '@/data/products'
 
+const slides = [
+  {
+    title: "Moutons du Burkina Faso",
+    description: "Des moutons robustes et bien nourris, sélectionnés avec soin pour votre Tabaski 2026. Qualité garantie, livraison sur Abidjan.",
+    buttonText: "Voir le catalogue",
+    bgImage: "/images/WhatsApp Image 2026-05-08 at 15.54.36.jpeg",
+    badge: "🇧🇫 Burkina Faso"
+  },
+  {
+    title: "Moutons du Niger — Tradition Sahélienne",
+    description: "Des spécimens authentiques du Niger, élevés dans les meilleures conditions. Robustes, sains et prêts pour la fête.",
+    buttonText: "Découvrir la collection",
+    bgImage: "/images/WhatsApp Image 2026-05-12 at 21.57.29.jpeg",
+    badge: "🇳🇪 Niger"
+  },
+  {
+    title: "Choisissez Votre Mouton Idéal",
+    description: "Parcourez notre sélection de moutons en photo réelle. Ce que vous voyez est exactement ce que vous recevez.",
+    buttonText: "Explorer la boutique",
+    bgImage: "/images/WhatsApp Image 2026-05-08 at 15.54.22.jpeg",
+    badge: "📷 Photos réelles"
+  },
+  {
+    title: "Livraison sur Abidjan",
+    description: "Commandez votre mouton en ligne et recevez-le directement chez vous. Paiement flexible, service de confiance.",
+    buttonText: "Commander maintenant",
+    bgImage: "/images/WhatsApp Image 2026-05-12 at 21.57.41.jpeg",
+    badge: "🚚 Livraison disponible"
+  }
+]
+
 export default function HeroSection() {
   const router = useRouter()
   const [currentSlide, setCurrentSlide] = useState(0)
-  const [availableCount, setAvailableCount] = useState(0)
+  const [prevSlideIndex, setPrevSlideIndex] = useState<number | null>(null)
   const [isPaused, setIsPaused] = useState(false)
+  const availableCount = products.filter(p => p.stock === 'En stock').length
 
-  const slides = [
-    {
-      title: "Moutons Premium - Qualité Supérieure",
-      description: "Découvrez notre sélection de moutons Ladoum et Sahéliens, élevés dans les meilleures conditions pour Tabaski 2026.",
-      buttonText: "Voir les produits premium",
-      bgImage: "/images/WhatsApp Image 2026-04-19 at 12.39.42 (1).jpeg",
-      badge: "Premium"
-    },
-    {
-      title: "Moutons du Sahel - Tradition Authentique",
-      description: "Des moutons robustes et sains, parfaitement adaptés aux traditions de Tabaski, disponibles en plusieurs tailles.",
-      buttonText: "Explorer la collection",
-      bgImage: "/images/WhatsApp Image 2026-04-19 at 12.39.42.jpeg",
-      badge: "Tradition"
-    },
-    {
-      title: "Élevage Malien - Excellence Garantie",
-      description: "Nos moutons du Mali sont réputés pour leur qualité exceptionnelle et leur robe impeccable, idéaux pour vos célébrations.",
-      buttonText: "Découvrir nos races",
-      bgImage: "/images/WhatsApp Image 2026-04-19 at 12.39.42 (2).jpeg",
-      badge: "Import"
-    },
-    {
-      title: "Géants Sahéliens - Taille XXL",
-      description: "Spécimens exceptionnels de grande taille, parfaits pour marquer vos célébrations avec prestige et distinction.",
-      buttonText: "Voir les tailles XL",
-      bgImage: "/images/WhatsApp Image 2026-04-19 at 12.39.43.jpeg",
-      badge: "XXL"
-    }
-  ]
-
-  useEffect(() => {
-    // Calculer le nombre de moutons disponibles
-    const inStockProducts = products.filter(product => product.stock === 'En stock')
-    setAvailableCount(inStockProducts.length)
-  }, [])
-
-  // Navigation automatique avec pause au survol
   useEffect(() => {
     const interval = setInterval(() => {
-      if (!isPaused) {
-        setCurrentSlide((prev) => (prev + 1) % slides.length)
-      }
+      if (!isPaused) goNext()
     }, 5000)
-
     return () => clearInterval(interval)
-  }, [isPaused, slides.length])
+  }, [isPaused, currentSlide])
 
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % slides.length)
+  const goTo = (index: number) => {
+    setPrevSlideIndex(currentSlide)
+    setCurrentSlide(index)
+    setTimeout(() => setPrevSlideIndex(null), 700)
   }
 
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length)
-  }
-
-  const handleReservationClick = () => {
-    router.push('/produits')
-  }
+  const goNext = () => goTo((currentSlide + 1) % slides.length)
+  const goPrev = () => goTo((currentSlide - 1 + slides.length) % slides.length)
 
   return (
-    <section 
+    <section
       className="relative h-[600px] md:h-[700px] overflow-hidden"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
-      {/* Background Image avec overlay */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#C8973A]/20 to-black/40 z-10"></div>
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: `url('${slides[currentSlide].bgImage}')`,
-          backgroundColor: '#f3f4f6' // Couleur de fond temporaire
-        }}
-      ></div>
+      {/* Slides empilés avec transition fade */}
+      {slides.map((slide, index) => (
+        <div
+          key={index}
+          className="absolute inset-0 transition-opacity duration-700 ease-in-out"
+          style={{ opacity: index === currentSlide ? 1 : 0, zIndex: index === currentSlide ? 2 : index === prevSlideIndex ? 1 : 0 }}
+        >
+          <div
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            style={{ backgroundImage: `url('${slide.bgImage}')`, backgroundColor: '#1a1a1a' }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
+        </div>
+      ))}
 
       {/* Contenu */}
-      <div className="relative z-20 h-full flex items-center">
+      <div className="relative z-10 h-full flex items-center">
         <div className="container mx-auto px-4">
-          <div className="max-w-3xl">
-            {/* Badge et compteur */}
-            <div className="mb-4 flex flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-2 sm:space-y-0">
-              <span className="inline-block bg-[#C8973A]/90 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wide">
+          <div className="max-w-2xl">
+            {/* Badge + compteur */}
+            <div className="mb-5 flex flex-wrap items-center gap-3">
+              <span className="bg-[#C8973A] text-white px-4 py-1.5 rounded-full text-sm font-semibold">
                 {slides[currentSlide].badge}
               </span>
-              <div className="flex items-center space-x-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full">
-                <FiShoppingBag className="text-white text-lg" />
-                <span className="text-white font-semibold">
-                  {availableCount} moutons disponibles
-                </span>
+              <div className="flex items-center space-x-2 bg-white/20 backdrop-blur-sm px-4 py-1.5 rounded-full">
+                <FiShoppingBag className="text-white" />
+                <span className="text-white text-sm font-medium">{availableCount} moutons disponibles</span>
               </div>
             </div>
-            
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+
+            {/* Titre */}
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-5 leading-tight drop-shadow-lg">
               {slides[currentSlide].title}
             </h1>
-            <p className="text-lg md:text-xl text-white/90 mb-8 leading-relaxed max-w-2xl">
+
+            {/* Description */}
+            <p className="text-lg text-white/85 mb-8 leading-relaxed">
               {slides[currentSlide].description}
             </p>
-            
-            {/* Bouton de réservation */}
-            <button 
-              onClick={handleReservationClick}
-              className="bg-[#C8973A] hover:bg-[#D4A763] text-white font-semibold px-8 py-4 rounded-lg transition-all duration-300 transform hover:scale-105 flex items-center space-x-3 group shadow-lg"
+
+            {/* CTA */}
+            <button
+              onClick={() => router.push('/produits')}
+              className="bg-[#C8973A] hover:bg-[#D4A763] text-white font-semibold px-8 py-4 rounded-lg transition-all duration-300 hover:scale-105 flex items-center space-x-3 group shadow-lg"
             >
               <span>{slides[currentSlide].buttonText}</span>
-              <FiArrowRight className="text-lg group-hover:translate-x-1 transition-transform" />
+              <FiArrowRight className="group-hover:translate-x-1 transition-transform" />
             </button>
           </div>
         </div>
       </div>
 
-      {/* Contrôles de navigation */}
+      {/* Flèches */}
       <button
-        onClick={prevSlide}
-        className="absolute left-4 top-1/2 -translate-y-1/2 z-30 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-3 rounded-full transition-all duration-300"
+        onClick={goPrev}
+        className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 hover:bg-white/40 backdrop-blur-sm text-white p-3 rounded-full transition-all duration-300"
         aria-label="Slide précédent"
       >
         <FiChevronLeft className="text-2xl" />
       </button>
-      
       <button
-        onClick={nextSlide}
-        className="absolute right-4 top-1/2 -translate-y-1/2 z-30 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-3 rounded-full transition-all duration-300"
+        onClick={goNext}
+        className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 hover:bg-white/40 backdrop-blur-sm text-white p-3 rounded-full transition-all duration-300"
         aria-label="Slide suivant"
       >
         <FiChevronRight className="text-2xl" />
       </button>
 
-      {/* Indicateurs de slides */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex space-x-2">
+      {/* Indicateurs */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex items-center space-x-2">
         {slides.map((_, index) => (
           <button
             key={index}
-            onClick={() => setCurrentSlide(index)}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${
-              index === currentSlide 
-                ? 'bg-[#C8973A] w-8' 
-                : 'bg-white/50 hover:bg-white/70'
+            onClick={() => goTo(index)}
+            className={`h-2.5 rounded-full transition-all duration-300 ${
+              index === currentSlide ? 'bg-[#C8973A] w-8' : 'bg-white/50 hover:bg-white/70 w-2.5'
             }`}
-            aria-label={`Aller au slide ${index + 1}`}
-          ></button>
+            aria-label={`Slide ${index + 1}`}
+          />
         ))}
       </div>
     </section>

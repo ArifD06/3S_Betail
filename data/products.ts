@@ -26,9 +26,9 @@ export const products: Product[] = [
     id: 1,
     name: 'Mouton N°1',
     category: 'Mouton',
-    origin: "Côte d'Ivoire",
+    origin: "Burkina Faso",
     price: '190.000 FCFA (Possibilité de négociation)',
-    flag: "Côte d'Ivoire",
+    flag: "Burkina Faso",
     image: '/images/WhatsApp Image 2026-05-08 at 15.54.22.jpeg',
     images: [
       '/images/WhatsApp Image 2026-05-08 at 15.54.22.jpeg'
@@ -54,9 +54,9 @@ export const products: Product[] = [
     id: 2,
     name: 'Mouton N°2',
     category: 'Mouton',
-    origin: "Côte d'Ivoire",
+    origin: "Burkina Faso",
     price: '190.000 FCFA (Possibilité de négociation)',
-    flag: "Côte d'Ivoire",
+    flag: "Burkina Faso",
     image: '/images/WhatsApp Image 2026-05-08 at 15.54.32.jpeg',
     images: [
       '/images/WhatsApp Image 2026-05-08 at 15.54.32.jpeg'
@@ -82,9 +82,9 @@ export const products: Product[] = [
     id: 3,
     name: 'Mouton N°3',
     category: 'Mouton',
-    origin: "Côte d'Ivoire",
+    origin: "Burkina Faso",
     price: '190.000 FCFA (Possibilité de négociation)',
-    flag: "Côte d'Ivoire",
+    flag: "Burkina Faso",
     image: '/images/WhatsApp Image 2026-05-08 at 15.54.36.jpeg',
     images: [
       '/images/WhatsApp Image 2026-05-08 at 15.54.36.jpeg'
@@ -110,9 +110,9 @@ export const products: Product[] = [
     id: 4,
     name: 'Mouton N°4',
     category: 'Mouton',
-    origin: "Côte d'Ivoire",
+    origin: " Niger",
     price: '205.000 FCFA (Possibilité de négociation)',
-    flag: "Côte d'Ivoire",
+    flag: "Niger",
     image: '/images/WhatsApp Image 2026-05-12 at 21.57.29.jpeg',
     images: [
       '/images/WhatsApp Image 2026-05-12 at 21.57.29.jpeg'
@@ -138,7 +138,7 @@ export const products: Product[] = [
     id: 5,
     name: 'Mouton N°5',
     category: 'Mouton',
-    origin: "Côte d'Ivoire",
+    origin: " Côte d'Ivoire",
     price: '205.000 FCFA (Possibilité de négociation)',
     flag: "Côte d'Ivoire",
     image: '/images/WhatsApp Image 2026-05-12 at 21.57.33.jpeg',
@@ -166,9 +166,9 @@ export const products: Product[] = [
     id: 6,
     name: 'Mouton N°6',
     category: 'Mouton',
-    origin: "Côte d'Ivoire",
+    origin: "Niger",
     price: '205.000 FCFA (Possibilité de négociation)',
-    flag: "Côte d'Ivoire",
+    flag: "Niger",
     image: '/images/WhatsApp Image 2026-05-12 at 21.57.38.jpeg',
     images: [
       '/images/WhatsApp Image 2026-05-12 at 21.57.38.jpeg'
@@ -194,9 +194,9 @@ export const products: Product[] = [
     id: 7,
     name: 'Mouton N°7',
     category: 'Mouton',
-    origin: "Côte d'Ivoire",
+    origin: "Niger",
     price: '205.000 FCFA (Possibilité de négociation)',
-    flag: "Côte d'Ivoire",
+    flag: "Niger",
     image: '/images/WhatsApp Image 2026-05-12 at 21.57.41.jpeg',
     images: [
       '/images/WhatsApp Image 2026-05-12 at 21.57.41.jpeg'
@@ -222,9 +222,9 @@ export const products: Product[] = [
     id: 8,
     name: 'Mouton N°8',
     category: 'Mouton',
-    origin: "Côte d'Ivoire",
+    origin: "Niger",
     price: '150.000 FCFA (Possibilité de négociation)',
-    flag: "Côte d'Ivoire",
+    flag: "Niger",
     image: '/images/WhatsApp Image 2026-05-12 at 21.57.47.jpeg',
     images: [
       '/images/WhatsApp Image 2026-05-12 at 21.57.47.jpeg'

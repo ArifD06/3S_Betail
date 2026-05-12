@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, Suspense } from 'react'
-import { FiArrowRight, FiFilter, FiGrid, FiList, FiStar, FiPlay } from 'react-icons/fi'
+import { FiArrowRight, FiFilter, FiGrid, FiList, FiStar } from 'react-icons/fi'
 import { products as allProducts, Product } from '@/data/products'
 import { useSearchParams } from 'next/navigation'
 
@@ -29,7 +29,6 @@ function BoutiqueContent() {
   const [priceRange, setPriceRange] = useState([0, 300000])
   const [selectedOrigin, setSelectedOrigin] = useState('')
   const [selectedAvailability, setSelectedAvailability] = useState('')
-  const [selectedMedia, setSelectedMedia] = useState<string[]>([])
   const [selectedTailles, setSelectedTailles] = useState<string[]>([])
 
   const sheepProducts = allProducts.filter(product => product.category === 'Mouton')
@@ -57,7 +56,6 @@ function BoutiqueContent() {
     setPriceRange([0, 300000])
     setSelectedOrigin('')
     setSelectedAvailability('')
-    setSelectedMedia([])
     setSelectedTailles([])
   }
 
@@ -78,16 +76,6 @@ function BoutiqueContent() {
       if (selectedAvailability === 'reservation' && product.stock === 'En stock') return false
 
       if (selectedTailles.length > 0 && !selectedTailles.includes(product.specifications.taille)) return false
-
-      if (selectedMedia.length > 0) {
-        const mediaMatches = selectedMedia.some(media => {
-          if (media === 'avec-photo') return !!product.image
-          if (media === 'avec-video') return !!product.video
-          if (media === 'video-uniquement') return !product.image && !!product.video
-          return false
-        })
-        if (!mediaMatches) return false
-      }
 
       return true
     })
@@ -337,40 +325,6 @@ function BoutiqueContent() {
               </div>
             </div>
 
-            {/* Row 4 : Type de média */}
-            <div className="pt-4 border-t border-gray-100">
-              <label className="block text-sm font-medium text-gray-700 mb-3">Type de média</label>
-              <div className="flex flex-wrap gap-2">
-                {[
-                  { id: 'avec-photo',      label: '📷 Avec photo',       count: sheepProducts.filter(p => !!p.image).length },
-                  { id: 'avec-video',      label: '🎥 Avec vidéo',       count: sheepProducts.filter(p => !!p.video).length },
-                  { id: 'video-uniquement',label: '🎬 Vidéo uniquement', count: sheepProducts.filter(p => !p.image && !!p.video).length }
-                ].map(media => {
-                  const active = selectedMedia.includes(media.id)
-                  return (
-                    <label key={media.id} className={`flex items-center gap-2 px-4 py-2 rounded-xl border-2 transition-all cursor-pointer select-none ${
-                      active
-                        ? 'border-[#C8973A] bg-[#FDF6E3] text-[#C8973A]'
-                        : media.count === 0
-                          ? 'border-gray-100 text-gray-300 cursor-not-allowed'
-                          : 'border-gray-200 hover:border-[#C8973A]/50 text-gray-700'
-                    }`}>
-                      <input type="checkbox"
-                        checked={active}
-                        disabled={media.count === 0}
-                        onChange={(e) => {
-                          if (e.target.checked) setSelectedMedia([...selectedMedia, media.id])
-                          else setSelectedMedia(selectedMedia.filter(m => m !== media.id))
-                        }}
-                        className="sr-only"
-                      />
-                      <span className="text-sm font-semibold">{media.label}</span>
-                      <span className={`text-xs px-1.5 py-0.5 rounded-full font-bold ${active ? 'bg-[#C8973A] text-white' : 'bg-gray-100 text-gray-500'}`}>{media.count}</span>
-                    </label>
-                  )
-                })}
-              </div>
-            </div>
           </div>
         </div>
       </div>

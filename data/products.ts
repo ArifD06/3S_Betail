@@ -33,7 +33,6 @@ export const products: Product[] = [
     images: [
       '/images/WhatsApp Image 2026-05-08 at 15.54.19.jpeg'
     ],
-    video: '/images/WhatsApp Video 2026-05-08 at 15.54.16.mp4',
     stock: 'En stock',
     specifications: {
       taille: 'Moyen',
@@ -43,11 +42,11 @@ export const products: Product[] = [
     },
     description: 'Beau mouton en bonne santé, idéal pour la Tabaski.',
     longDescription: 'Mouton en excellente santé, bien nourri et prêt pour la Tabaski. Disponible à la livraison sur Abidjan.',
-    note: 'Photos et vidéo du mouton réel. Ce que vous voyez est ce que vous recevez.',
+    note: 'Photo du mouton réel. Ce que vous voyez est ce que vous recevez.',
     characteristics: [
       'Mouton sain et bien nourri',
       'Prêt pour la Tabaski',
-      'Photos et vidéo réelles',
+      'Photo réelle',
       'Livraison disponible sur Abidjan'
     ]
   },
@@ -62,7 +61,6 @@ export const products: Product[] = [
     images: [
       '/images/WhatsApp Image 2026-05-08 at 15.54.22.jpeg'
     ],
-    video: '/images/WhatsApp Video 2026-05-08 at 15.54.21.mp4',
     stock: 'En stock',
     specifications: {
       taille: 'Moyen',
@@ -72,11 +70,11 @@ export const products: Product[] = [
     },
     description: 'Mouton robuste et bien portant, parfait pour une belle Tabaski.',
     longDescription: 'Mouton robuste en très bonne condition, élevé dans de bonnes conditions. Disponible à la livraison sur Abidjan.',
-    note: 'Photos et vidéo du mouton réel. Ce que vous voyez est ce que vous recevez.',
+    note: 'Photo du mouton réel. Ce que vous voyez est ce que vous recevez.',
     characteristics: [
       'Mouton robuste et bien portant',
       'Prêt pour la Tabaski',
-      'Photos et vidéo réelles',
+      'Photo réelle',
       'Livraison disponible sur Abidjan'
     ]
   },
@@ -91,7 +89,6 @@ export const products: Product[] = [
     images: [
       '/images/WhatsApp Image 2026-05-08 at 15.54.32.jpeg'
     ],
-    video: '/images/WhatsApp Video 2026-05-08 at 15.54.34.mp4',
     stock: 'En stock',
     specifications: {
       taille: 'Moyen',
@@ -101,11 +98,11 @@ export const products: Product[] = [
     },
     description: 'Mouton de belle prestance, bien développé et en pleine santé.',
     longDescription: 'Mouton de belle prestance, bien développé et en pleine santé. Sélectionné avec soin pour la Tabaski. Disponible à la livraison sur Abidjan.',
-    note: 'Photos et vidéo du mouton réel. Ce que vous voyez est ce que vous recevez.',
+    note: 'Photo du mouton réel. Ce que vous voyez est ce que vous recevez.',
     characteristics: [
       'Mouton bien développé',
       'Prêt pour la Tabaski',
-      'Photos et vidéo réelles',
+      'Photo réelle',
       'Livraison disponible sur Abidjan'
     ]
   },
@@ -120,7 +117,6 @@ export const products: Product[] = [
     images: [
       '/images/WhatsApp Image 2026-05-08 at 15.54.36.jpeg'
     ],
-    video: '/images/WhatsApp Video 2026-05-08 at 15.54.35.mp4',
     stock: 'En stock',
     specifications: {
       taille: 'Moyen',
@@ -130,15 +126,14 @@ export const products: Product[] = [
     },
     description: 'Mouton en parfaite santé, idéal pour une célébration réussie.',
     longDescription: 'Mouton en parfaite santé, idéal pour une célébration de Tabaski réussie. Bien nourri et suivi. Disponible à la livraison sur Abidjan.',
-    note: 'Photos et vidéo du mouton réel. Ce que vous voyez est ce que vous recevez.',
+    note: 'Photo du mouton réel. Ce que vous voyez est ce que vous recevez.',
     characteristics: [
       'Mouton en parfaite santé',
       'Prêt pour la Tabaski',
-      'Photos et vidéo réelles',
+      'Photo réelle',
       'Livraison disponible sur Abidjan'
     ]
-  }
-  ,
+  },
   {
     id: 5,
     name: 'Mouton N°5',
@@ -146,23 +141,24 @@ export const products: Product[] = [
     origin: "Côte d'Ivoire",
     price: '180.000 FCFA',
     flag: "Côte d'Ivoire",
-    image: '',
-    images: [],
-    video: '/images/WhatsApp Video 2026-05-08 at 15.54.26.mp4',
+    image: '/images/WhatsApp Image 2026-05-12 at 21.57.29.jpeg',
+    images: [
+      '/images/WhatsApp Image 2026-05-12 at 21.57.29.jpeg'
+    ],
     stock: 'En stock',
     specifications: {
       taille: 'Moyen',
       age: '+2 ans',
-      poids: '~41 kg',
+      poids: '~40 kg',
       categorie: 'Standard'
     },
-    description: 'Beau mouton en bonne santé, disponible en vidéo.',
-    longDescription: 'Mouton en bonne santé, bien nourri et prêt pour la Tabaski. Visionnez la vidéo pour le voir en détail. Disponible à la livraison sur Abidjan.',
-    note: 'Vidéo du mouton réel. Ce que vous voyez est ce que vous recevez.',
+    description: 'Beau mouton en bonne santé, idéal pour la Tabaski.',
+    longDescription: 'Mouton en excellente santé, bien nourri et prêt pour la Tabaski. Disponible à la livraison sur Abidjan.',
+    note: 'Photo du mouton réel. Ce que vous voyez est ce que vous recevez.',
     characteristics: [
       'Mouton sain et bien nourri',
       'Prêt pour la Tabaski',
-      'Vidéo réelle disponible',
+      'Photo réelle',
       'Livraison disponible sur Abidjan'
     ]
   },
@@ -173,23 +169,24 @@ export const products: Product[] = [
     origin: "Côte d'Ivoire",
     price: '180.000 FCFA',
     flag: "Côte d'Ivoire",
-    image: '',
-    images: [],
-    video: '/images/WhatsApp Video 2026-05-08 at 15.54.30.mp4',
+    image: '/images/WhatsApp Image 2026-05-12 at 21.57.33.jpeg',
+    images: [
+      '/images/WhatsApp Image 2026-05-12 at 21.57.33.jpeg'
+    ],
     stock: 'En stock',
     specifications: {
       taille: 'Moyen',
       age: '+2 ans',
-      poids: '~40 kg',
+      poids: '~42 kg',
       categorie: 'Standard'
     },
-    description: 'Mouton bien portant, disponible en vidéo pour mieux l\'apprécier.',
-    longDescription: 'Mouton bien portant et en excellente condition, visible en vidéo. Disponible à la livraison sur Abidjan.',
-    note: 'Vidéo du mouton réel. Ce que vous voyez est ce que vous recevez.',
+    description: 'Mouton robuste et bien portant, parfait pour une belle Tabaski.',
+    longDescription: 'Mouton robuste en très bonne condition, élevé dans de bonnes conditions. Disponible à la livraison sur Abidjan.',
+    note: 'Photo du mouton réel. Ce que vous voyez est ce que vous recevez.',
     characteristics: [
-      'Mouton bien portant',
+      'Mouton robuste et bien portant',
       'Prêt pour la Tabaski',
-      'Vidéo réelle disponible',
+      'Photo réelle',
       'Livraison disponible sur Abidjan'
     ]
   },
@@ -200,25 +197,24 @@ export const products: Product[] = [
     origin: "Côte d'Ivoire",
     price: '180.000 FCFA',
     flag: "Côte d'Ivoire",
-    image: '/images/WhatsApp Image 2026-05-12 at 21.57.29.jpeg',
+    image: '/images/WhatsApp Image 2026-05-12 at 21.57.38.jpeg',
     images: [
-      '/images/WhatsApp Image 2026-05-12 at 21.57.29.jpeg'
+      '/images/WhatsApp Image 2026-05-12 at 21.57.38.jpeg'
     ],
-    video: '/images/WhatsApp Video 2026-05-12 at 21.57.32.mp4',
     stock: 'En stock',
     specifications: {
       taille: 'Moyen',
       age: '+2 ans',
-      poids: '~40 kg',
+      poids: '~43 kg',
       categorie: 'Standard'
     },
-    description: 'Beau mouton en bonne santé, idéal pour la Tabaski.',
-    longDescription: 'Mouton en excellente santé, bien nourri et prêt pour la Tabaski. Disponible à la livraison sur Abidjan.',
-    note: 'Photos et vidéo du mouton réel. Ce que vous voyez est ce que vous recevez.',
+    description: 'Mouton de belle prestance, bien développé et en pleine santé.',
+    longDescription: 'Mouton de belle prestance, bien développé et en pleine santé. Sélectionné avec soin pour la Tabaski. Disponible à la livraison sur Abidjan.',
+    note: 'Photo du mouton réel. Ce que vous voyez est ce que vous recevez.',
     characteristics: [
-      'Mouton sain et bien nourri',
+      'Mouton bien développé',
       'Prêt pour la Tabaski',
-      'Photos et vidéo réelles',
+      'Photo réelle',
       'Livraison disponible sur Abidjan'
     ]
   },
@@ -229,25 +225,24 @@ export const products: Product[] = [
     origin: "Côte d'Ivoire",
     price: '180.000 FCFA',
     flag: "Côte d'Ivoire",
-    image: '/images/WhatsApp Image 2026-05-12 at 21.57.33.jpeg',
+    image: '/images/WhatsApp Image 2026-05-12 at 21.57.38 (1).jpeg',
     images: [
-      '/images/WhatsApp Image 2026-05-12 at 21.57.33.jpeg'
+      '/images/WhatsApp Image 2026-05-12 at 21.57.38 (1).jpeg'
     ],
-    video: '/images/WhatsApp Video 2026-05-12 at 21.57.36.mp4',
     stock: 'En stock',
     specifications: {
       taille: 'Moyen',
       age: '+2 ans',
-      poids: '~42 kg',
+      poids: '~44 kg',
       categorie: 'Standard'
     },
-    description: 'Mouton robuste et bien portant, parfait pour une belle Tabaski.',
-    longDescription: 'Mouton robuste en très bonne condition, élevé dans de bonnes conditions. Disponible à la livraison sur Abidjan.',
-    note: 'Photos et vidéo du mouton réel. Ce que vous voyez est ce que vous recevez.',
+    description: 'Mouton en parfaite santé, idéal pour une célébration réussie.',
+    longDescription: 'Mouton en parfaite santé, idéal pour une célébration de Tabaski réussie. Bien nourri et suivi. Disponible à la livraison sur Abidjan.',
+    note: 'Photo du mouton réel. Ce que vous voyez est ce que vous recevez.',
     characteristics: [
-      'Mouton robuste et bien portant',
+      'Mouton en parfaite santé',
       'Prêt pour la Tabaski',
-      'Photos et vidéo réelles',
+      'Photo réelle',
       'Livraison disponible sur Abidjan'
     ]
   },
@@ -258,26 +253,24 @@ export const products: Product[] = [
     origin: "Côte d'Ivoire",
     price: '180.000 FCFA',
     flag: "Côte d'Ivoire",
-    image: '/images/WhatsApp Image 2026-05-12 at 21.57.38.jpeg',
+    image: '/images/WhatsApp Image 2026-05-12 at 21.57.41.jpeg',
     images: [
-      '/images/WhatsApp Image 2026-05-12 at 21.57.38.jpeg',
-      '/images/WhatsApp Image 2026-05-12 at 21.57.38 (1).jpeg'
+      '/images/WhatsApp Image 2026-05-12 at 21.57.41.jpeg'
     ],
-    video: '/images/WhatsApp Video 2026-05-12 at 21.57.40.mp4',
     stock: 'En stock',
     specifications: {
       taille: 'Moyen',
       age: '+2 ans',
-      poids: '~43 kg',
+      poids: '~41 kg',
       categorie: 'Standard'
     },
-    description: 'Mouton de belle prestance, bien développé et en pleine santé.',
-    longDescription: 'Mouton de belle prestance, bien développé et en pleine santé. Sélectionné avec soin pour la Tabaski. Disponible à la livraison sur Abidjan.',
-    note: 'Photos et vidéo du mouton réel. Ce que vous voyez est ce que vous recevez.',
+    description: 'Mouton bien nourri et en excellente forme pour la Tabaski.',
+    longDescription: 'Mouton bien nourri, en excellente forme et prêt pour la Tabaski. Sélectionné avec soin. Disponible à la livraison sur Abidjan.',
+    note: 'Photo du mouton réel. Ce que vous voyez est ce que vous recevez.',
     characteristics: [
-      'Mouton bien développé',
+      'Mouton bien nourri',
       'Prêt pour la Tabaski',
-      'Photos et vidéo réelles',
+      'Photo réelle',
       'Livraison disponible sur Abidjan'
     ]
   },
@@ -288,40 +281,10 @@ export const products: Product[] = [
     origin: "Côte d'Ivoire",
     price: '180.000 FCFA',
     flag: "Côte d'Ivoire",
-    image: '/images/WhatsApp Image 2026-05-12 at 21.57.41.jpeg',
-    images: [
-      '/images/WhatsApp Image 2026-05-12 at 21.57.41.jpeg'
-    ],
-    video: '/images/WhatsApp Video 2026-05-12 at 21.57.44.mp4',
-    stock: 'En stock',
-    specifications: {
-      taille: 'Moyen',
-      age: '+2 ans',
-      poids: '~41 kg',
-      categorie: 'Standard'
-    },
-    description: 'Mouton en parfaite santé, idéal pour une célébration réussie.',
-    longDescription: 'Mouton en parfaite santé, idéal pour une célébration de Tabaski réussie. Bien nourri et suivi. Disponible à la livraison sur Abidjan.',
-    note: 'Photos et vidéo du mouton réel. Ce que vous voyez est ce que vous recevez.',
-    characteristics: [
-      'Mouton en parfaite santé',
-      'Prêt pour la Tabaski',
-      'Photos et vidéo réelles',
-      'Livraison disponible sur Abidjan'
-    ]
-  },
-  {
-    id: 11,
-    name: 'Mouton N°11',
-    category: 'Mouton',
-    origin: "Côte d'Ivoire",
-    price: '180.000 FCFA',
-    flag: "Côte d'Ivoire",
     image: '/images/WhatsApp Image 2026-05-12 at 21.57.47.jpeg',
     images: [
       '/images/WhatsApp Image 2026-05-12 at 21.57.47.jpeg'
     ],
-    video: '/images/WhatsApp Video 2026-05-12 at 21.57.46.mp4',
     stock: 'En stock',
     specifications: {
       taille: 'Moyen',
@@ -329,40 +292,13 @@ export const products: Product[] = [
       poids: '~40 kg',
       categorie: 'Standard'
     },
-    description: 'Mouton bien nourri et en excellente forme pour la Tabaski.',
-    longDescription: 'Mouton bien nourri, en excellente forme et prêt pour la Tabaski. Sélectionné avec soin. Disponible à la livraison sur Abidjan.',
-    note: 'Photos et vidéo du mouton réel. Ce que vous voyez est ce que vous recevez.',
-    characteristics: [
-      'Mouton bien nourri',
-      'Prêt pour la Tabaski',
-      'Photos et vidéo réelles',
-      'Livraison disponible sur Abidjan'
-    ]
-  },
-  {
-    id: 12,
-    name: 'Mouton N°12',
-    category: 'Mouton',
-    origin: "Côte d'Ivoire",
-    price: '180.000 FCFA',
-    flag: "Côte d'Ivoire",
-    image: '',
-    images: [],
-    video: '/images/WhatsApp Video 2026-05-12 at 21.57.50.mp4',
-    stock: 'En stock',
-    specifications: {
-      taille: 'Moyen',
-      age: '+2 ans',
-      poids: '~40 kg',
-      categorie: 'Standard'
-    },
-    description: 'Mouton bien portant, disponible en vidéo pour mieux l\'apprécier.',
-    longDescription: 'Mouton bien portant et en excellente condition, visible en vidéo. Disponible à la livraison sur Abidjan.',
-    note: 'Vidéo du mouton réel. Ce que vous voyez est ce que vous recevez.',
+    description: 'Mouton bien portant et en bonne santé, prêt pour la Tabaski.',
+    longDescription: 'Mouton bien portant et en bonne santé, prêt pour la Tabaski. Disponible à la livraison sur Abidjan.',
+    note: 'Photo du mouton réel. Ce que vous voyez est ce que vous recevez.',
     characteristics: [
       'Mouton bien portant',
       'Prêt pour la Tabaski',
-      'Vidéo réelle disponible',
+      'Photo réelle',
       'Livraison disponible sur Abidjan'
     ]
   }

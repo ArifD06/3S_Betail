@@ -23,34 +23,6 @@ export interface Product {
 
 export const products: Product[] = [
   {
-    id: 1,
-    name: 'Mouton N°1',
-    category: 'Mouton',
-    origin: "Côte d'Ivoire",
-    price: '180.000 FCFA',
-    flag: "Côte d'Ivoire",
-    image: '/images/WhatsApp Image 2026-05-08 at 15.54.19.jpeg',
-    images: [
-      '/images/WhatsApp Image 2026-05-08 at 15.54.19.jpeg'
-    ],
-    stock: 'Vendu',
-    specifications: {
-      taille: 'Moyen',
-      age: '+2 ans',
-      poids: '~40 kg',
-      categorie: 'Standard'
-    },
-    description: 'Beau mouton en bonne santé, idéal pour la Tabaski.',
-    longDescription: 'Mouton en excellente santé, bien nourri et prêt pour la Tabaski. Disponible à la livraison sur Abidjan.',
-    note: 'Photo du mouton réel. Ce que vous voyez est ce que vous recevez.',
-    characteristics: [
-      'Mouton sain et bien nourri',
-      'Prêt pour la Tabaski',
-      'Photo réelle',
-      'Livraison disponible sur Abidjan'
-    ]
-  },
-  {
     id: 2,
     name: 'Mouton N°2',
     category: 'Mouton',

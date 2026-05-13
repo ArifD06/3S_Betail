@@ -167,7 +167,7 @@ export const products: Product[] = [
     name: 'Mouton N°6',
     category: 'Mouton',
     origin: "Niger",
-    price: '205.000 FCFA (Possibilité de négociation)',
+    price: '275.000 FCFA (Possibilité de négociation)',
     flag: "Niger",
     image: '/images/WhatsApp Image 2026-05-12 at 21.57.38.jpeg',
     images: [
@@ -175,16 +175,17 @@ export const products: Product[] = [
     ],
     stock: 'En stock',
     specifications: {
-      taille: 'Moyen',
-      age: '+2 ans',
-      poids: '~43 kg',
-      categorie: 'Standard'
+      taille: 'Grand',
+      age: '+3 ans',
+      poids: '~55 kg',
+      categorie: 'Grand'
     },
-    description: 'Mouton de belle prestance, bien développé et en pleine santé.',
-    longDescription: 'Mouton de belle prestance, bien développé et en pleine santé. Sélectionné avec soin pour la Tabaski. Disponible à la livraison sur Abidjan.',
+    description: 'Grand mouton imposant, de belle prestance et en parfaite santé.',
+    longDescription: 'Grand mouton de belle prestance, très bien développé et en pleine santé. Idéal pour une grande famille ou une célébration de Tabaski généreuse. Sélectionné avec soin au Niger. Disponible à la livraison sur Abidjan.',
     note: 'Photo du mouton réel. Ce que vous voyez est ce que vous recevez.',
     characteristics: [
-      'Mouton bien développé',
+      'Grand gabarit, très bien développé',
+      'Idéal pour une grande famille',
       'Prêt pour la Tabaski',
       'Photo réelle',
       'Livraison disponible sur Abidjan'

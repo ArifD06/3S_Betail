@@ -27,7 +27,7 @@ export const products: Product[] = [
     name: 'Mouton N°1',
     category: 'Mouton',
     origin: "Burkina Faso",
-    price: '190.000 FCFA (Possibilité de négociation)',
+    price: '190.000 FCFA',
     flag: "Burkina Faso",
     image: '/images/WhatsApp Image 2026-05-08 at 15.54.22.jpeg',
     images: [
@@ -55,7 +55,7 @@ export const products: Product[] = [
     name: 'Mouton N°2',
     category: 'Mouton',
     origin: "Burkina Faso",
-    price: '190.000 FCFA (Possibilité de négociation)',
+    price: '190.000 FCFA',
     flag: "Burkina Faso",
     image: '/images/WhatsApp Image 2026-05-08 at 15.54.32.jpeg',
     images: [
@@ -83,7 +83,7 @@ export const products: Product[] = [
     name: 'Mouton N°3',
     category: 'Mouton',
     origin: "Burkina Faso",
-    price: '190.000 FCFA (Possibilité de négociation)',
+    price: '190.000 FCFA',
     flag: "Burkina Faso",
     image: '/images/WhatsApp Image 2026-05-08 at 15.54.36.jpeg',
     images: [
@@ -111,7 +111,7 @@ export const products: Product[] = [
     name: 'Mouton N°4',
     category: 'Mouton',
     origin: " Niger",
-    price: '205.000 FCFA (Possibilité de négociation)',
+    price: '205.000 FCFA',
     flag: "Niger",
     image: '/images/WhatsApp Image 2026-05-12 at 21.57.29.jpeg',
     images: [
@@ -139,7 +139,7 @@ export const products: Product[] = [
     name: 'Mouton N°5',
     category: 'Mouton',
     origin: "Niger",
-    price: '205.000 FCFA (Possibilité de négociation)',
+    price: '205.000 FCFA',
     flag: "Niger",
     image: '/images/WhatsApp Image 2026-05-12 at 21.57.33.jpeg',
     images: [
@@ -167,7 +167,7 @@ export const products: Product[] = [
     name: 'Mouton N°6',
     category: 'Mouton',
     origin: "Niger",
-    price: '205.000 FCFA (Possibilité de négociation)',
+    price: '205.000 FCFA',
     flag: "Niger",
     image: '/images/WhatsApp Image 2026-05-12 at 21.57.38.jpeg',
     images: [
@@ -196,7 +196,7 @@ export const products: Product[] = [
     name: 'Mouton N°7',
     category: 'Mouton',
     origin: "Niger",
-    price: '275.000 FCFA (Possibilité de négociation)',
+    price: '275.000 FCFA',
     flag: "Niger",
     image: '/images/WhatsApp Image 2026-05-12 at 21.57.41.jpeg',
     images: [
@@ -224,7 +224,7 @@ export const products: Product[] = [
     name: 'Mouton N°8',
     category: 'Mouton',
     origin: "Niger",
-    price: '150.000 FCFA (Possibilité de négociation)',
+    price: '150.000 FCFA',
     flag: "Niger",
     image: '/images/WhatsApp Image 2026-05-12 at 21.57.47.jpeg',
     images: [

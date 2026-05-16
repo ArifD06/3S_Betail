@@ -196,7 +196,7 @@ export const products: Product[] = [
     name: 'Mouton N°7',
     category: 'Mouton',
     origin: "Niger",
-    price: '205.000 FCFA (Possibilité de négociation)',
+    price: '275.000 FCFA (Possibilité de négociation)',
     flag: "Niger",
     image: '/images/WhatsApp Image 2026-05-12 at 21.57.41.jpeg',
     images: [

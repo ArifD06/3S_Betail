@@ -4,12 +4,9 @@ import FeaturedProducts from '@/components/FeaturedProducts'
 import RecommendationQuiz from '@/components/RecommendationQuiz'
 import WhyChooseUs from '@/components/WhyChooseUs'
 import LocationSection from '@/components/LocationSection'
-import AnnouncementBanner from '@/components/AnnouncementBanner'
-
 export default function HomePage() {
   return (
     <div>
-      <AnnouncementBanner />
       <HeroSection />
       <LivestockByCountry />
 

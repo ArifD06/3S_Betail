@@ -16,7 +16,7 @@ export default function AnnouncementBanner() {
           100% { transform: translateX(-50%); }
         }
         .animate-marquee {
-          animation: marquee 30s linear infinite;
+          animation: marquee 18s linear infinite;
         }
       `}</style>
     </div>

@@ -3,9 +3,9 @@ const message = "📢 Information importante : après paiement, merci de récup�
 export default function AnnouncementBanner() {
   return (
     <div className="bg-[#2C1A00] text-white overflow-hidden py-2.5">
-      <div className="flex whitespace-nowrap animate-marquee">
-        {[...Array(4)].map((_, i) => (
-          <span key={i} className="text-sm font-medium px-16 text-[#F5D9A0]">
+      <div style={{ display: 'flex', width: 'max-content', animation: 'marquee 18s linear infinite' }}>
+        {[...Array(6)].map((_, i) => (
+          <span key={i} style={{ whiteSpace: 'nowrap' }} className="text-sm font-medium px-12 text-[#F5D9A0]">
             {message}
           </span>
         ))}
@@ -14,9 +14,6 @@ export default function AnnouncementBanner() {
         @keyframes marquee {
           0%   { transform: translateX(0); }
           100% { transform: translateX(-50%); }
-        }
-        .animate-marquee {
-          animation: marquee 18s linear infinite;
         }
       `}</style>
     </div>
